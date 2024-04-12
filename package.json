@@ -1,5 +1,5 @@
 {
-  "name": "rapid-fingers",
+  "name": "canva-tech",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -17,6 +17,7 @@
     "@uploadthing/react": "^6.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
+    "framer-motion": "^11.0.28",
     "lucide-react": "^0.360.0",
     "mongoose": "^8.2.2",
     "next": "14.1.3",
