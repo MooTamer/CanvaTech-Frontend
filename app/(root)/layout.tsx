@@ -2,7 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import NavBar from "@/components/shared/NavBar";
 import LeftSideBar from "@/components/shared/LeftSideBar";
-import RightSideBar from "@/components/shared/RightSideBar";
+// import RightSideBar from "@/components/shared/RightSideBar";
 import Footer from "@/components/shared/Footer";
 import "../globals.css";
 
@@ -28,7 +28,7 @@ export default function RootLayout({
             <section className="main-container">
               <div className="w-full max-w-4xl">{children}</div>
             </section>
-            <RightSideBar />
+            {/* <RightSideBar /> */}
           </main>
           <Footer />
         </body>

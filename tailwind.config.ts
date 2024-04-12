@@ -170,8 +170,11 @@ module.exports = {
           fontWeight: "600",
         },
       ],
-      '4xl': '2.441rem',
+      '4xl': '1.7rem',
       '5xl': '3.052rem',
+      '6xl': '3.815rem',
+      '7xl': '4.769rem',
+      '8xl': '5.961rem',
     },
     extend: {
       colors: {
