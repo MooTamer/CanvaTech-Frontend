@@ -180,7 +180,7 @@ module.exports = {
         },
       ],
       "4xl": "1.54rem",
-      "5xl": "3.052rem",
+      "5xl": "2.052rem",
       "6xl": "3.815rem",
       "7xl": "4.769rem",
       "8xl": "5.961rem",
@@ -265,3 +265,4 @@ function addVariablesForColors({ addBase, theme }: any) {
     ":root": newVars,
   });
 }
+
