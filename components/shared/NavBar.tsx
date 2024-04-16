@@ -1,4 +1,61 @@
+"use client";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import React, { useEffect, useRef, useState } from "react";
+
+const NavBar: React.FC = () => {
+  const ref = useRef<HTMLElement>(null);
+  const [isIntersecting, setIntersecting] = useState(true);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    const observer = new IntersectionObserver(([entry]) =>
+      setIntersecting(entry.isIntersecting)
+    );
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <header ref={ref}>
+      <div
+        className={`fixed inset-x-0 top-0 z-50 backdrop-blur  duration-200 border-b  ${
+          isIntersecting
+            ? "bg-zinc-900/0 border-transparent"
+            : "bg-zinc-900/500  border-zinc-800 "
+        }`}
+      >
+        <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
+          <div className="flex justify-between gap-8">
+            <Link legacyBehavior href="/">
+              <a className="duration-200 text-zinc-400 hover:text-zinc-100">
+                Home
+              </a>
+            </Link>
+            <Link legacyBehavior href="/contact">
+              <a className="duration-200 text-zinc-400 hover:text-zinc-100">
+                Contact
+              </a>
+            </Link>
+          </div>
+
+          <Link legacyBehavior href="/">
+            <a className="duration-200 text-zinc-300 hover:text-zinc-100">
+              <ArrowLeft className="w-6 h-6 " />
+            </a>
+          </Link>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+
+export default NavBar;
+
 // "use client";
+
 // import { sidebarLinks } from "@/constants";
 // import Image from "next/image";
 // import Link from "next/link";
@@ -12,7 +69,7 @@
 //   const pathname = usePathname();
 //   const router = useRouter();
 //   return (
-//     <nav className="topbar">
+//     <nav className="topbar bg-transparent backdrop-blur-3xl">
 //       <Link href="/" className="gap-4 items-center flex">
 //         <Image src={Logo} alt="logo" width={28} height={28} />
 //         <p className="text-heading3-bold text-light-1 max-xs:hidden">
@@ -64,37 +121,37 @@
 // }
 // export default NavBar;
 
-"use client";
-import React from "react";
-import { FloatingNav } from "@/components/ui/floating-navbar";
-import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
-export default function FloatingNavDemo() {
-  const navItems = [
-    {
-      name: "Home",
-      link: "/",
-      icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
-    {
-      name: "About",
-      link: "/about",
-      icon: <IconUser className="h-4 w-4 text-neutral-500 dark:text-white" />,
-    },
-    {
-      name: "Contact",
-      link: "/contact",
-      icon: (
-        <IconMessage className="h-4 w-4 text-neutral-500 dark:text-white" />
-      ),
-    },
-  ];
-  return (
-    <div className="relative  w-full">
-      <FloatingNav navItems={navItems} />
-      {/* <DummyContent /> */}
-    </div>
-  );
-}
+// "use client";
+// import React from "react";
+// import { FloatingNav } from "@/components/ui/floating-navbar";
+// import { IconHome, IconMessage, IconUser } from "@tabler/icons-react";
+// export default function FloatingNavDemo() {
+//   const navItems = [
+//     {
+//       name: "Home",
+//       link: "/",
+//       icon: <IconHome className="h-4 w-4 text-neutral-500 dark:text-white" />,
+//     },
+//     {
+//       name: "About",
+//       link: "/about",
+//       icon: <IconUser className="h-4 w-4 text-neutral-500 dark:text-white" />,
+//     },
+//     {
+//       name: "Contact",
+//       link: "/contact",
+//       icon: (
+//         <IconMessage className="h-4 w-4 text-neutral-500 dark:text-white" />
+//       ),
+//     },
+//   ];
+//   return (
+//     <div className="relative  w-full">
+//       <FloatingNav navItems={navItems} />
+//       {/* <DummyContent /> */}
+//     </div>
+//   );
+// }
 // const DummyContent = () => {
 //   return (
 //     <div className="grid grid-cols-1 h-[40rem] w-full bg-white dark:bg-black relative border border-neutral-200 dark:border-white/[0.2] rounded-md">
