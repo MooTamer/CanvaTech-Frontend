@@ -14,9 +14,6 @@ export const metadata = {
 };
 const inter = Inter({ subsets: ["latin"] });
 
-React.useEffect(() => {
-  (CSS as any).paintWorklet.addModule("squircle.min.js");
-}, []);
 
 
 export default function RootLayout({

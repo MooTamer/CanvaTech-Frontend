@@ -202,41 +202,49 @@ module.exports = {
         "light-4": "#5C5C7B",
         "gray-1": "#697C89",
         glassmorphism: "rgba(16, 16, 18, 0.60)",
+        whitesmoke: "rgba(239, 239, 239, 0.6)",
       },
-      boxShadow: {
-        "count-badge": "0px 0px 6px 2px rgba(219, 188, 159, 0.30)",
-        "groups-sidebar": "-30px 0px 60px 0px rgba(28, 28, 31, 0.50)",
-      },
-      screens: {
-        xs: "400px",
-      },
-    
+      spacing: {},
+    },
+    fontSize: {
+      inherit: "inherit",
+    },
+  },
+  corePlugins: {
+    preflight: false,
+  },
+  boxShadow: {
+    "count-badge": "0px 0px 6px 2px rgba(219, 188, 159, 0.30)",
+    "groups-sidebar": "-30px 0px 60px 0px rgba(28, 28, 31, 0.50)",
+  },
+  screens: {
+    xs: "400px",
+  },
 
-      animation: {
-        scroll:
-          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
-        spotlight: "spotlight 2s ease .75s 1 forwards",
-      },
+  animation: {
+    scroll:
+      "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+    spotlight: "spotlight 2s ease .75s 1 forwards",
+  },
 
-      keyframes: {
-        scroll: {
-          to: {
-            transform: "translate(calc(-50% - 0.5rem))",
-          },
-        },
-        spotlight: {
-          "0%": {
-            opacity: 0,
-            transform: "translate(-72%, -62%) scale(0.5)",
-          },
-          "100%": {
-            opacity: 1,
-            transform: "translate(-30%,-40%) scale(1.2)",
-          },
-        },
+  keyframes: {
+    scroll: {
+      to: {
+        transform: "translate(calc(-50% - 0.5rem))",
+      },
+    },
+    spotlight: {
+      "0%": {
+        opacity: 0,
+        transform: "translate(-72%, -62%) scale(0.5)",
+      },
+      "100%": {
+        opacity: 1,
+        transform: "translate(-30%,-40%) scale(1.2)",
       },
     },
   },
+
   plugins: [
     addVariablesForColors,
     function ({ matchUtilities, theme }: any) {
