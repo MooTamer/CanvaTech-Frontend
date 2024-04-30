@@ -5,6 +5,7 @@ import { Waitlist } from "@/components/shared/waitlist";
 import { HeroScroll } from "@/components/shared/scrollTest";
 import { CustomerReviews } from "@/components/shared/customer-reviews";
 
+
 export default function Home() {
   return (
     <>

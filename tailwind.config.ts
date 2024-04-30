@@ -210,6 +210,7 @@ module.exports = {
       screens: {
         xs: "400px",
       },
+    
 
       animation: {
         scroll:

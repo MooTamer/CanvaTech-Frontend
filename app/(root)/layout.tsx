@@ -5,13 +5,19 @@ import LeftSideBar from "@/components/shared/LeftSideBar";
 // import RightSideBar from "@/components/shared/RightSideBar";
 import Footer from "@/components/shared/Footer";
 import "../globals.css";
+import React from "react";
 // import FloatingNav from "@/components/ui/floating-navbar";
 
 export const metadata = {
   title: "CanvaTech",
-  description: "Created by Next.js",
+  description: "Customize your own plastic palette",
 };
 const inter = Inter({ subsets: ["latin"] });
+
+React.useEffect(() => {
+  (CSS as any).paintWorklet.addModule("squircle.min.js");
+}, []);
+
 
 export default function RootLayout({
   children,
