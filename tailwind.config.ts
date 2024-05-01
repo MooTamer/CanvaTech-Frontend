@@ -7,7 +7,6 @@ const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
 
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   // darkMode: "class",
   content: [
@@ -32,6 +31,7 @@ module.exports = {
           fontWeight: "700",
         },
       ],
+      inherit: "inherit",
       "heading1-semibold": [
         "36px",
         {
@@ -186,7 +186,14 @@ module.exports = {
       "8xl": "5.961rem",
     },
     extend: {
+      fontFamily: {
+        "cabin-grotesk": ['"Cabin Grotesk"', "sans-serif"],
+      },
       colors: {
+        primary: "#17181d",
+        secondary: "#292c35",
+        tertiary: "#e09145",
+        fourth: "#fcd9b8",
         "primary-500": "#877EFF",
         "secondary-500": "#FFB620",
         blue: "#0095F6",
@@ -205,42 +212,88 @@ module.exports = {
         whitesmoke: "rgba(239, 239, 239, 0.6)",
       },
       spacing: {},
-    },
-    fontSize: {
-      inherit: "inherit",
-    },
-  },
-  corePlugins: {
-    preflight: false,
-  },
-  boxShadow: {
-    "count-badge": "0px 0px 6px 2px rgba(219, 188, 159, 0.30)",
-    "groups-sidebar": "-30px 0px 60px 0px rgba(28, 28, 31, 0.50)",
-  },
-  screens: {
-    xs: "400px",
-  },
-
-  animation: {
-    scroll:
-      "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
-    spotlight: "spotlight 2s ease .75s 1 forwards",
-  },
-
-  keyframes: {
-    scroll: {
-      to: {
-        transform: "translate(calc(-50% - 0.5rem))",
+      boxShadow: {
+        "count-badge": "0px 0px 6px 2px rgba(219, 188, 159, 0.30)",
+        "groups-sidebar": "-30px 0px 60px 0px rgba(28, 28, 31, 0.50)",
+        "3xl": "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
+        "4xl": "0 50px 100px -20px rgba(0, 0, 0, 0.3)",
+        "5xl": "0 60px 120px -25px rgba(0, 0, 0, 0.3)",
+        "6xl": "0 60px 100px -30px rgba(0, 0, 0, 0.5)",
+        "7xl": "0 80px 160px -35px rgba(0, 0, 0, 0.5)",
       },
-    },
-    spotlight: {
-      "0%": {
-        opacity: 0,
-        transform: "translate(-72%, -62%) scale(0.5)",
+      transitionDuration: {
+        "3s": "3s",
       },
-      "100%": {
-        opacity: 1,
-        transform: "translate(-30%,-40%) scale(1.2)",
+
+      // corePlugins: {
+      //   preflight: false,
+      // },
+
+      screens: {
+        xs: "400px",
+      },
+
+      animation: {
+        scroll:
+          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+        spotlight: "spotlight 2s ease .75s 1 forwards",
+        first: "moveVertical 30s ease infinite",
+        second: "moveInCircle 20s reverse infinite",
+        third: "moveInCircle 40s linear infinite",
+        fourth: "moveHorizontal 40s ease infinite",
+        fifth: "moveInCircle 20s ease infinite",
+      },
+
+      keyframes: {
+        moveHorizontal: {
+          "0%": {
+            transform: "translateX(-50%) translateY(-10%)",
+          },
+          "50%": {
+            transform: "translateX(50%) translateY(10%)",
+          },
+          "100%": {
+            transform: "translateX(-50%) translateY(-10%)",
+          },
+        },
+        moveInCircle: {
+          "0%": {
+            transform: "rotate(0deg)",
+          },
+          "50%": {
+            transform: "rotate(180deg)",
+          },
+          "100%": {
+            transform: "rotate(360deg)",
+          },
+        },
+        moveVertical: {
+          "0%": {
+            transform: "translateY(-50%)",
+          },
+          "50%": {
+            transform: "translateY(50%)",
+          },
+          "100%": {
+            transform: "translateY(-50%)",
+          },
+        },
+
+        scroll: {
+          to: {
+            transform: "translate(calc(-50% - 0.5rem))",
+          },
+        },
+        spotlight: {
+          "0%": {
+            opacity: 0,
+            transform: "translate(-72%, -62%) scale(0.5)",
+          },
+          "100%": {
+            opacity: 1,
+            transform: "translate(-30%,-40%) scale(1.2)",
+          },
+        },
       },
     },
   },

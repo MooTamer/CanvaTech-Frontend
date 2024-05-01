@@ -1,8 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Cabin+Grotesk:wght@400;500;600;700&display=swap");
 body {
-  @apply leading-[normal] m-0;
+  @apply leading-[normal] m-0 font-cabin-grotesk;
 }
 *,
 ::before,
@@ -16,16 +17,51 @@ body {
     @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;
   }
 
-  .trans {
-    @apply relative [backdrop-filter:blur(30px)] rounded [background:linear-gradient(114.74deg,_rgba(239,_239,_239,_0.36),_rgba(239,_239,_239,_0.05))] box-border h-[31.25rem] overflow-hidden border-[2px] border-solid border-whitesmoke;
+  .transparent-bg {
+    @apply relative [backdrop-filter:blur(10px)] rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border h-[31.25rem] overflow-hidden border-[0.8px] border-solid border-whitesmoke;
+  }
+.floating-svgs{
+  @apply absolute floating-effect flex z-50 w-[20rem];
+}
+
+
+  .default-card {
+    @apply h-fit flex gap-8 flex-col p-4 w-auto z-40  items-center default-hover transparent-bg rounded-[13px] ;
+  }
+  .default-text {
+    @apply text-secondary  text-center;
   }
 
   /* make text transparent */
-  .text-default {
+  .transparent-text {
     @apply relative bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500;
   }
 
   .topbar {
     @apply fixed top-0 z-30 flex w-full flex-row items-center justify-between bg-dark-2 px-6 py-3;
+  }
+  .default-hover {
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.4);
+
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  .default-hover:hover {
+    box-shadow: -10px 20px 20px 10px rgba(0, 0, 0, 0.2);
+    transform: translate(-3px, -2px);
+  }
+  @keyframes float {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(-10px, -15px, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .floating-effect {
+    animation: float 3s ease-in-out infinite;
   }
 }
