@@ -10,6 +10,78 @@ body {
 ::after {
   border-width: 0;
 }
+:root {
+  --secondary-glow: conic-gradient(
+    from 10deg at 50% 50%,
+    #eb7494 0deg,
+    #ae77b2 55deg,
+    #97b5da 120deg,
+    #0099ca 160deg,
+    transparent 360deg
+  );
+
+  --third-glow: conic-gradient(
+    from 90deg at 50% 50%,
+    #ff8b7e 0deg,
+    #e24e6b 160deg,
+    #7ed2da 120deg,
+    #8bdce0 55deg,
+    transparent 360deg
+  );
+}
+body::before,
+body::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  opacity: 0.8;
+}
+body::before {
+  background: var(--third-glow);
+  border-radius: 50%;
+  width: 50vw;
+  height: 50vw;
+  margin-left: -200px;
+  filter: blur(90px);
+  top: calc(50vh - 50vw / 2);
+  left: calc(50vw);
+
+  animation: animateBefore 7s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+}
+
+body::after {
+  background: var(--secondary-glow);
+  border-radius: 50%;
+  width: 500px;
+  height: 700px;
+  filter: blur(90px);
+  top: calc(50vh - 50vw / 2);
+  left: calc(50vw - 50vw / 2);
+  animation: animateAfter 7s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+}
+@keyframes animateBefore {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(200px) scale(0.8);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes animateAfter {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-250px) scale(1.2);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
 @layer components {
   /* main */
@@ -18,17 +90,20 @@ body {
   }
 
   .transparent-bg {
-    @apply relative [backdrop-filter:blur(10px)] rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[0.8px] border-solid border-whitesmoke;
+    @apply relative  rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[1px] border-solid border-whitesmoke;
+  }
+  .transparent-bg2 {
+    @apply relative  rounded-[20px] w-full flex [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.8),_rgba(255,_255,_255,_0.3))] box-border overflow-hidden border-[3px] p-3 border-solid border-whitesmoke;
   }
   .floating-svgs {
     @apply absolute floating-effect flex z-50 w-[20rem];
   }
 
-  .cont{
+  .cont {
     @apply flex flex-col gap-2  z-40  rounded-[13px];
   }
   .outer-box {
-    @apply flex flex-col gap-6 h-full justify-center p-6 z-40  items-center default-hover transparent-bg rounded-[13px];
+    @apply flex flex-col gap-6 h-full justify-center p-6 z-40  items-center default-hover transparent-bg rounded-[35px];
   }
   .svg-black {
     filter: invert(100%) brightness(0%);
@@ -37,15 +112,15 @@ body {
     @apply flex flex-col gap-2  z-40 h-full justify-evenly p-2 items-center default-hover transparent-bg rounded-[13px];
   }
   .default-card {
-    @apply  flex  flex-col  z-40  items-center default-hover transparent-bg rounded-[13px];
+    @apply flex  flex-col  z-40  items-center default-hover transparent-bg rounded-[13px];
   }
   .default-text {
-    @apply text-secondary  text-center;
+    @apply   text-center;
   }
 
   /* make text transparent */
   .transparent-text {
-    @apply relative  bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-500;
+    @apply relative  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500;
   }
 
   .topbar {

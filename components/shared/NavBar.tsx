@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Layers2 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -20,28 +20,51 @@ const NavBar: React.FC = () => {
   return (
     <header ref={ref}>
       <div
-        className={`fixed inset-x-0 top-0 z-50 backdrop-blur  duration-200 border-b  ${
+        className={`fixed inset-x-0 top-0 z-50 backdrop-blur  duration-200 border-[0.05px]  ${
           isIntersecting
             ? "bg-zinc-900/0 border-transparent"
             : "bg-zinc-900/500  border-zinc-800 "
         }`}
       >
-        <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
-          <div className="flex justify-between gap-8">
+        <div className="container flex flex-row-reverse items-center justify-around p-6 mx-auto">
+          <div className="flex justify-between items-center gap-8">
             <Link legacyBehavior href="/">
-              <a className="duration-200 text-zinc-400 hover:text-zinc-100">
+              <a className="duration-200 text-zinc-400 hover:text-zinc-200">
                 Home
               </a>
             </Link>
             <Link legacyBehavior href="/contact">
-              <a className="duration-200 text-zinc-400 hover:text-zinc-100">
+              <a className="duration-200 text-zinc-400 hover:text-zinc-200">
                 Contact
+              </a>
+            </Link>
+
+            <Link legacyBehavior href="/about">
+              <a className="duration-200 text-zinc-200 hover:text-zinc-200 rounded-full bg-blue-600 p-2 flex">
+                Start a New Design!
               </a>
             </Link>
           </div>
 
+          <div className="flex justify-between items-center gap-8">
+            <Link legacyBehavior href="/c">
+              <div className="flex-row hover:click flex">
+                <Layers2 color="#52525B" strokeWidth={1.25} />
+                <a className="duration-200 ml-1 text-zinc-500 hover:text-zinc-200">
+                  CanvaTech
+                </a>
+              </div>
+            </Link>
+          </div>
+
+          <Link legacyBehavior href="/sign-in">
+            <a className="duration-200 text-zinc-400 hover:text-zinc-200">
+              Sign In
+            </a>
+          </Link>
+
           <Link legacyBehavior href="/">
-            <a className="duration-200 text-zinc-300 hover:text-zinc-100">
+            <a className="duration-200 text-zinc-400 hover:text-zinc-200">
               <ArrowLeft className="w-6 h-6 " />
             </a>
           </Link>
@@ -50,7 +73,6 @@ const NavBar: React.FC = () => {
     </header>
   );
 };
-
 
 export default NavBar;
 
