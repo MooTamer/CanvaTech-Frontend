@@ -18,15 +18,26 @@ body {
   }
 
   .transparent-bg {
-    @apply relative [backdrop-filter:blur(10px)] rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border h-[31.25rem] overflow-hidden border-[0.8px] border-solid border-whitesmoke;
+    @apply relative [backdrop-filter:blur(10px)] rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[0.8px] border-solid border-whitesmoke;
   }
-.floating-svgs{
-  @apply absolute floating-effect flex z-50 w-[20rem];
-}
+  .floating-svgs {
+    @apply absolute floating-effect flex z-50 w-[20rem];
+  }
 
-
+  .cont{
+    @apply flex flex-col gap-2  z-40  rounded-[13px];
+  }
+  .outer-box {
+    @apply flex flex-col gap-6 h-full justify-center p-6 z-40  items-center default-hover transparent-bg rounded-[13px];
+  }
+  .svg-black {
+    filter: invert(100%) brightness(0%);
+  }
+  .inner-box {
+    @apply flex flex-col gap-2  z-40 h-full justify-evenly p-2 items-center default-hover transparent-bg rounded-[13px];
+  }
   .default-card {
-    @apply h-fit flex gap-8 flex-col p-4 w-auto z-40  items-center default-hover transparent-bg rounded-[13px] ;
+    @apply  flex  flex-col  z-40  items-center default-hover transparent-bg rounded-[13px];
   }
   .default-text {
     @apply text-secondary  text-center;
@@ -34,7 +45,7 @@ body {
 
   /* make text transparent */
   .transparent-text {
-    @apply relative bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500;
+    @apply relative  bg-clip-text text-transparent bg-gradient-to-b from-neutral-100 to-neutral-500;
   }
 
   .topbar {
