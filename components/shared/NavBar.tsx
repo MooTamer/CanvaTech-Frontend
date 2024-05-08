@@ -1,11 +1,12 @@
 "use client";
-import { ArrowLeft, Layers2 } from "lucide-react";
+import { ArrowLeft, Menu, Layers2 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
 
 const NavBar: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const [isIntersecting, setIntersecting] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);  
 
   useEffect(() => {
     if (!ref.current) return;
@@ -26,31 +27,29 @@ const NavBar: React.FC = () => {
             : "bg-zinc-900/500  border-zinc-800 "
         }`}
       >
-        <div className="container flex flex-row-reverse items-center justify-around p-6 mx-auto">
+        <div className="container flex flex-row-reverse items-center justify-evenly p-6 mx-auto">
           <div className="flex justify-between items-center gap-8">
             <Link legacyBehavior href="/">
-              <a className="duration-200 text-zinc-400 hover:text-zinc-200">
+              <a className="duration-200 hidden md:flex text-zinc-400 hover:text-zinc-200">
                 Home
-              </a>
-            </Link>
-            <Link legacyBehavior href="/contact">
-              <a className="duration-200 text-zinc-400 hover:text-zinc-200">
-                Contact
               </a>
             </Link>
 
             <Link legacyBehavior href="/about">
-              <a className="duration-200 text-zinc-200 hover:text-zinc-200 rounded-full bg-blue-600 p-2 flex">
+              <a className="duration-200 hidden md:flex text-zinc-200 hover:text-zinc-200 rounded-full bg-blue-600 p-2 flex">
                 Start a New Design!
               </a>
             </Link>
+            <a className="">
+              <Menu strokeWidth={1.5} className="hover:cursor-pointer" />
+            </a>
           </div>
 
-          <div className="flex justify-between items-center gap-8">
-            <Link legacyBehavior href="/c">
-              <div className="flex-row hover:click flex">
+          <div className="flex justify-between pointer-events-auto items-center gap-8">
+            <Link legacyBehavior href="/">
+              <div className="flex-row hover:cursor-pointer flex">
                 <Layers2 color="#52525B" strokeWidth={1.25} />
-                <a className="duration-200 ml-1 text-zinc-500 hover:text-zinc-200">
+                <a className="duration-200 hover:cursor-pointer ml-1 text-zinc-500 hover:text-zinc-200">
                   CanvaTech
                 </a>
               </div>
@@ -58,7 +57,7 @@ const NavBar: React.FC = () => {
           </div>
 
           <Link legacyBehavior href="/sign-in">
-            <a className="duration-200 text-zinc-400 hover:text-zinc-200">
+            <a className="duration-200 xl:flex hidden text-zinc-400 hover:text-zinc-200">
               Sign In
             </a>
           </Link>

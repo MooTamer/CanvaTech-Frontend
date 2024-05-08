@@ -14,11 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    // <ClerkProvider>
       <html lang="en">
         <NavBar />
         <body className={`${inter.className} bg-dark-1`}>{children}</body>
       </html>
-    </ClerkProvider>
+    // </ClerkProvider>
   );
 }

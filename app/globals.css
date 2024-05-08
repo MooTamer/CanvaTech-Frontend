@@ -1,7 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @import url("https://fonts.googleapis.com/css2?family=Cabin+Grotesk:wght@400;500;600;700&display=swap");
+
 body {
   @apply leading-[normal] m-0 font-cabin-grotesk;
 }
@@ -45,8 +47,7 @@ body::before {
   filter: blur(90px);
   top: calc(50vh - 50vw / 2);
   left: calc(50vw);
-
-  animation: animateBefore 7s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+  animation: animateBefore 5.5s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
 }
 
 body::after {
@@ -57,7 +58,7 @@ body::after {
   filter: blur(90px);
   top: calc(50vh - 50vw / 2);
   left: calc(50vw - 50vw / 2);
-  animation: animateAfter 7s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
+  animation: animateAfter 5.5s cubic-bezier(0.47, 0, 0.745, 0.715) infinite;
 }
 @keyframes animateBefore {
   0% {
@@ -108,6 +109,31 @@ body::after {
   .svg-black {
     filter: invert(100%) brightness(0%);
   }
+  .step-item {
+    @apply relative flex flex-col justify-center items-center w-36;
+  }
+  .step-item:not(:first-child):before {
+    @apply content-[''] bg-slate-200 absolute w-full h-[3px] right-2/4 top-1/3 -translate-y-2/4;
+  }
+  .step {
+    @apply w-7 h-7 flex items-center justify-center z-10 relative bg-slate-700 rounded-full   text-white;
+  }
+  .active .step {
+    @apply bg-sky-600;
+  }
+  .complete .step {
+    @apply bg-green-600;
+  }
+  .complete p {
+    @apply text-neutral-400;
+  }
+  .complete:not(:first-child):before,
+  .active:not(:first-child):before {
+    @apply bg-green-600;
+  }
+  /* .btn {
+    @apply bg-gray-800 hover:bg-gray-700 text-gray-100 font-medium px-7 py-1.5 rounded;
+  } */
   .inner-box {
     @apply flex flex-col gap-2  z-40 h-full justify-evenly p-2 items-center default-hover transparent-bg rounded-[13px];
   }
@@ -115,7 +141,7 @@ body::after {
     @apply flex  flex-col  z-40  items-center default-hover transparent-bg rounded-[13px];
   }
   .default-text {
-    @apply   text-center;
+    @apply text-center;
   }
 
   /* make text transparent */
