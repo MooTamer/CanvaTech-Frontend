@@ -26,8 +26,8 @@ export default function RootLayout({
         <NavBar />
         <main className="flex flex-row">
           {/* <LeftSideBar /> */}
-          <section className="w-full h-full p-4 justify-center items-center">
-            <div className="max-w-full max-h-full ">{children}</div>
+          <section className="w-screen h-screen p-2 justify-center items-center">
+            {children}
           </section>
           {/* <RightSideBar /> */}
         </main>

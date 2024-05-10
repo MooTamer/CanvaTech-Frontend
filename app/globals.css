@@ -93,6 +93,7 @@ body::after {
   .transparent-bg {
     @apply relative  rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[1px] border-solid border-whitesmoke;
   }
+
   .transparent-bg2 {
     @apply relative  rounded-[20px] w-full flex [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.8),_rgba(255,_255,_255,_0.3))] box-border overflow-hidden border-[3px] p-3 border-solid border-whitesmoke;
   }
@@ -148,8 +149,17 @@ body::after {
   .transparent-text {
     @apply relative  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500;
   }
-  .responsive-titles{
-    @apply text-5xl md:text-7xl lg:text-8xl font-bold z-20 text-neutral-800
+  .responsive-titles {
+    @apply text-5xl md:text-7xl lg:text-8xl font-bold z-20 text-neutral-800;
+  }
+.responsive-subtitles {
+    @apply text-3xl md:text-5xl lg:text-6xl font-bold z-20 text-neutral-800;
+  }
+  .card-heading {
+    @apply text-xl md:text-xl lg:text-2xl font-semibold z-20 text-neutral-800;
+  }
+  .card-description {
+    @apply text-sm text-center md:text-base lg:text-lg my-[32px]  z-20 text-neutral-600;
   }
 
   .topbar {
