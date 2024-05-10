@@ -148,6 +148,9 @@ body::after {
   .transparent-text {
     @apply relative  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500;
   }
+  .responsive-titles{
+    @apply text-5xl md:text-7xl lg:text-8xl font-bold z-20 text-neutral-800
+  }
 
   .topbar {
     @apply fixed top-0 z-30 flex w-full flex-row items-center justify-between bg-dark-2 px-6 py-3;

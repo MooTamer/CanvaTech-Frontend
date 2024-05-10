@@ -26,10 +26,8 @@ export default function RootLayout({
         <NavBar />
         <main className="flex flex-row">
           {/* <LeftSideBar /> */}
-          <section className="w-full h-full pb-16 absolute bg-dark-1">
-            <div className="max-w-full pt-24 pb-16 max-h-full bg-dark-1">
-              {children}
-            </div>
+          <section className="w-full h-full p-4 justify-center items-center">
+            <div className="max-w-full max-h-full ">{children}</div>
           </section>
           {/* <RightSideBar /> */}
         </main>
