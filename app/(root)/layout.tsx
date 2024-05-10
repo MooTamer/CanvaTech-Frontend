@@ -1,9 +1,6 @@
 import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import NavBar from "@/components/shared/NavBar";
-import LeftSideBar from "@/components/shared/LeftSideBar";
-// import RightSideBar from "@/components/shared/RightSideBar";
-import Footer from "@/components/shared/Footer";
 import "../globals.css";
 import React from "react";
 // import FloatingNav from "@/components/ui/floating-navbar";
@@ -29,9 +26,7 @@ export default function RootLayout({
           <section className="w-screen h-screen p-2 justify-center items-center">
             {children}
           </section>
-          {/* <RightSideBar /> */}
         </main>
-        <Footer />
       </body>
     </html>
     // </ClerkProvider>

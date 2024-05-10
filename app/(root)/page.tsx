@@ -51,11 +51,7 @@ export default function Home() {
             </div>
           </div>
           <HomeCards />
-          <div className="flex items-center flex-col justify-center">
-            <h1 className="responsive-subtitles">Trusted by 150+ companies</h1>
-            <LogoScroll />
-          </div>
-
+          <LogoScroll />
           <CustomerReviews />
           <HeroScroll />
           <Waitlist />
