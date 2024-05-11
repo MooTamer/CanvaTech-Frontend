@@ -50,7 +50,7 @@ const NavBar: React.FC = () => {
           <div className="flex justify-between items-center gap-8">
             <Link legacyBehavior href="/">
               <a className="duration-200 xl:flex hidden text-zinc-400 hover:text-zinc-200">
-                Home
+                Pricing
               </a>
             </Link>
 

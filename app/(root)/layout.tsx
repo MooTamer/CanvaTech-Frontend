@@ -21,12 +21,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NavBar />
-        <main className="flex flex-row">
-          {/* <LeftSideBar /> */}
-          <section className="w-screen h-screen p-2 justify-center items-center">
-            {children}
-          </section>
-        </main>
+
+        {/* <LeftSideBar /> */}
+        <section className="w-screen h-screen p-2 justify-center items-center">
+          {children}
+        </section>
       </body>
     </html>
     // </ClerkProvider>

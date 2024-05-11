@@ -161,7 +161,9 @@ body::after {
   .card-description {
     @apply text-sm text-center md:text-base lg:text-lg my-[32px]  z-20 text-neutral-600;
   }
-
+  .gradient {
+    @apply [background:linear-gradient(180deg,_rgba(233,_233,_233,_0.5),_rgba(239,_239,_239,_0.04))];
+  }
   .topbar {
     @apply fixed top-0 z-30 flex w-full flex-row items-center justify-between bg-dark-2 px-6 py-3;
   }

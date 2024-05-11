@@ -68,7 +68,10 @@ export default function Page() {
               <button className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]">
                 Edit
               </button>
-              <button disabled className="bg-blue-600 disabled:bg-neutral-500 p-3 px-10  default-hover text-zinc-300 rounded-[35px]">
+              <button
+                disabled
+                className="bg-blue-600 disabled:bg-neutral-500 p-3 px-10  default-hover text-zinc-300 rounded-[35px]"
+              >
                 confirm
               </button>
             </div>

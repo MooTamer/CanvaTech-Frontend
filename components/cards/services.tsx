@@ -13,7 +13,7 @@ export default function HomeCards() {
           animate={{ opacity: 1 }}
           transition={{ ease: "easeOut", duration: 1 }}
         >
-          <div className="flex items-center flex-col justify-center mx-4">
+          <div className="flex items-center min-h-96 h-[60rem] flex-col justify-center mx-4">
             <h1 className="responsive-subtitles">
               Our Services
             </h1>

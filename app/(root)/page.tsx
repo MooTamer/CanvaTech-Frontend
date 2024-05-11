@@ -14,6 +14,7 @@ import Cube from "@/public/3D.png";
 import Cube2 from "@/public/3D2.png";
 import Cube3 from "@/public/3D3.png";
 import LogoScroll from "@/components/shared/logos-scroll";
+import Pricings from "@/components/shared/pricings";
 
 export default function Home() {
   return (
@@ -34,12 +35,12 @@ export default function Home() {
               src={Cube}
             />
 
-              <Image
-                className="floating-svgs  top-[80%] right-[65%] sm:top-2/3 sm:right-3/4"
-                alt=""
-                draggable="false"
-                src={Cube2}
-              />
+            <Image
+              className="floating-svgs  top-[80%] right-[65%] sm:top-2/3 sm:right-3/4"
+              alt=""
+              draggable="false"
+              src={Cube2}
+            />
 
             <Notification />
             <h1 className="responsive-titles">CanvaTech</h1>
@@ -58,7 +59,7 @@ export default function Home() {
                 />
               </button>
               <button className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm">
-                View pricing
+                View Products
               </button>
             </div>
           </div>
@@ -69,8 +70,13 @@ export default function Home() {
             src={Cube3}
           />
           <HomeCards />
+
           <LogoScroll />
-          <CustomerReviews />
+          <div className="flex gradient flex-col items-center justify-center h-screen w-screen">
+            <CustomerReviews />
+            <Pricings />
+          </div>
+          
           <HeroScroll />
           <Waitlist />
         </motion.div>
