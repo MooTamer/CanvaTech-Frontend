@@ -23,8 +23,8 @@ export default function HomeCards() {
                   <div className=" h-fit flex items-center justify-center">
                     <Image
                       src={customize}
-                      width={300}
-                      height={300}
+
+                      className="md:w-[18rem] w-44"
                       alt="brush"
                     />
                   </div>
@@ -38,8 +38,7 @@ export default function HomeCards() {
                   <div className=" h-fit flex items-center justify-center">
                     <Image
                       src={brand}
-                      width={300}
-                      height={300}
+                      className="md:w-[18rem] w-44"
                       alt="brush"
                     />
                   </div>
@@ -54,8 +53,7 @@ export default function HomeCards() {
                   <div className=" h-fit flex items-center justify-center">
                     <Image
                       src={accessories}
-                      width={300}
-                      height={300}
+                      className="md:w-[18rem] w-44"
                       alt="brush"
                     />
                   </div>

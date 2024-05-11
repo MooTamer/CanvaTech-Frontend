@@ -6,7 +6,7 @@ import { InfiniteMovingCards } from "../ui/moving-cards";
 export function CustomerReviews() {
   return (
     <div className="h-[40rem]  flex flex-col antialiased items-center justify-center relative overflow-hidden">
-      <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold z-20 text-neutral-800">
+      <h1 className="text-3xl md:text-5xl lg:text-6xl mb-8 font-bold z-20 text-neutral-800">
         Customers Reviews
       </h1>
      

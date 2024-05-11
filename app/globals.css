@@ -87,9 +87,12 @@ body::after {
 @layer components {
   /* main */
   .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;
+    @apply flex min-h-screen flex-1 flex-col items-center px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;
   }
-
+.topbar{
+  @apply fixed top-0 z-30 flex w-full items-center justify-between  px-6 py-3;
+  }
+}
   .transparent-bg {
     @apply relative  rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[1px] border-solid border-whitesmoke;
   }
@@ -98,7 +101,7 @@ body::after {
     @apply relative  rounded-[20px] w-full flex [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.8),_rgba(255,_255,_255,_0.3))] box-border overflow-hidden border-[3px] p-3 border-solid border-whitesmoke;
   }
   .floating-svgs {
-    @apply absolute floating-effect flex z-50 w-[20rem];
+    @apply absolute floating-effect flex z-50 w-[7rem] sm:w-[5rem] md:w-[10rem] lg:w-[13rem] xl:w-[15rem] 2xl:w-[20rem];
   }
 
   .cont {
@@ -152,7 +155,7 @@ body::after {
   .responsive-titles {
     @apply text-5xl md:text-7xl lg:text-8xl font-bold z-20 text-neutral-800;
   }
-.responsive-subtitles {
+  .responsive-subtitles {
     @apply text-3xl md:text-5xl lg:text-6xl font-bold z-20 text-neutral-800;
   }
   .card-heading {
@@ -162,9 +165,7 @@ body::after {
     @apply text-sm text-center md:text-base lg:text-lg my-[32px]  z-20 text-neutral-600;
   }
 
-  .topbar {
-    @apply fixed top-0 z-30 flex w-full flex-row items-center justify-between bg-dark-2 px-6 py-3;
-  }
+  
   .default-hover {
     box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.4);
 
@@ -189,4 +190,4 @@ body::after {
   .floating-effect {
     animation: float 3s ease-in-out infinite;
   }
-}
+

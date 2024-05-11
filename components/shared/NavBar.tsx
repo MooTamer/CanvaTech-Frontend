@@ -1,12 +1,28 @@
 "use client";
-import { ArrowLeft, Menu, Layers2 } from "lucide-react";
+import {
+  ArrowLeft,
+  AlignJustify,
+  Layers2,
+  Home,
+  LogIn,
+  CirclePlay,
+} from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { Fragment } from "react";
+import {
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+} from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const NavBar: React.FC = () => {
   const ref = useRef<HTMLElement>(null);
   const [isIntersecting, setIntersecting] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -18,10 +34,13 @@ const NavBar: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(" ");
+  }
   return (
     <header ref={ref}>
       <div
-        className={`fixed inset-x-0 top-0 z-50 backdrop-blur  duration-200 border-[0.05px]  ${
+        className={`fixed  inset-x-0 top-0 z-50 backdrop-blur  duration-200 border-[0.05px]  ${
           isIntersecting
             ? "bg-zinc-900/0 border-transparent"
             : "bg-zinc-900/500  border-zinc-800 "
@@ -30,19 +49,73 @@ const NavBar: React.FC = () => {
         <div className="container flex flex-row-reverse items-center justify-evenly p-6 mx-auto">
           <div className="flex justify-between items-center gap-8">
             <Link legacyBehavior href="/">
-              <a className="duration-200 hidden md:flex text-zinc-400 hover:text-zinc-200">
+              <a className="duration-200 xl:flex hidden text-zinc-400 hover:text-zinc-200">
                 Home
               </a>
             </Link>
 
             <Link legacyBehavior href="/about">
-              <a className="duration-200 hidden md:flex text-zinc-200 hover:text-zinc-200 rounded-full bg-blue-600 p-2 flex">
+              <a className="duration-200 hidden lg:flex text-zinc-200 hover:text-zinc-200 rounded-full bg-blue-600 p-2 flex">
                 Start a New Design!
               </a>
             </Link>
-            <a className="">
-              <Menu strokeWidth={1.5} className="hover:cursor-pointer" />
-            </a>
+
+            <Menu
+              as="div"
+              className="relative inline-block text-left   lg:hidden"
+            >
+              <div>
+                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                  <div>
+                    <AlignJustify strokeWidth={1} />
+                  </div>
+                </MenuButton>
+              </div>
+
+              <Transition
+                as={Fragment}
+                enter="transition ease-out duration-100"
+                enterFrom="transform opacity-0 scale-95"
+                enterTo="transform opacity-100 scale-100"
+                leave="transition ease-in duration-75"
+                leaveFrom="transform opacity-100 scale-100"
+                leaveTo="transform opacity-0 scale-95"
+              >
+                <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-2xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="py-1">
+                    <MenuItem>
+                      <a
+                        href="/"
+                        className="flex flex-row gap-3 items-center  px-4 py-2 text-sm block px-4 py-2 text-sm"
+                      >
+                        <Home strokeWidth={1.5} size={20} />
+                        Home
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="flex flex-row gap-3 items-center  px-4 py-2 text-sm block px-4 py-2 text-sm"
+                      >
+                        <CirclePlay size={20} strokeWidth={1.5} />
+                        Start a new design!
+                      </a>
+                    </MenuItem>
+                  </div>
+                  <div className="py-1">
+                    <MenuItem>
+                      <a
+                        href="/sign-in"
+                        className="flex flex-row gap-3 items-center  px-4 py-2 text-sm block px-4 py-2 text-sm"
+                      >
+                        <LogIn size={20} strokeWidth={1.5} />
+                        Sign in
+                      </a>
+                    </MenuItem>
+                  </div>
+                </MenuItems>
+              </Transition>
+            </Menu>
           </div>
 
           <div className="flex justify-between pointer-events-auto items-center gap-8">
