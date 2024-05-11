@@ -26,8 +26,8 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ ease: "easeOut", duration: 1 }}
         >
-          <div className="relative  h-screen w-screen relative flex flex-col items-center space-around justify-center p-12">
-            {/* <Image
+          <div className="container h-screen w-screen relative flex flex-col items-center space-around justify-center p-12">
+            <Image
               className="floating-svgs top-[17%] sm:top-[15%] sm:left-[10%]"
               alt=""
               draggable="false"
@@ -35,11 +35,11 @@ export default function Home() {
             />
 
               <Image
-                className="floating-svgs  top-2/3 right-3/4"
+                className="floating-svgs  top-[80%] right-[65%] sm:top-2/3 sm:right-3/4"
                 alt=""
                 draggable="false"
                 src={Cube2}
-              /> */}
+              />
 
             <Notification />
             <h1 className="responsive-titles">CanvaTech</h1>
@@ -62,17 +62,16 @@ export default function Home() {
               </button>
             </div>
           </div>
-          {/* <Image
-            className="floating-svgs top-1/3 right-[10%] "
+          <Image
+            className="floating-svgs top-[70%] sm:top-1/3 right-[10%] "
             alt=""
             draggable="false"
             src={Cube3}
-          /> */}
+          />
           <HomeCards />
           <LogoScroll />
           <CustomerReviews />
-
-          {/* <HeroScroll /> */}
+          <HeroScroll />
           <Waitlist />
         </motion.div>
       </AnimatePresence>
