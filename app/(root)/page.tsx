@@ -15,6 +15,7 @@ import Cube2 from "@/public/3D2.png";
 import Cube3 from "@/public/3D3.png";
 import LogoScroll from "@/components/shared/logos-scroll";
 import Pricings from "@/components/shared/pricings";
+import Link from "next/link";
 // import { useNavigate } from "react-router";
 
 export default function Home() {
@@ -60,12 +61,11 @@ export default function Home() {
                   strokeWidth={1.7}
                 />
               </button>
-              <button
-                className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm"
-               
-              >
-                View Products
-              </button>
+              <Link legacyBehavior href="/GuestViewProducts">
+                <button className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm">
+                  View Products
+                </button>
+              </Link>
             </div>
           </div>
           <Image
