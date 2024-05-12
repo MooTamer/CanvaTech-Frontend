@@ -1,4 +1,4 @@
-// import { ClerkProvider } from "@clerk/nextjs";
+// import {  } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import NavBar from "@/components/shared/NavBar";
 import "../globals.css";
@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // <ClerkProvider>
+    // <>
     <html lang="en">
       <body className={inter.className}>
         <NavBar />
@@ -28,6 +28,6 @@ export default function RootLayout({
         </section>
       </body>
     </html>
-    // </ClerkProvider>
+    // </>
   );
 }
