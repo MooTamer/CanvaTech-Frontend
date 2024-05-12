@@ -19,7 +19,7 @@ import Link from "next/link";
 // import { useNavigate } from "react-router";
 
 export default function Home() {
-  // const history = useNavigate();
+
   return (
     <div>
       <Spotlight />

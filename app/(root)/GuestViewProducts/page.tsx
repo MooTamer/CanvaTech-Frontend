@@ -37,7 +37,7 @@ export default function GuestViewProducts() {
                   {product.colors} colors
                 </p>
                 <p className="text-neutral-800 text-sm font-semibold">
-                  E£{product.price}
+                  {product.price}
                 </p>
               </div>
             </div>

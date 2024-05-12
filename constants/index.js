@@ -6,30 +6,30 @@ import pallete4 from "@/public/pallete4.png";
 export const Products = [
   {
     id: 1,
-    name: "Metal Palletes",
-    label: "New",
-    description: "Ready-To-Go Palletes",
-    colors: 4,
-    price: 13999,
-    image: pallete3, // Randomly chosen
+    name: "Design Your Own Pallete",
+    label: "Now Available!",
+    description: "",
+    colors: "Variety of",
+    price: "Starting from E£8999",
+    image: pallete1,
   },
   {
     id: 2,
-    name: "Plastic Palletes",
-    label: "",
-    description: "Rental Palletes",
-    colors: 3,
-    price: 12999,
-    image: pallete1, // Randomly chosen
+    name: "Metal Palletes",
+    label: "New",
+    description: "Ready-To-Go Palletes",
+    colors: "4",
+    price: "E£ 13999",
+    image: pallete3,
   },
   {
     id: 3,
     name: "Plastic Palletes",
-    label: "Bestseller",
+    label: "",
     description: "Rental Palletes",
-    colors: 5,
-    price: 14999,
-    image: pallete4, // Randomly chosen
+    colors: 3,
+    price: "E£ 12999",
+    image: pallete1,
   },
   {
     id: 4,
@@ -37,8 +37,8 @@ export const Products = [
     label: "",
     description: "Customizable Palletes",
     colors: 2,
-    price: 11999,
-    image: pallete2, // Randomly chosen
+    price: "E£ 11999",
+    image: pallete2,
   },
   {
     id: 5,
@@ -46,8 +46,8 @@ export const Products = [
     label: "Limited Edition",
     description: "Lightweight Palletes",
     colors: 6,
-    price: 15999,
-    image: pallete1, // Randomly chosen
+    price: "E£ 15999",
+    image: pallete1,
   },
   {
     id: 6,
@@ -55,8 +55,8 @@ export const Products = [
     label: "New",
     description: "Heavy Duty Palletes",
     colors: 4,
-    price: 16999,
-    image: pallete3, // Randomly chosen
+    price: "E£ 16999",
+    image: pallete3,
   },
   {
     id: 7,
@@ -64,8 +64,8 @@ export const Products = [
     label: "Sale",
     description: "Durable Palletes",
     colors: 3,
-    price: 13999,
-    image: pallete2, // Randomly chosen
+    price: "E£ 13999",
+    image: pallete2,
   },
   {
     id: 8,
@@ -73,8 +73,8 @@ export const Products = [
     label: "",
     description: "Eco-Friendly Palletes",
     colors: 5,
-    price: 10999,
-    image: pallete4, // Randomly chosen
+    price: "E£ 10999",
+    image: pallete4,
   },
   {
     id: 9,
@@ -82,8 +82,8 @@ export const Products = [
     label: "Bestseller",
     description: "Rental Palletes",
     colors: 4,
-    price: 12999,
-    image: pallete1, // Randomly chosen
+    price: "E£ 12999",
+    image: pallete1,
   },
   {
     id: 10,
@@ -91,7 +91,16 @@ export const Products = [
     label: "",
     description: "Customizable Palletes",
     colors: 2,
-    price: 11999,
-    image: pallete3, // Randomly chosen
+    price: "E£ 11999",
+    image: pallete3,
+  },
+  {
+    id: 11,
+    name: "Plastic Palletes",
+    label: "Bestseller",
+    description: "Rental Palletes",
+    colors: 5,
+    price: "E£ 14999",
+    image: pallete4,
   },
 ];
