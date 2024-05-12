@@ -15,8 +15,10 @@ import Cube2 from "@/public/3D2.png";
 import Cube3 from "@/public/3D3.png";
 import LogoScroll from "@/components/shared/logos-scroll";
 import Pricings from "@/components/shared/pricings";
+// import { useNavigate } from "react-router";
 
 export default function Home() {
+  // const history = useNavigate();
   return (
     <div>
       <Spotlight />
@@ -58,7 +60,10 @@ export default function Home() {
                   strokeWidth={1.7}
                 />
               </button>
-              <button className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm">
+              <button
+                className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm"
+               
+              >
                 View Products
               </button>
             </div>
@@ -73,10 +78,10 @@ export default function Home() {
 
           <LogoScroll />
           <div className="flex gradient flex-col items-center justify-center h-screen w-screen">
-            <CustomerReviews />
             <Pricings />
+            <CustomerReviews />
           </div>
-          
+
           <HeroScroll />
           <Waitlist />
         </motion.div>

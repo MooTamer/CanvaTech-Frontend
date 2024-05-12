@@ -93,6 +93,7 @@ body::after {
   .transparent-bg {
     @apply relative  rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[1px] border-solid border-whitesmoke;
   }
+ 
 
   .transparent-bg2 {
     @apply relative  rounded-[20px] w-full flex [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.8),_rgba(255,_255,_255,_0.3))] box-border overflow-hidden border-[3px] p-3 border-solid border-whitesmoke;
@@ -132,9 +133,7 @@ body::after {
   .active:not(:first-child):before {
     @apply bg-green-600;
   }
-  /* .btn {
-    @apply bg-gray-800 hover:bg-gray-700 text-gray-100 font-medium px-7 py-1.5 rounded;
-  } */
+
   .inner-box {
     @apply flex flex-col gap-2  z-40 h-full justify-evenly p-2 items-center default-hover transparent-bg rounded-[13px];
   }
@@ -143,6 +142,15 @@ body::after {
   }
   .default-text {
     @apply text-center;
+  }
+  .card{
+    @apply p-6 gap-1  justify-center rounded-xl flex flex-col  ;
+  }
+  prodcuts-card-hover{
+    @apply rounded-3xl [background:linear-gradient(120deg,_rgba(255,255,255,_1),_rgba(239,_239,_239,_0.04))] ;
+  }
+  .smooth{
+    @apply transition-all duration-300 ease-in-out;
   }
 
   /* make text transparent */
