@@ -11,8 +11,8 @@ export default function GuestViewProducts() {
       animate={{ opacity: 1 }}
       transition={{ ease: "easeOut", duration: 1 }}
     >
-      <div className="container  mx-auto flex py-20">
-        <section className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  my-10 gap-10">
+      <div className="container justify-center mx-auto flex py-20">
+        <section className="grid md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  my-10 gap-10">
           {Products.map((product, index) => (
             <div
               key={index}
