@@ -51,8 +51,8 @@ export default function Pricings({ isOpen, setIsOpen }: PricingsProps) {
                 <h1 className=" text-center mb-20 responsive-subtitles">
                   Pricing Plans
                 </h1>
-                <div className=" md:grid-cols-2  h-auto justify-center  z-30  grid gap-4 p-7 rounded-[41px]">
-                  <div className="flex flex-col mx-auto w-[25rem] h-[auto] justify-between bg-neutral-100 rounded-[41px]">
+                <div className=" md:grid-cols-2  h-auto justify-center  z-30  grid gap-10 p-7 rounded-[41px]">
+                  <div className="pricing-card">
                     <div className="flex flex-col min-h-[85px] relative item- m-6">
                       <h1 className="text-4xl font-bold text-neutral-900">
                         Basic
@@ -115,7 +115,7 @@ export default function Pricings({ isOpen, setIsOpen }: PricingsProps) {
                     </div>
                   </div>
 
-                  <div className="flex flex-col mx-auto w-[25rem] relative h-[auto] justify-between  bg-neutral-100 rounded-[41px]">
+                  <div className="pricing-card">
                     <div className=" rounded-lg top-0 right-10 absolute max-h-[9rem] items-center justify-center min-h-[2rem] w-[6rem] flex bg-blue-100 transparent-bg">
                       <p className="font-bold text-xs text-blue-900">
                         Most Popular

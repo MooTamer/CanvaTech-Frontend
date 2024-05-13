@@ -1,11 +1,9 @@
-"use client";
-import React, { use, useEffect, useRef, useState } from "react";
-import { cn } from "@/utils/cn";
+"use client"
+import React, { useEffect, useRef, useState } from "react";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { Waitlist } from "@/components/shared/waitlist";
 import { HeroScroll } from "@/components/shared/scrollTest";
 import { CustomerReviews } from "@/components/shared/customer-reviews";
-import { ArrowRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Notification from "@/components/shared/notification";
 import HomeCards from "@/components/cards/services";
@@ -16,16 +14,11 @@ import Cube3 from "@/public/3D3.png";
 import LogoScroll from "@/components/shared/logos-scroll";
 import Pricings from "@/components/shared/pricings";
 import Link from "next/link";
-import ButtonComponent from "@/components/shared/View-Pricing-Button";
+import ButtonComponent from "@/components/shared/View-Categories-Button";
+import Categories from "./Categories/page";
 
-// import { useNavigate } from "react-router";
-
-export default function Home({ setIsOpenValue }: { setIsOpenValue: boolean }) {
+export default function Home(props: React.FC) {
   const [isOpen, setIsOpen] = useState(false);
-
-  // useEffect(() => {
-  //   setIsOpen(false);
-  // }, []);
 
   return (
     <div>
@@ -58,8 +51,7 @@ export default function Home({ setIsOpenValue }: { setIsOpenValue: boolean }) {
               Designing dreams, one palette at a time.
             </p>
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-              
-              <ButtonComponent setIsOpen={setIsOpen}/>
+              <ButtonComponent setIsOpen={setIsOpen} />
               <Link legacyBehavior href="/GuestViewProducts">
                 <button className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm">
                   View Products
@@ -77,11 +69,11 @@ export default function Home({ setIsOpenValue }: { setIsOpenValue: boolean }) {
 
           <LogoScroll />
           <div className="flex gradient flex-col items-center justify-center h-screen w-screen">
-          {isOpen && (
-            <div className="z-50">
-            <Pricings isOpen={isOpen} setIsOpen={setIsOpen}/>
-            </div>
-          )}
+            {isOpen && (
+              <div className="z-50">
+                <Categories isOpen={isOpen} setIsOpen={setIsOpen} />
+              </div>
+            )}
             <CustomerReviews />
           </div>
 

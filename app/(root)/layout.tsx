@@ -32,12 +32,14 @@ export default function RootLayout({
     // <>
     <html lang="en">
       <body className={inter.className}>
+        <div className="nav z-[80]">
         <NavBar setIsOpen={setIsOpen} />
         {isOpen && (
           <div className="z-[90]">
             <Pricings isOpen={isOpen} setIsOpen={setIsOpen} />
           </div>
         )}
+        </div>
 
         {/* <LeftSideBar /> */}
         <section className="w-screen h-screen p-2 justify-center items-center">

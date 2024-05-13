@@ -84,6 +84,14 @@ body::after {
   }
 }
 
+.purple-gradient {
+  background: linear-gradient(to right, #edaef9, #bda6f7, #8dbef5, #81b1fa);
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
+.blue-gradient {
+  background: linear-gradient(to right, #7ec9f5, #5fa8f3, #4a88f1, #3957ed);
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+}
 @layer components {
   /* main */
   .main-container {
@@ -93,10 +101,12 @@ body::after {
   .transparent-bg {
     @apply relative  rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[1px] border-solid border-whitesmoke;
   }
- 
 
   .transparent-bg2 {
     @apply relative  rounded-[20px] w-full flex [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.8),_rgba(255,_255,_255,_0.3))] box-border overflow-hidden border-[3px] p-3 border-solid border-whitesmoke;
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent [background-image:linear-gradient(180deg,_rgba(0,0,0,_0.8),_rgba(0,0,0,_0.07))];
   }
   .floating-svgs {
     @apply absolute floating-effect flex z-50 w-[7rem] sm:w-[5rem] md:w-[10rem] lg:w-[13rem] xl:w-[15rem] 2xl:w-[20rem];
@@ -111,6 +121,88 @@ body::after {
   .svg-black {
     filter: invert(100%) brightness(0%);
   }
+
+  .modal-blur {
+    @apply backdrop-filter backdrop-blur-lg bg-black bg-opacity-20;
+  }
+  .low {
+    @apply rounded-full border-[1px]  top-[20px] right-[20px] shadow-inner absolute h-10 w-10 flex bg-blue-100 transparent-bg;
+  }
+  .medium {
+    @apply rounded-full border-[1px] top-[20px] right-[20px] shadow-inner absolute h-10 w-10 flex  purple-gradient transparent-bg;
+  }
+  .high {
+    @apply rounded-full border-[1px] top-[20px] right-[20px] shadow-inner absolute h-10 w-10 flex blue-gradient transparent-bg;
+  }
+  .pricing-card {
+    @apply flex flex-col relative mx-auto w-[25rem] h-[auto] justify-between  bg-neutral-100 rounded-[41px];
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.4);
+  }
+  .inner-box {
+    @apply flex flex-col gap-2  z-40 h-full justify-evenly p-2 items-center default-hover transparent-bg rounded-[13px];
+  }
+  .default-card {
+    @apply flex  flex-col  z-40  items-center default-hover transparent-bg rounded-[13px];
+  }
+  .default-text {
+    @apply text-center;
+  }
+  .card {
+    @apply p-6 gap-1  justify-center rounded-xl flex flex-col;
+  }
+  .prodcuts-card-hover {
+    @apply rounded-3xl [background:linear-gradient(120deg,_rgba(255,255,255,_0.5),_rgba(239,_239,_239,_0.04))];
+  }
+  .smooth {
+    @apply transition-all duration-300 ease-in-out;
+  }
+
+  /* make text transparent */
+  .transparent-text {
+    @apply relative  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500;
+  }
+  .responsive-titles {
+    @apply text-5xl md:text-7xl lg:text-8xl font-bold z-20 text-neutral-800;
+  }
+  .responsive-subtitles {
+    @apply text-3xl md:text-5xl lg:text-6xl font-bold z-20 text-neutral-800;
+  }
+  .card-heading {
+    @apply text-xl md:text-xl lg:text-2xl font-semibold z-20 text-neutral-800;
+  }
+  .card-description {
+    @apply text-sm text-center md:text-base lg:text-lg my-[32px]  z-20 text-neutral-600;
+  }
+
+  .topbar {
+    @apply fixed top-0 z-30 flex w-full flex-row items-center justify-between bg-dark-2 px-6 py-3;
+  }
+  .default-hover {
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  }
+  .default-hover:hover {
+    box-shadow: -10px 20px 20px 10px rgba(0, 0, 0, 0.2);
+    transform: translate(-3px, -2px);
+  }
+
+  /* float effect */
+  @keyframes float {
+    0% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(-10px, -15px, 0);
+    }
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  .floating-effect {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* stepper effect */
   .step-item {
     @apply relative flex flex-col justify-center items-center w-36;
   }
@@ -132,74 +224,5 @@ body::after {
   .complete:not(:first-child):before,
   .active:not(:first-child):before {
     @apply bg-green-600;
-  }
-.modal-blur{
-  @apply backdrop-filter backdrop-blur-lg bg-black bg-opacity-20;
-}
-
-  .inner-box {
-    @apply flex flex-col gap-2  z-40 h-full justify-evenly p-2 items-center default-hover transparent-bg rounded-[13px];
-  }
-  .default-card {
-    @apply flex  flex-col  z-40  items-center default-hover transparent-bg rounded-[13px];
-  }
-  .default-text {
-    @apply text-center;
-  }
-  .card{
-    @apply p-6 gap-1  justify-center rounded-xl flex flex-col  ;
-  }
-  prodcuts-card-hover{
-    @apply rounded-3xl [background:linear-gradient(120deg,_rgba(255,255,255,_1),_rgba(239,_239,_239,_0.04))] ;
-  }
-  .smooth{
-    @apply transition-all duration-300 ease-in-out;
-  }
-
-  /* make text transparent */
-  .transparent-text {
-    @apply relative  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500;
-  }
-  .responsive-titles {
-    @apply text-5xl md:text-7xl lg:text-8xl font-bold z-20 text-neutral-800;
-  }
-  .responsive-subtitles {
-    @apply text-3xl md:text-5xl lg:text-6xl font-bold z-20 text-neutral-800;
-  }
-  .card-heading {
-    @apply text-xl md:text-xl lg:text-2xl font-semibold z-20 text-neutral-800;
-  }
-  .card-description {
-    @apply text-sm text-center md:text-base lg:text-lg my-[32px]  z-20 text-neutral-600;
-  }
-  .gradient {
-    @apply [background:linear-gradient(180deg,_rgba(233,_233,_233,_0.5),_rgba(239,_239,_239,_0.04))];
-  }
-  .topbar {
-    @apply fixed top-0 z-30 flex w-full flex-row items-center justify-between bg-dark-2 px-6 py-3;
-  }
-  .default-hover {
-    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.4);
-
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-  }
-  .default-hover:hover {
-    box-shadow: -10px 20px 20px 10px rgba(0, 0, 0, 0.2);
-    transform: translate(-3px, -2px);
-  }
-  @keyframes float {
-    0% {
-      transform: translate3d(0, 0, 0);
-    }
-    50% {
-      transform: translate3d(-10px, -15px, 0);
-    }
-    100% {
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  .floating-effect {
-    animation: float 3s ease-in-out infinite;
   }
 }

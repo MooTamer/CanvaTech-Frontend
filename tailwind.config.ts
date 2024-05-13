@@ -228,6 +228,7 @@ module.exports = {
         "5xl": "0 60px 120px -25px rgba(0, 0, 0, 0.3)",
         "6xl": "0 60px 100px -30px rgba(0, 0, 0, 0.5)",
         "7xl": "0 80px 160px -35px rgba(0, 0, 0, 0.5)",
+        "10xl": "0 100px 200px -40px rgba(0, 0, 0, 0.5)",
       },
       transitionDuration: {
         "3s": "3s",
