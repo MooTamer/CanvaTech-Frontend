@@ -133,6 +133,9 @@ body::after {
   .active:not(:first-child):before {
     @apply bg-green-600;
   }
+.modal-blur{
+  @apply backdrop-filter backdrop-blur-lg bg-black bg-opacity-20;
+}
 
   .inner-box {
     @apply flex flex-col gap-2  z-40 h-full justify-evenly p-2 items-center default-hover transparent-bg rounded-[13px];

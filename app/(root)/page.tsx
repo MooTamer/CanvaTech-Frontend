@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { cn } from "@/utils/cn";
 import { Spotlight } from "@/components/ui/Spotlight";
 import { Waitlist } from "@/components/shared/waitlist";
@@ -16,9 +16,16 @@ import Cube3 from "@/public/3D3.png";
 import LogoScroll from "@/components/shared/logos-scroll";
 import Pricings from "@/components/shared/pricings";
 import Link from "next/link";
+import ButtonComponent from "@/components/shared/View-Pricing-Button";
+
 // import { useNavigate } from "react-router";
 
-export default function Home() {
+export default function Home({ setIsOpenValue }: { setIsOpenValue: boolean }) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  // useEffect(() => {
+  //   setIsOpen(false);
+  // }, []);
 
   return (
     <div>
@@ -51,16 +58,8 @@ export default function Home() {
               Designing dreams, one palette at a time.
             </p>
             <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 space-x-0 md:space-x-4">
-              <button className="flex flex-row w-40 h-10 rounded-xl bg-black  dark:border-white border-transparent p-1 items-center justify-center text-white text-sm">
-                <span className="flex text-center justify-center mr-3">
-                  Try for free
-                </span>
-
-                <ArrowRight
-                  className="items-center text-center justify-center flex"
-                  strokeWidth={1.7}
-                />
-              </button>
+              
+              <ButtonComponent setIsOpen={setIsOpen}/>
               <Link legacyBehavior href="/GuestViewProducts">
                 <button className="w-40 h-10 rounded-xl bg-white text-black border border-black  text-sm">
                   View Products
@@ -78,7 +77,11 @@ export default function Home() {
 
           <LogoScroll />
           <div className="flex gradient flex-col items-center justify-center h-screen w-screen">
-            <Pricings />
+          {isOpen && (
+            <div className="z-50">
+            <Pricings isOpen={isOpen} setIsOpen={setIsOpen}/>
+            </div>
+          )}
             <CustomerReviews />
           </div>
 

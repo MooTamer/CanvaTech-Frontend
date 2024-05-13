@@ -6,6 +6,7 @@ import {
   Home,
   LogIn,
   CirclePlay,
+  ArrowRight,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -19,7 +20,10 @@ import {
 } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
-const NavBar: React.FC = () => {
+interface ButtonComponentProps {
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
   const ref = useRef<HTMLElement>(null);
   const [isIntersecting, setIntersecting] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,9 +38,8 @@ const NavBar: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(" ");
-  }
+  const classNames = (...classes: string[]): string =>
+    classes.filter(Boolean).join(" ");
   return (
     <header ref={ref}>
       <div
@@ -49,7 +52,10 @@ const NavBar: React.FC = () => {
         <div className="container flex flex-row-reverse items-center justify-evenly p-6 mx-auto">
           <div className="flex justify-between items-center gap-8">
             <Link legacyBehavior href="/">
-              <a className="duration-200 xl:flex hidden text-zinc-400 hover:text-zinc-200">
+              <a
+                onClick={() => setIsOpen(true)}
+                className="duration-200 xl:flex hidden text-zinc-400 hover:text-zinc-200"
+              >
                 Pricing
               </a>
             </Link>
