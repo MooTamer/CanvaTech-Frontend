@@ -4,18 +4,18 @@ import 'tailwindcss/tailwind.css';
 const RegisterPage = () => {
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="card lg:card-side bg-base-100 shadow-xl w-3/4 max-w-[70rem]">
-        <div className="px-10 py-12 flex flex-col justify-between space-y-8">
-          <div className="mb-2">
-            <h2 className="card-title">Create Account<span className="text-blue-500" style={{ marginLeft: '-0.5rem' }}>.</span></h2>
-            <p className="text-sm text-gray-500">Already A Member? <a href="/login" className="text-blue-500">Login</a></p>
+      <div className="bg-white shadow-xl w-3/4 max-w-3xl rounded-lg overflow-hidden flex">
+        <div className="px-10 py-12 w-1/2">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold mb-2">Create Account<span className="text-blue-500">.</span></h2>
+            <p className="text-sm text-gray-500">Already a member? <a href="/login" className="text-blue-500">Login</a></p>
           </div>
           <div className="flex flex-col md:flex-row space-y-4 md:space-y-0">
             <div className="md:w-1/2 md:pr-2">
               <input
                 type="text"
                 id="firstname"
-                className="input input-bordered"
+                className="input border rounded-lg w-full px-4 py-2"
                 placeholder="First Name"
               />
             </div>
@@ -23,7 +23,7 @@ const RegisterPage = () => {
               <input
                 type="text"
                 id="lastname"
-                className="input input-bordered"
+                className="input border rounded-lg w-full px-4 py-2"
                 placeholder="Last Name"
               />
             </div>
@@ -31,24 +31,26 @@ const RegisterPage = () => {
           <input
             type="email"
             id="email"
-            className="input input-bordered"
+            className="input border rounded-lg w-full mt-4 px-4 py-2"
             placeholder="Email"
           />
           <input
             type="password"
             id="password"
-            className="input input-bordered mt-2"
+            className="input border rounded-lg w-full mt-4 px-4 py-2"
             placeholder="Password"
           />
-          <p className="text-sm text-gray-500">Forgot Your Password? <a href="/resetPassword" className="text-blue-500">Reset Password</a></p>
-          <div className="m-0.5 flex-col flex space-x-2 items-center ">
-            <button className="btn btn-primary w-1/2 items-center">Sign Up</button>
+          <p className="text-sm text-gray-500 mt-4">Forgot your password? <a href="/resetPassword" className="text-blue-500">Reset Password</a></p>
+          <div className="mt-8 flex items-center justify-center">
+            <button className="bg-blue-500 text-white rounded-lg py-2 px-8 hover:bg-blue-600 transition duration-300 ease-in-out">Sign Up</button>
           </div>
         </div>
-        <figure><img src="serviap-logistics-types-of-pallets1.jpg" alt="PP" style={{ width: '100%', height: '100%' }} className="opacity-50" /></figure>
+        <div className="w-1/2">
+          <img src="serviap-logistics-types-of-pallets1.jpg" alt="PP" className="w-full h-full opacity-75 object-cover" />
+        </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default RegisterPage;
