@@ -32,8 +32,8 @@ export default function ShopByCategory() {
               </button>
             </Link>
           </div>
-          <section className="grid md:min-h-[35rem] md:grid-cols-2  lg:grid-cols-3 xl:grid-cols-4  my-10 gap-10">
-            {Products.slice(0, 4).map((product, index) => (
+          <section className="grid md:min-h-[35rem] md:grid-cols-2 items-center justify-center lg:grid-cols-3 xl:grid-cols-4  my-10 gap-10">
+            {Products.slice(0, 3).map((product, index) => (
               <div
                 key={index}
                 className="card hover:prodcuts-card-hover smooth  hover:border-[2px]"

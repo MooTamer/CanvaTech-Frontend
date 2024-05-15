@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from "react";
-import "tailwindcss/tailwind.css";
+
 
 const ProductPage = () => {
   const images = ["pallete1.webp", "pallete2.webp", "pallete3.jpg", "pallete4.webp"];

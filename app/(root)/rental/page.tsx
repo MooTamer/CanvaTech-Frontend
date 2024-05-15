@@ -1,14 +1,20 @@
-'use client'
+"use client";
+import Image from "next/image";
 import React, { useState } from "react";
-import "tailwindcss/tailwind.css";
+import pallete1 from "@/public/pallete1.webp";
+import pallete2 from "@/public/pallete2.webp";
+import pallete3 from "@/public/pallete3.jpg";
+import pallete4 from "@/public/pallete4.webp";
 
 const RentalPage = () => {
-  const images = ["pallete1.webp", "pallete2.webp", "pallete3.jpg", "pallete4.webp"];
+  const images = [pallete1, pallete2, pallete3, pallete4];
   const [selectedSize, setSelectedSize] = useState("");
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleDecrement = (e) => {
+  const handleDecrement = (e: {
+    target: { parentNode: { querySelector: (arg0: string) => any } };
+  }) => {
     const quantityElement = e.target.parentNode?.querySelector("#quantity");
     if (quantityElement && parseInt(quantityElement.textContent || "0") > 0) {
       quantityElement.textContent = String(
@@ -17,7 +23,9 @@ const RentalPage = () => {
     }
   };
 
-  const handleIncrement = (e) => {
+  const handleIncrement = (e: {
+    target: { parentNode: { querySelector: (arg0: string) => any } };
+  }) => {
     const quantityElement = e.target.parentNode?.querySelector("#quantity");
     if (quantityElement) {
       quantityElement.textContent = String(
@@ -31,22 +39,24 @@ const RentalPage = () => {
   };
 
   const handlePrevImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setCurrentImageIndex(
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
+    );
   };
 
-  const handleSizeSelect = (size) => {
+  const handleSizeSelect = (size: React.SetStateAction<string>) => {
     setSelectedSize(size);
     setShowDropdown(false); // Close dropdown after selecting
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-8 py-8 h-full">
+    <div className="container mx-auto px-4 sm:px-8 py-8 items-center justify-center flex h-full">
       {/* Product display and customization section */}
-      <div className="container mx-auto px-4 sm:px-8 py-16 h-full flex items-center justify-center">
+      <div className="container mx-auto px-4 sm:px-8 py-16 h-auto grid md:grid-cols-2 gap-4 items-center justify-center">
         {/* Product image carousel */}
-        <div className="bg-black-100 p-4 sm:p-8 rounded-lg mb-4 sm:mb-0 sm:mr-4">
+        <div className="  rounded-3xl flex justify-center items-center ">
           <div className="w-full sm:w-96 rounded-box overflow-hidden relative">
-            <img
+            <Image
               src={images[currentImageIndex]}
               className="w-full h-96 object-cover rounded-lg transition-transform duration-300 transform"
               alt={`Ready To Go Pallets ${currentImageIndex + 1}`}
@@ -66,7 +76,7 @@ const RentalPage = () => {
           </div>
         </div>
         {/* Product details and customization options */}
-        <div className="text-center sm:text-left">
+        <div className="text-center sm:text-left flex flex-col justify-center">
           {/* Product title and price */}
           <h2 className="text-2xl font-bold mb-2">Rental Pallets</h2>
           <div className="text-lg font-italic text-gray-500 mb-4">
@@ -85,18 +95,7 @@ const RentalPage = () => {
               placeholder="To (MM/DD/YR)"
             />
           </div>
-          <div className="flex flex-col sm:flex-row mb-4">
-            <input
-              type="text"
-              className="input py-2 px-4 rounded-lg mb-2 sm:mb-0 sm:mr-4"
-              placeholder="Address"
-            />
-            <input
-              type="text"
-              className="input py-2 px-4 rounded-lg"
-              placeholder="Number"
-            />
-          </div>
+
           <div className="flex mb-4">
             {/* Custom dropdown for size selection */}
             <div className="relative">

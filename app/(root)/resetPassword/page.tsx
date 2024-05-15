@@ -3,8 +3,8 @@ import 'tailwindcss/tailwind.css';
 
 const ResetPage = () => {
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white shadow-xl w-1/2 max-w-3xl flex justify-center items-center">
+    <div className="flex justify-center items-center h-screen ">
+      <div className="bg-white shadow-3xl w-1/2 max-w-3xl flex rounded-3xl justify-center items-center">
         <div className="hidden md:block md:w-1/2">
           <img src="reset.jpg" alt="Reset Image" className="w-full h-full rounded-md shadow-xl" />
         </div>
