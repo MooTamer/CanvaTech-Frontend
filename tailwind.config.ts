@@ -239,6 +239,8 @@ module.exports = {
       // },
 
       screens: {
+
+        "mobile": "1px",
         xs: "400px",
       },
 

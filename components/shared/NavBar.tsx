@@ -43,7 +43,7 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
   return (
     <header ref={ref}>
       <div
-        className={`fixed  inset-x-0 top-0 z-50 backdrop-blur  duration-200 border-[0.05px]  ${
+        className={`fixed  inset-x-0 top-0 z-[100] backdrop-blur  duration-200 border-[0.05px]  ${
           isIntersecting
             ? "bg-zinc-900/0 border-transparent"
             : "bg-zinc-900/500  border-zinc-800 "
@@ -71,7 +71,7 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
               className="relative inline-block text-left   lg:hidden"
             >
               <div>
-                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-neutral-200">
                   <div>
                     <AlignJustify strokeWidth={1} />
                   </div>

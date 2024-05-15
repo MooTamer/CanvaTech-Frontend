@@ -148,7 +148,7 @@ body::after {
     @apply text-center;
   }
   .card {
-    @apply p-6 gap-1  justify-center rounded-xl flex flex-col;
+    @apply p-6 gap-1   rounded-xl flex flex-col;
   }
   .prodcuts-card-hover {
     @apply rounded-3xl [background:linear-gradient(120deg,_rgba(255,255,255,_0.5),_rgba(239,_239,_239,_0.04))];
