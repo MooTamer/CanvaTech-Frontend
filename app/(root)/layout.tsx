@@ -28,27 +28,32 @@ export default function RootLayout({
   RootLayoutProps: any;
 }) {
   const [isOpen, setIsOpen] = useState(setIsOpenValue);
-
+  //   <div className="nav z-[80]">
+  //   <NavBar setIsOpen={setIsOpen} />
+  //   {isOpen && (
+  //     <div className="z-[90]">
+  //       <Pricings isOpen={isOpen} setIsOpen={setIsOpen} />
+  //     </div>
+  //   )}
+  // </div>
   return (
-    // <>
     <html lang="en">
       <body className={inter.className}>
-        <div className="nav z-[80]">
-          <NavBar setIsOpen={setIsOpen} />
-          {isOpen && (
-            <div className="z-[90]">
-              <Pricings isOpen={isOpen} setIsOpen={setIsOpen} />
-            </div>
-          )}
-        </div>
+        <NavBar setIsOpen={setIsOpen} />
+        {isOpen && (
+          <div className="z-[90]">
+            <Pricings isOpen={isOpen} setIsOpen={setIsOpen} />
+          </div>
+        )}
 
-        {/* <LeftSideBar /> */}
-        <section className="w-screen h-screen p-2 justify-center items-center">
-          {children}
-      {/* <Footer /> */}
-        </section>
+        <main className="flex flex-row">
+          <section className="main-container">
+            <div className="w-full ">{children}</div>
+          </section>
+        </main>
+
+        {/* <Footer /> */}
       </body>
     </html>
-    // </>
   );
 }

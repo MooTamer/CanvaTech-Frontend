@@ -7,6 +7,11 @@ import {
   LogIn,
   CirclePlay,
   ArrowRight,
+  ShoppingBag,
+  ShoppingCart,
+  Search,
+  UserRound,
+  Heart,
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -43,28 +48,71 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
   return (
     <header ref={ref}>
       <div
-        className={`fixed  inset-x-0 top-0 z-[100] backdrop-blur  duration-200 border-[0.05px]  ${
+        className={`fixed  inset-x-0 top-0 z-[100] backdrop-blur  smooth border-[0.05px]  ${
           isIntersecting
             ? "bg-zinc-900/0 border-transparent"
             : "bg-zinc-900/500  border-zinc-800 "
         }`}
       >
-        <div className="container flex flex-row-reverse items-center justify-evenly p-6 mx-auto">
-          <div className="flex justify-between items-center gap-8">
+        <div className="container grid grid-cols-3 items-center  p-6 mx-auto">
+
+          <div className="flex items-center justify-center">
+            <Link legacyBehavior href="/">
+              <a className="smooth text-neutral-500 hover:text-neutral-300">
+                <ArrowLeft className="w-6 h-6 " />
+              </a>
+            </Link>
+          </div>
+
+          <div className="flex flex-row justify-center pointer-events-auto items-center gap-8">
+            <Link legacyBehavior href="/">
+              <div className="flex-row hover:cursor-pointer flex">
+                <Layers2 color="#52525B" strokeWidth={1.25} />
+                <a className="smooth hover:cursor-pointer ml-1 text-zinc-500 hover:text-neutral-300">
+                  CanvaTech
+                </a>
+              </div>
+            </Link>
+          </div>
+
+          <div className="flex flex-row justify-center items-center gap-8">
             <Link legacyBehavior href="/">
               <a
                 onClick={() => setIsOpen(true)}
-                className="duration-200 xl:flex hidden text-zinc-400 hover:text-zinc-200"
+                className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300"
               >
                 Pricing
               </a>
             </Link>
 
-            <Link legacyBehavior href="/about">
-              <a className="duration-200 hidden lg:flex text-zinc-200 hover:text-zinc-200 rounded-full bg-blue-600 p-2 flex">
-                Start a New Design!
+            <Link legacyBehavior href="/sign-up">
+              <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                <ShoppingCart />
               </a>
             </Link>
+
+            <Link legacyBehavior href="/sign-up">
+              <a className="smooth items-center justify-center xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                <Search size={23} /> <span className="ml-1">Search</span>
+              </a>
+            </Link>
+
+            <Link legacyBehavior href="/sign-in">
+              <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                <Heart />
+              </a>
+            </Link>
+            <Link legacyBehavior href="/sign-in">
+              <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                <UserRound />
+              </a>
+            </Link>
+
+            {/* <Link legacyBehavior href="/about">
+              <a className="smooth hidden lg:flex text-zinc-200 hover:text-neutral-300 rounded-full bg-blue-600 p-2 flex">
+                Start a New Design!
+              </a>
+            </Link> */}
 
             <Menu
               as="div"
@@ -87,12 +135,12 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
               >
-                <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-2xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                  <div className="py-1">
+                <MenuItems className="absolute right-0 z-10 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-3xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                  <div className="">
                     <MenuItem>
                       <a
                         href="/"
-                        className="flex flex-row gap-3 items-center  px-4 py-2 text-sm block px-4 py-2 text-sm"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
                       >
                         <Home strokeWidth={1.5} size={20} />
                         Home
@@ -101,21 +149,39 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                     <MenuItem>
                       <a
                         href="#"
-                        className="flex flex-row gap-3 items-center  px-4 py-2 text-sm block px-4 py-2 text-sm"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
                       >
                         <CirclePlay size={20} strokeWidth={1.5} />
                         Start a new design!
                       </a>
                     </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
+                      >
+                        <ShoppingCart size={20} strokeWidth={1.5} />
+                        Cart
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
+                      >
+                        <Heart size={20} strokeWidth={1.5} />
+                        Favourites
+                      </a>
+                    </MenuItem>
                   </div>
-                  <div className="py-1">
+                  <div >
                     <MenuItem>
                       <a
                         href="/sign-in"
-                        className="flex flex-row gap-3 items-center  px-4 py-2 text-sm block px-4 py-2 text-sm"
+                        className="flex flex-row gap-3 items-center text-red-600 hover:bg-neutral-100 rounded-xl  px-4 py-4 smooth text-sm block px-4 py-2 text-sm"
                       >
                         <LogIn size={20} strokeWidth={1.5} />
-                        Sign in
+                        Log Out
                       </a>
                     </MenuItem>
                   </div>
@@ -123,29 +189,6 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
               </Transition>
             </Menu>
           </div>
-
-          <div className="flex justify-between pointer-events-auto items-center gap-8">
-            <Link legacyBehavior href="/">
-              <div className="flex-row hover:cursor-pointer flex">
-                <Layers2 color="#52525B" strokeWidth={1.25} />
-                <a className="duration-200 hover:cursor-pointer ml-1 text-zinc-500 hover:text-zinc-200">
-                  CanvaTech
-                </a>
-              </div>
-            </Link>
-          </div>
-
-          <Link legacyBehavior href="/sign-in">
-            <a className="duration-200 xl:flex hidden text-zinc-400 hover:text-zinc-200">
-              Sign In
-            </a>
-          </Link>
-
-          <Link legacyBehavior href="/">
-            <a className="duration-200 text-zinc-400 hover:text-zinc-200">
-              <ArrowLeft className="w-6 h-6 " />
-            </a>
-          </Link>
         </div>
       </div>
     </header>
