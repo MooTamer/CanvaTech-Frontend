@@ -98,12 +98,12 @@ body::after {
     @apply flex min-h-screen flex-1 flex-col items-center px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;
   }
 
-  .transparent-bg {
-    @apply relative  rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[1px] border-solid border-whitesmoke;
-  }
+    .transparent-bg {
+      @apply relative  rounded [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.25),_rgba(239,_239,_239,_0.04))] box-border overflow-hidden border-[1px] border-solid border-whitesmoke;
+    }
 
   .transparent-bg2 {
-    @apply relative  rounded-[20px] w-full flex [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.8),_rgba(255,_255,_255,_0.3))] box-border overflow-hidden border-[3px] p-3 border-solid border-whitesmoke;
+    @apply relative  rounded-[20px] w-full flex text-neutral-300 [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.3),_rgba(255,_255,_255,_0.03))] box-border overflow-hidden border-[1px] p-3 border-solid border-whitesmoke;
   }
   .text-gradient {
     @apply bg-clip-text text-transparent [background-image:linear-gradient(180deg,_rgba(0,0,0,_0.8),_rgba(0,0,0,_0.07))];
@@ -113,10 +113,10 @@ body::after {
   }
 
   .cont {
-    @apply flex flex-col gap-2  z-40  rounded-[13px];
+    @apply flex flex-col gap-2  z-40  justify-center items-center rounded-[13px] relative;
   }
   .outer-box {
-    @apply flex flex-col gap-6 h-full justify-center p-6 z-40  items-center default-hover transparent-bg rounded-[35px];
+    @apply flex flex-col w-full h-full gap-6  p-6 z-40  default-hover transparent-bg rounded-[35px];
   }
   .svg-black {
     filter: invert(100%) brightness(0%);

@@ -8,14 +8,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 export default function NewHome() {
+  const saleProducts = Products.filter((product) => product.label === "Sale");
   const [randomProduct, setRandomProduct] = useState(
-    Products[Math.floor(Math.random() * Products.length)]
+    saleProducts[Math.floor(Math.random() * saleProducts.length)]
   );
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setRandomProduct(Products[Math.floor(Math.random() * Products.length)]);
-    }, 2000);
+      setRandomProduct(
+        saleProducts[Math.floor(Math.random() * saleProducts.length)]
+      );
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
@@ -60,7 +63,11 @@ export default function NewHome() {
                   </Link>
                 </div>
                 <div className="flex z-[80] mobile:max-md:items-center mobile:max-md:justify-evenly gap-1  min-h-[15rem] md:min-h-[30rem] w-auto md:relative">
-                  <div className="flex  h-20 w-20 md:h-64 md:w-64">
+                  <div className="flex  h-20 w-20 relative md:h-64 md:w-64">
+                    <p className="absolute top-2 left-3 bg-red-500 text-neutral-200 rounded-xl px-3 py-1">
+                      {randomProduct.label}
+                    </p>
+
                     <Image
                       src={randomProduct.image}
                       className="h-auto flex w-auto"
@@ -69,7 +76,7 @@ export default function NewHome() {
                   </div>
                   <div className=" rounded-3xl hover:prodcuts-card-hover smooth mobile:max-md:max-h-[20rem] mobile:max-md:max-w-[15rem] hover:border-[2px] md:bottom-1  md:max-w-[20rem] md:top-[270px] md:left-[-240px]  md:absolute z-[80] items-center justify-center md:min-h-[11rem] w-auto flex bg-blue-100 transparent-bg">
                     <div className="card mobile:max-md:p-0">
-                      <div className="card h-auto w-auto  ">
+                      <div className="card h-auto w-auto ">
                         <p className="text-red-900 text-xs md:text-sm">
                           {randomProduct.label}
                         </p>
@@ -79,11 +86,12 @@ export default function NewHome() {
                         <p className="text-xs md:text-sm text-neutral-600">
                           {randomProduct.description}
                         </p>
-                        <p className="text-xs md:text-sm text-neutral-600">
-                          {randomProduct.colors} colors
+
+                        <p className="text-neutral-500 line-through text-xs md:text-sm font-semibold">
+                          E£ {randomProduct.price}
                         </p>
-                        <p className="text-neutral-800 text-xs md:text-sm font-semibold">
-                          {randomProduct.price}
+                        <p className="text-red-700 text-sm md:text-base font-semibold">
+                          E£ {Math.round(Number(randomProduct.price) * 0.8)}
                         </p>
                         <button className="w-32 flex flex-row items-center justify-center h-8 rounded-xl  text-black border border-black mt-1  text-sm">
                           <Eye

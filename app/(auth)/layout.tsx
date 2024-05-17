@@ -1,16 +1,12 @@
-// import {  } from "@clerk/nextjs";
+// @clerk/nextjs
 "use client";
+
 import { Inter } from "next/font/google";
 import NavBar from "@/components/shared/NavBar";
 import "../globals.css";
 import React, { useState } from "react";
-import Pricings from "@/components/shared/pricings";
-// import FloatingNav from "@/components/ui/floating-navbar";
-
-// export const metadata = {
-//   title: "CanvaTech",
-//   description: "Customize your own plastic palette",
-// };
+import Head from "next/head";
+import { metadata } from "@/metadata";
 const inter = Inter({ subsets: ["latin"] });
 
 interface RootLayoutProps {
@@ -29,11 +25,13 @@ export default function RootLayout({
   const [isOpen, setIsOpen] = useState(setIsOpenValue);
 
   return (
-    // <>
     <html lang="en">
+      <Head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </Head>
       <NavBar setIsOpen={setIsOpen} />
       <body className={`${inter.className}`}>{children}</body>
     </html>
-    // </>
   );
 }

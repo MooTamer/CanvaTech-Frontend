@@ -18,8 +18,7 @@ export const Products = [
     label: "Now Available!",
     description: "Customizable Palettes",
     colors: "Variety of",
-
-    price: "Starting from E£8999",
+    price: "Starting from  8999",
     image: pallete3,
   },
   {
@@ -28,7 +27,7 @@ export const Products = [
     label: "New",
     description: "Ready-To-Go Palettes",
     colors: "4",
-    price: "E£ 13999",
+    price: " 13999",
     image: pallete1,
   },
   {
@@ -37,7 +36,7 @@ export const Products = [
     label: "Sale",
     description: "Rental Palettes",
     colors: 3,
-    price: "E£ 12999",
+    price: " 12999",
     image: pallete4,
   },
   {
@@ -46,7 +45,7 @@ export const Products = [
     label: "Limited Edition",
     description: "Heavy Duty Palettes",
     colors: 4,
-    price: "E£ 16999",
+    price: " 16999",
     image: pallete2,
   },
   {
@@ -55,7 +54,7 @@ export const Products = [
     label: "Limited Edition",
     description: "Lightweight Palettes",
     colors: 6,
-    price: "E£ 15999",
+    price: " 15999",
     image: pallete1,
   },
   {
@@ -64,7 +63,7 @@ export const Products = [
     label: "",
     description: "Ready-To-Go Palettes",
     colors: 2,
-    price: "E£ 11999",
+    price: " 11999",
     image: pallete2,
   },
   {
@@ -73,7 +72,7 @@ export const Products = [
     label: "Sale",
     description: "Durable Palettes",
     colors: 3,
-    price: "E£ 13999",
+    price: "13999",
     image: pallete2,
   },
   {
@@ -82,7 +81,7 @@ export const Products = [
     label: "",
     description: "Eco-Friendly Palettes",
     colors: 5,
-    price: "E£ 10999",
+    price: " 10999",
     image: pallete4,
   },
   {
@@ -91,7 +90,7 @@ export const Products = [
     label: "Bestseller",
     description: "Rental Palettes",
     colors: 4,
-    price: "E£ 12999",
+    price: " 12999",
     image: pallete1,
   },
   {
@@ -100,7 +99,7 @@ export const Products = [
     label: "",
     description: "Customizable Palettes",
     colors: 2,
-    price: "E£ 11999",
+    price: " 11999",
     image: pallete3,
   },
   {
@@ -109,7 +108,7 @@ export const Products = [
     label: "Bestseller",
     description: "Rental Palettes",
     colors: 5,
-    price: "E£ 14999",
+    price: " 14999",
     image: pallete4,
   },
 ].map((product) => ({

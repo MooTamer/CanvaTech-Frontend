@@ -1,6 +1,14 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
+import newdesign from "@/public/start design.png";
+
+const fs = require('fs');
+const path = require('path');
+
 
 const svgToDataUri = require("mini-svg-data-uri");
+
+const newdesignPath = path.resolve(__dirname, './public/start design.png');
+const newdesignBase64 = fs.readFileSync(newdesignPath, 'base64');
 
 const colors = require("tailwindcss/colors");
 const {
@@ -195,11 +203,15 @@ module.exports = {
       "8xl": "5.25rem",
     },
     extend: {
+      backgroundImage: () => ({
+        'newdesign': `url('data:image/png;base64,${newdesignBase64}')`,
+      }),
       fontFamily: {
         "cabin-grotesk": ['"Cabin Grotesk"', "sans-serif"],
       },
       colors: {
         "dark-2": "#121417",
+        'custom-gray': '#1C1E21',
         // tertiary: "#e09145",
         // fourth: "#fcd9b8",
         // // "primary-500": "#877EFF",

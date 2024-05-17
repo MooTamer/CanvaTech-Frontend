@@ -11,38 +11,37 @@ import delivered from "@/public/Dilevered.svg";
 import preparing from "@/public/Processing.svg";
 import order1 from "@/public/3D.png";
 import order2 from "@/public/3D2.png";
+import newdesign from "@/public/start design.png";
+import contact from "@/public/contact.png";
+import favourites from "@/public/favourites.png";
+import ismoetric from "@/public/Isometric delivery robot.gif";
+import review from "@/public/reviews.png";
+import orders from "@/public/orders.png";
 
-import { ArrowUpRight } from "lucide-react";
+
+import { ArrowUpRight, Navigation } from "lucide-react";
 import Stepper from "@/components/shared/stepper";
 
 export default function Page() {
   return (
-    <div className="container justify-center flex flex-col  xl:my-32 xl:py-8 ">
-      <motion.div></motion.div>
-      <h1 className="text-5xl  sm:text-6xl font-bold transparent-text">
-        Profile
-      </h1>
-
-      <div className=" grid-cols-3 lg:grid-col-2 sm:grid-col-1 overflow-scroll justify-center z-30 [background:linear-gradient(120deg,_rgba(239,_239,_239,_0.7),_rgba(239,_239,_239,_0.5))] transparent-bg grid gap-4 p-7 rounded-[41px]">
-        <div className="cont col-span-1 row-span-4 ">
-          <div className=" flex flex-col outer-box p-4 justify-evenly">
-            <div className="flex flex-col items-center  w-full max-w-lg justify-between gap-4 ">
-              <div className="items-center  justify-between gap-4 flex flex-col p-4">
+    <div className="container justify-center mx-auto h-screen flex py-20">
+      <div className="grid p-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:grid-rows-2 lg:grid-rows-4 my-10 gap-1 rounded-[41px] [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.7),_rgba(255,_255,_255,_0.4))] transparent-bg ">
+        <div className=" cont col-span-1 row-span-3 ">
+          <div className=" flex flex-col items-center justify-center outer-box bg-custom-gray p-4 justify-left justify-evenly">
+            <div className="flex flex-col items-left  w-full max-w-lg justify-between gap-4 ">
+              <div className="items-left  justify-between gap-4 flex flex-col p-4">
                 <Image
-                  className="w-[200px] h-[200px] z-50 relative rounded-full overflow-hidden  object-cover"
+                  className="w-20 h-20 z-50 relative rounded-full overflow-hidden  object-cover"
                   alt="Profile Picture"
                   src={persona2}
                 />
-                <p className="text-neutral-600 font-bold md:text:4xl text-3xl xl:text-5xl mt-2">
+                <p className="text-neutral-300 font-semibold xl:text-3xl md:text:xl text-lg  mt-2">
                   Mohamed Tamer
-                </p>
-                <p className="default-text text-transparent text-neutral-700 text-2xl">
-                  @MooTamer
                 </p>
               </div>
               <div className="flex flex-col gap-4 w-full max-w-sm">
-                <div className="flex gap-3 flex-row">
-                  <label className="default-text p-2" htmlFor="email">
+                <div className="flex gap-3 items-center justify-center flex-row">
+                  <label className="text-neutral-200" htmlFor="email">
                     Email:
                   </label>
                   <input
@@ -52,8 +51,8 @@ export default function Page() {
                   />
                 </div>
 
-                <div className="flex gap-2 flex-row">
-                  <label className="default-text p-2" htmlFor="number">
+                <div className="flex gap-3 flex-row items-center justify-center">
+                  <label className="text-neutral-200" htmlFor="number">
                     Phone:
                   </label>
                   <input
@@ -79,76 +78,111 @@ export default function Page() {
         </div>
 
         <div className=" cont col-span-2 row-span-1">
-          <div className=" overflow-scroll outer-box ">
-            <ArrowUpRight className="right-[-390px] top-[-5px] text-zinc-800 h-[7rem] w-[7rem] relative flex" />
-            <h2 className="text-3xl sm:text-4xl font-semibold transparent-text ">
+          <div className=" overflow-scroll items-center flex flex-row justify-center outer-box bg-[#948979] ">
+            <ArrowUpRight className="absolute top-4 right-4 text-neutral-200 h-7 w-7  flex" />
+            <Image src={orders} className="h-full  w-52" alt="" />
+            <h2 className="text-3xl sm:text-4xl font-semibold from-neutral-50 to-neutral-500 transparent-text ">
               Orders
             </h2>
-            <div className="cont w-fit inner-box flex">
-              <div className=" flex flex-row m-4 gap-4 h-full items-center justify-center">
-                <div className="inner-box h-20 w-20">
-                  <Image
-                    src={order1}
-                    className="  relative h-10 w-10"
-                    alt=""
-                  ></Image>
-                </div>
-                <Stepper />
-              </div>
-            </div>
-            <div className="cont w-fit inner-box flex">
-              <div className=" flex flex-row gap-4 m-4 h-full items-center justify-center">
-                <div className="inner-box h-20 w-20">
-                  <Image
-                    src={order1}
-                    className="  relative h-10 w-10"
-                    alt=""
-                  ></Image>
-                </div>
-                <Stepper />
-              </div>
-            </div>
-            <div className="cont w-fit inner-box flex">
-              <div className=" flex flex-row gap-4 m-4 h-full items-center justify-center">
-                <div className="inner-box h-20 w-20">
-                  <Image
-                    src={order1}
-                    className="  relative h-10 w-10"
-                    alt=""
-                  ></Image>
-                </div>
-                <Stepper />
-              </div>
-            </div>
           </div>
         </div>
 
-        <div className=" cont  col-span-1 row-span-1">
-          <div className="outer-box bg-blue-900">
-            <ArrowUpRight className="relative right-[-175px] top-[-5px] text-zinc-800 h-7 w-7" />
-            <h2 className="text-5xl  my-14 flex from-neutral-100 to-neutral-300 sm:text-5xl font-semibold relative top-[-20px] transparent-text">
+        <div className=" cont col-span-1 row-span-1 ">
+          <div className="items-center justify-center outer-box bg-[#153448]">
+            <ArrowUpRight className="absolute top-4 right-4 text-neutral-300 h-7 w-7" />
+            <h2 className="text-5xl   flex from-neutral-100 to-neutral-300 sm:text-5xl font-semibold relative top-[-20px] transparent-text">
               Address Book
             </h2>
           </div>
         </div>
 
-        <div className=" cont  col-span-1 row-span-1 ">
-          <div className="overflow-scroll bg-blue-600 justify-center items-center  outer-box">
-            <ArrowUpRight className="relative right-[-175px] top-[-5px] text-zinc-800 h-7 w-7" />
-            <h2 className="text-5xl  my-14 flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
+
+
+        <div className=" cont col-span-1 row-span-1 ">
+          <div className="overflow-scroll [background:linear-gradient(180deg,_rgba(0,0,0,_0.8),_rgba(0,0,0,_0.6))]   justify-center items-center  items-center justify-center outer-box">
+            <Navigation
+              strokeWidth={1.2}
+              className="absolute right-4 top-4 text-neutral-300 h-7 w-7"
+            />
+            <Image src={contact} className="h-[100%] w-auto" alt=""/>
+            <h2 className="text-xl sm:text-2xl md:text-4xl absolute flex bg-gradient-to-r from-neutral-50 to-neutral-500 font-semibold bottom-1 left-4 transparent-text">
               Contact Us
             </h2>
           </div>
         </div>
-      </div>
 
-      {/* <motion.div>
-          <Image
-            className="floating-svgs top-[180px] right-[-50px] "
-            alt=""
-            src={picture}
-          />
-        </motion.div> */}
+        <div className=" cont col-span-1 row-span-2 ">
+          <div className=" bg-newdesign bg-contain  bg-[#DFD0B8] bg-no-repeat  z-40   outer-box">
+            <ArrowUpRight
+              strokeWidth={1.2}
+              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+            />
+            <h2 className="lg:text-4xl   absolute  top-1 right-[-130px] flex from-neutral-50 to-neutral-500 font-semibold relative  transparent-text">
+              Start a <br />
+              new design
+            </h2>
+          </div>
+        </div>
+
+
+        <div className=" cont col-span-1 row-span-2">
+          <div className="overflow-scroll bg-stone-800 justify-center items-center  items-center justify-center outer-box">
+            <ArrowUpRight
+              strokeWidth={1.2}
+              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+            />
+            <Image src={review} className="h-60  w-52" alt="" />
+            <h2 className="text-5xl   flex sm:text-5xl from-neutral-50 to-neutral-800 font-semibold relative top-[-20px] transparent-text">
+              Reviews
+            </h2>
+          </div>
+        </div>
+      
+
+        <div className=" cont col-span-1 row-span-1">
+          <div className="overflow-scroll bg-[#3C5B6F]  items-center outer-box">
+            <ArrowUpRight
+              strokeWidth={1.2}
+              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+            />
+            <Image src={favourites} className="h-[100%] w-auto" alt="" />
+            <h2 className="text-4xl  flex  absolute bottom-2 left-4  bg-gradient-to-r from-neutral-50 to-neutral-500 font-semibold  transparent-text">
+              Favourites
+            </h2>
+          </div>
+        </div>
+
+       
+
+        <div className=" cont col-span-2 row-span-1">
+          <div className="overflow-scroll bg-stone-800 justify-center items-center  items-center justify-center outer-box">
+            <ArrowUpRight
+              strokeWidth={1.2}
+              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+            />
+            {/* <Image src={} alt=""></Image> */}
+            <h2 className="text-5xl   flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
+              performance
+            </h2>
+          </div>
+        </div>
+
+      
+
+        <div className=" cont col-span-2 row-span-1">
+          <div className="overflow-scroll bg-stone-800 justify-center   items-center justify-center outer-box">
+            <ArrowUpRight
+              strokeWidth={1.2}
+              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+            />
+            <h2 className="text-5xl   flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
+              Offers
+            </h2>
+          </div>
+        </div>
+
+
+      </div>
     </div>
   );
 }
