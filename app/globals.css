@@ -225,4 +225,165 @@ body::after {
   .active:not(:first-child):before {
     @apply bg-green-600;
   }
+
+
+  /* add to cart animation */
+  /* Supported by Tailwind CSS */
+  .cart-button {
+    @apply relative py-2 w-44 h-12 border-0 rounded-3xl bg-blue-700 outline-none cursor-pointer text-white transition-all duration-300 ease-in-out overflow-hidden;
+  }
+
+  .cart-button:hover {
+    @apply bg-blue-800;
+  }
+
+  .cart-button .fa-shopping-cart {
+    @apply absolute z-20 -left-4 top-1/2 text-2xl transform -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .cart-button .fa-box {
+    @apply absolute z-30 left-1/2 -top-5 text-lg transform -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .cart-button span {
+    @apply absolute z-30 left-1/2 top-1/2 text-base text-white transform -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .cart-button span.add-to-cart {
+    @apply opacity-100;
+  }
+
+  .cart-button span.added {
+    @apply opacity-0;
+  }
+
+
+  .cart-button .cart-item {
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    top: -200px;
+    right: -10px;
+  }
+
+  .cart-button .cart-item:before {
+    content: '1';
+    display: block;
+    line-height: 24px;
+    height: 24px;
+    width: 24px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #2bd156;
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+  }
+  .cart-button .sendtocart .cart-item {
+    display: block;
+    animation: xAxis 1s forwards cubic-bezier(1.000,0.440,0.840,0.165);
+  }
+
+  .cart-button  .sendtocart .cart-item:before {
+    animation: yAxis 1s alternate forwards cubic-bezier(0.165, 0.840, 0.440, 1.000);
+  }
+  .cart-button   .shake {
+    animation: shakeCart .4s ease-in-out forwards;
+  }
+
+
+  @keyframes xAxis {
+    100% {
+      transform: translateX(calc(50vw - 105px));
+    }
+  }
+  
+  @keyframes yAxis {
+    100% {
+      transform: translateY(calc(-50vh + 75px));
+    }
+  }
+  
+  @keyframes shakeCart {
+    25% {
+      transform:translateX(6px)
+    }
+    50% {
+      transform:translateX(-4px);
+    }
+    75% {
+      transform:translateX(2px);
+    }
+    100% {
+      transform:translateX(0);
+    }
+  }
+
+
+  /* Not supported by Tailwind CSS */
+  .cart-button:active {
+    transform: scale(.9);
+  }
+
+  .cart-button.clicked .fa-shopping-cart {
+    animation: cart 1.5s ease-in-out forwards;
+  }
+
+  .cart-button.clicked .fa-box {
+    animation: box 1.5s ease-in-out forwards;
+  }
+
+  .cart-button.clicked span.add-to-cart {
+    animation: txt1 1.5s ease-in-out forwards;
+  }
+
+  .cart-button.clicked span.added {
+    animation: txt2 1.5s ease-in-out forwards;
+  }
+
+  @keyframes cart {
+    0% {
+      left: -10%;
+    }
+    40%, 60% {
+      left: 50%;
+    }
+    100% {
+      left: 110%;
+    }
+  }
+
+  @keyframes box {
+    0%, 40% {
+      top: -20%;
+    }
+    60% {
+      top: 40%;
+      left: 52%;
+    }
+    100% {
+      top: 40%;
+      left: 112%;
+    }
+  }
+
+  @keyframes txt1 {
+    0% {
+      opacity: 1;
+    }
+    20%, 100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes txt2 {
+    0%, 80% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+
 }

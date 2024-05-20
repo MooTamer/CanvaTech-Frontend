@@ -38,6 +38,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.51.1",
     "react-router-dom": "^6.23.1",
+    "react-spring": "^9.7.3",
     "sharp": "^0.33.3",
     "strip": "^3.0.0",
     "stripe": "^15.7.0",

@@ -3,6 +3,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { Products } from "@/constants";
 import { AnimatePresence, motion } from "framer-motion";
+import { Heart } from "lucide-react";
 
 export default function GuestViewProducts() {
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null);
@@ -17,12 +18,15 @@ export default function GuestViewProducts() {
           {Products.map((product, index) => (
             <div
               key={index}
-              className="card hover:prodcuts-card-hover m-8 smooth  hover:border-[2px]"
+              className="card hover:prodcuts-card-hover m-8 smooth relative  hover:border-[2px]"
               onMouseEnter={() => setHoveredProductId(product.id)}
               onMouseLeave={() => setHoveredProductId(null)}
             >
+              <button className="absolute top-6 right-6">
+                <Heart  strokeWidth={1.3}/>
+              </button>
               <div className="card h-72">
-                <Image src={product.image} alt={product.name}></Image>
+                <Image src={product.image} alt={product.name} />
               </div>
               <div className="card">
                 <p className="text-red-900 text-sm">{product.label}</p>

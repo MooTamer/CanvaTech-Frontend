@@ -12,7 +12,6 @@ import {
   Search,
   UserRound,
   Heart,
-  
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -25,11 +24,28 @@ import {
   Transition,
 } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useSpring, animated } from "react-spring";
 
 interface ButtonComponentProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
+  const [cartTotal, setCartTotal] = useState(0);
+  const [shake, setShake] = useState(false);
+
+  const shakeAnimation = useSpring({
+    transform: shake
+      ? "translate3d(0, 0, 0) scale(1.1)"
+      : "translate3d(0, 0, 0) scale(1)",
+    config: { tension: 200, friction: 10 },
+    onRest: () => setShake(false),
+  });
+
+  const handleAddToCart = () => {
+    setCartTotal((prevTotal) => prevTotal + 1);
+    setShake(true);
+  };
+
   const ref = useRef<HTMLElement>(null);
   const [isIntersecting, setIntersecting] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,7 +72,6 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
         }`}
       >
         <div className="container grid grid-cols-3 items-center  p-6 mx-auto">
-
           <div className="flex items-center justify-center">
             <Link legacyBehavior href="/">
               <a className="smooth text-neutral-500 hover:text-neutral-300">
@@ -87,7 +102,16 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
             </Link>
 
             <Link legacyBehavior href="/sign-up">
-              <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+              <a
+                id="addtocart"
+                onClick={handleAddToCart}
+                className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300"
+              >
+                <animated.div
+                  id="cart"
+                  style={shakeAnimation}
+                  data-totalitems={cartTotal}
+                ></animated.div>
                 <ShoppingCart />
               </a>
             </Link>
@@ -175,7 +199,7 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                       </a>
                     </MenuItem>
                   </div>
-                  <div >
+                  <div>
                     <MenuItem>
                       <a
                         href="/sign-in"
