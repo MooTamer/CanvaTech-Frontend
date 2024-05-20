@@ -2,7 +2,7 @@
 import { Check } from "lucide-react";
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
-
+import {checkout} from "../../../components/stripe/checkout"
 interface CategoriesProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -25,9 +25,13 @@ export default function Categories({ isOpen, setIsOpen }: CategoriesProps) {
   const stopPropagation = (event: { stopPropagation: () => void }) => {
     event.stopPropagation();
   };
+  // const displayStripe()
+  // {
+  //    //
+  // }
 
   return (
-    <>
+  <>
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -80,7 +84,7 @@ export default function Categories({ isOpen, setIsOpen }: CategoriesProps) {
                         per palette billed annualy
                         <span className="font-semibold text-neutral-800">
                           {" "}
-                          <br /> or $49 billed monthly
+                          <br /> or $49 billed monthly 22
                         </span>
                       </p>
                       <button className="w-3/4 shadow-inner text-neutral-800   bg-neutral-50 h-12 border-2  rounded-lg ">
@@ -216,16 +220,28 @@ export default function Categories({ isOpen, setIsOpen }: CategoriesProps) {
                         <span className="font-semibold text-neutral-800 mr-1 text-2xl">
                           From{" "}
                           <span className="text-neutral-800 font-bold text-2xl">
-                            $1699
+                            $16990934850325489
                           </span>
                         </span>
-                        per palette billed annualy
+                        per palette billed annualy ahmed yehia
                         <span className="font-semibold text-neutral-800">
-                          <br /> or $199 billed monthly
+                          <br /> or $199666 billed monthly
                         </span>
                       </p>
-                      <button className="w-3/4 shadow-inner text-white   bg-blue-700 h-12 border-2  rounded-lg text-center flex justify-center items-center">
-                        Get Started
+                      <button className="w-3/4 shadow-inner text-white   bg-blue-700 h-12 border-2  rounded-lg text-center flex justify-center items-center" 
+                     onClick={(() => {
+                      checkout({
+                        lineItems: [
+                          {
+                            price: "price_1PISzI07iZEV36z1UY8kn9rH",
+                            quantity: 1
+                          }
+                        ]
+                      })
+                    }
+                     )}
+                      >
+                        Get Started click
                       </button>
                       <div className="flex flex-col items-left gap-2 ">
                         <p className="font-semibold flex text-lg">
@@ -281,6 +297,7 @@ export default function Categories({ isOpen, setIsOpen }: CategoriesProps) {
           </div>
         </div>
       </motion.div>
-    </>
+</>
   );
 }
+
