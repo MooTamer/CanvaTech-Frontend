@@ -86,8 +86,8 @@ const CheckoutPage = () => {
 
   return (
     <div className="container mx-auto flex justify-center items-center h-screen">
-      <div className="w-full max-w-4xl p-8 rounded-lg shadow-lg flex flex-col lg:flex-row items-center">
-        <div className={`w-full lg:w-1/2 ${paymentMethod === 'Credit Card' ? 'lg:pr-4' : 'lg:pl-4'}`}>
+      <div className="w-full max-w-4xl p-8 rounded-3xl transparent-bg [background:linear-gradient(120deg,_rgba(255,255,255,_0.7),_rgba(255,255,255,_0.04))] flex flex-col lg:flex-row items-center">
+        <div className={`w-full lg:w-1/2 ${paymentMethod === 'Credit Card' ? 'lg:pr-4' : 'lg:pl-4 hidden'}`}>
           {paymentMethod === 'Credit Card' && (
             <>
               <div className="mb-8">
