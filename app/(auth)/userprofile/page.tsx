@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import picture from "@/public/girl.svg";
@@ -23,6 +23,23 @@ import { ArrowUpRight, Navigation } from "lucide-react";
 import Stepper from "@/components/shared/stepper";
 
 export default function Page() {
+
+  const getUserProfile = async () => {
+    const response = await fetch("http://localhost:5000/profile", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const res = await response.json();
+    console.log(res);
+    return res;
+  };
+
+  useEffect(()=>{
+    getUserProfile();
+  },[])
+
   return (
     <div className="container justify-center mx-auto h-screen flex py-20">
       <div className="grid p-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:grid-rows-2 lg:grid-rows-4 my-10 gap-1 rounded-[41px] [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.7),_rgba(255,_255,_255,_0.4))] transparent-bg ">

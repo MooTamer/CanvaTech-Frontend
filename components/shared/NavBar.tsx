@@ -200,15 +200,26 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                     </MenuItem>
                   </div>
                   <div>
+                    { isLoggedIn ?
                     <MenuItem>
                       <a
-                        href="/sign-in"
+                        href="/login"
                         className="flex flex-row gap-3 items-center text-red-600 hover:bg-neutral-100 rounded-xl  px-4 py-4 smooth text-sm block px-4 py-2 text-sm"
                       >
                         <LogIn size={20} strokeWidth={1.5} />
                         Log Out
                       </a>
+                    </MenuItem> :
+                    <MenuItem>
+                      <a
+                        href="/login"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-4 smooth text-sm block px-4 py-2 text-sm"
+                      >
+                        <LogIn size={20} strokeWidth={1.5} />
+                        Sign In
+                      </a>
                     </MenuItem>
+                    }
                   </div>
                 </MenuItems>
               </Transition>
