@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import picture from "@/public/girl.svg";
@@ -23,16 +23,19 @@ import { ArrowUpRight, Navigation } from "lucide-react";
 import Stepper from "@/components/shared/stepper";
 
 export default function Page() {
+  const [response, setResponse] = useState({} as any);
 
   const getUserProfile = async () => {
     const response = await fetch("http://localhost:5000/profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("Authorization") || "",
       },
     });
+    console.log(response);
     const res = await response.json();
-    console.log(res);
+    setResponse(res);
     return res;
   };
 

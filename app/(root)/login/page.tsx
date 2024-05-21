@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import { setCookie } from "cookies-next";
 import React, { useEffect, useState } from "react";
 // import "tailwindcss/tailwind.css";
 import Wallpaper from "@/public/serviap-logistics-types-of-pallets1.jpg";
@@ -19,11 +20,14 @@ const LoginPage = () => {
       }),
       headers: {
         "Content-Type": "application/json",
+        "Authorization": localStorage.getItem("Authorization") || "",
       },
     });
     const res = await response.json();
-    console.log(res);
+    console.log(response);
     if (response.status < 300 && response.status >= 200) {
+      // setCookie("Authorization", 'Bearer ' + res.token);
+      localStorage.setItem("Authorization", 'Bearer ' + res.token);
       window.location.href = "/";
     }
     else if(response.status === 401){
