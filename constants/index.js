@@ -11,6 +11,21 @@ function getRandomColor() {
   }
   return color;
 }
+
+// Array of availability statuses
+const availabilities = ["Available Soon", "Out of Stock", "In Stock"];
+
+// Function to shuffle an array
+function shuffleArray(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+// Shuffle the availabilities array
+shuffleArray(availabilities);
+
 export const Products = [
   {
     id: 1,
@@ -111,7 +126,9 @@ export const Products = [
     price: " 14999",
     image: pallete4,
   },
-].map((product) => ({
+].map((product, index) => ({
   ...product,
+  availability: availabilities[index % availabilities.length],
+  isChecked: false,
   colorRange: Array.from({ length: product.colors }, () => getRandomColor()),
 }));
