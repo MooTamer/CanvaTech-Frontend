@@ -8,9 +8,12 @@ export default function Scene() {
     const [modelColor, setModelColor] = useState('#f00');
     const [materialProps, setMaterialProps] = useState({});
     const [scale, setScale] = useState([0.02, 0.02, 0.02]);
+    const [price, setPrice] = useState(100); // Initial price
 
     const handleChangeColor = (e) => {
         setModelColor(e);
+        // Update price based on color selection
+        setPrice(price + 10); // Example price adjustment
     };
 
     const changeMaterial = (property, value) => {
@@ -18,10 +21,14 @@ export default function Scene() {
             ...prev,
             [property]: value
         }));
+        // Update price based on material property changes
+        setPrice(price + 5); // Example price adjustment
     };
 
     const changeScale = (value) => {
         setScale(value);
+        // Update price based on scale changes
+        setPrice(price + 20); // Example price adjustment
     };
 
     return (
@@ -37,13 +44,17 @@ export default function Scene() {
             <div className="absolute bottom-10 left-0 right-0 flex flex-wrap justify-center gap-2">
                 <button onClick={() => changeMaterial('roughness', 0)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Smooth</button>
                 <button onClick={() => changeMaterial('roughness', 1)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Rough</button>
-                <button onClick={() => changeMaterial('metalness', 0)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Non-Metallic</button>
-                <button onClick={() => changeMaterial('metalness', 1)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Metallic</button>
-                <button onClick={() => changeMaterial('clearcoat', 0)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">No Clearcoat</button>
-                <button onClick={() => changeMaterial('clearcoat', 1)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Clearcoat</button>
-                <button onClick={() => changeMaterial('transparency', 0)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Opaque</button>
-                <button onClick={() => changeMaterial('transparency', 1)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Transparent</button>
-              
+                {/* Add more buttons for other material properties */}
+            </div>
+
+            <div className="absolute bottom-10 left-0 right-0 flex flex-wrap justify-center gap-2">
+                <button onClick={() => changeScale([0.02, 0.02, 0.02])} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Small</button>
+                <button onClick={() => changeScale([0.04, 0.04, 0.04])} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Medium</button>
+                <button onClick={() => changeScale([0.06, 0.06, 0.06])} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Large</button>
+            </div>
+
+            <div className="absolute bottom-10 left-0 right-0 flex flex-wrap justify-center gap-2">
+                <p>Price: ${price}</p>
             </div>
         </div>
     );
