@@ -17,27 +17,106 @@ import favourites from "@/public/favourites.png";
 import ismoetric from "@/public/Isometric delivery robot.gif";
 import review from "@/public/reviews.png";
 import orders from "@/public/orders.png";
+import backendUrl from "../../url.json";
 
 
 import { ArrowUpRight, Navigation } from "lucide-react";
 import Stepper from "@/components/shared/stepper";
 
 export default function Page() {
-  const [response, setResponse] = useState({} as any);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [addresses, setAddresses] = useState({} as {name: string, id: string}[]);
+
+  const [newFirstName, setNewFirstName] = useState("");
+  const [newLastName, setNewLastName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newAddress, setNewAddress] = useState({} as {name: string, id: string});
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const getUserProfile = async () => {
-    const response = await fetch("http://localhost:5000/profile", {
+    const resp = await fetch(backendUrl.backendUrl + "profile", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": localStorage.getItem("Authorization") || "",
       },
+      credentials: "include",
     });
-    console.log(response);
-    const res = await response.json();
-    setResponse(res);
-    return res;
+    try{
+      const res = JSON.parse(await resp.text());
+      console.log(res);
+      setFirstName(res.user.first_name);
+      setLastName(res.user.last_name);
+      setEmail(res.user.email);
+      setAddress(res.address.name);
+      setNewFirstName(res.user.first_name);
+      setNewLastName(res.user.last_name);
+      setNewEmail(res.user.email);
+      setNewAddress({name: res.address.name, id: res.address._id});
+      getUserAddresses();
+    }
+    catch(e){
+      alert(e);
+    }
   };
+
+  const getUserAddresses = async () => {
+    const resp = await fetch(backendUrl.backendUrl + "profile/allAddresses", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    try{
+      const res = JSON.parse(await resp.text());
+      setAddresses(res.map((address: {name: string, _id: string}) => {
+        return {name: address.name, id: address._id};
+      }));
+      return res;
+    }
+    catch(e){
+      alert(e);
+    }
+  };
+
+  const updateUserProfile = async () => {
+    const resp = await fetch(backendUrl.backendUrl + "profile", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        first_name: newFirstName,
+        last_name: newLastName,
+        email: newEmail,
+        selected_address_id: newAddress.id,
+      }),
+      credentials: "include",
+    });
+    console.log({
+      first_name: newFirstName,
+      last_name: newLastName,
+      email: newEmail,
+      selected_address_id: newAddress.id,
+    });
+    console.log(resp);
+    try{
+      setFirstName(newFirstName);
+      setLastName(newLastName);
+      setEmail(newEmail);
+      setAddress(newAddress.name);
+      setIsEditing(false);
+      const res = JSON.parse(await resp.text());
+      console.log(res);
+    }
+    catch(e){
+      alert(e);
+    }
+  }
 
   useEffect(()=>{
     getUserProfile();
@@ -46,7 +125,7 @@ export default function Page() {
   return (
     <div className="container justify-center mx-auto h-screen flex py-20">
       <div className="grid p-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:grid-rows-2 lg:grid-rows-4 my-10 gap-1 rounded-[41px] [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.7),_rgba(255,_255,_255,_0.4))] transparent-bg ">
-        <div className=" cont col-span-1 row-span-3 ">
+        <div className=" cont col-span-1 row-span-4 ">
           <div className=" flex flex-col items-center justify-center outer-box bg-custom-gray p-4 justify-left justify-evenly">
             <div className="flex flex-col items-left  w-full max-w-lg justify-between gap-4 ">
               <div className="items-left  justify-between gap-4 flex flex-col p-4">
@@ -55,10 +134,42 @@ export default function Page() {
                   alt="Profile Picture"
                   src={persona2}
                 />
-                <p className="text-neutral-300 font-semibold xl:text-3xl md:text:xl text-lg  mt-2">
-                  Mohamed Tamer
-                </p>
+                {isEditing ?
+                  <>
+                    <div className="flex gap-3 items-center justify-center flex-row">
+                      <label className="text-neutral-200">
+                        First Name:
+                      </label>
+                      <input
+                        type="text"
+                        className="transparent-bg2"
+                        defaultValue={firstName}
+                        onInput={(e) => setNewFirstName(e.currentTarget.value)}
+                        onChange={(e) => setNewFirstName(e.target.value)}
+                      />
+                    </div>
+                    <div className="flex gap-3 items-center justify-center flex-row">
+                      <label className="text-neutral-200">
+                        Last Name:
+                      </label>
+                      <input
+                        type="text"
+                        className="transparent-bg2"
+                        defaultValue={lastName}
+                        onInput={(e) => setNewLastName(e.currentTarget.value)}
+                        onChange={(e) => setNewLastName(e.target.value)}
+                      />
+                    </div>
+                  </>
+                  :
+                  <div className="flex gap-3 items-center flex-row">
+                    <p className="text-neutral-200">{firstName}</p>
+                    <p className="text-neutral-200">{lastName}</p>
+                  </div>
+                }
+
               </div>
+              {isEditing ? <>
               <div className="flex flex-col gap-4 w-full max-w-sm">
                 <div className="flex gap-3 items-center justify-center flex-row">
                   <label className="text-neutral-200" htmlFor="email">
@@ -67,28 +178,60 @@ export default function Page() {
                   <input
                     type="text"
                     className="transparent-bg2"
-                    defaultValue={"mohamedtamer@gmail.com"}
-                  />
-                </div>
-
-                <div className="flex gap-3 flex-row items-center justify-center">
-                  <label className="text-neutral-200" htmlFor="number">
-                    Phone:
-                  </label>
-                  <input
-                    type="text"
-                    className=" transparent-bg2 "
-                    defaultValue={"(+20)01144500700"}
+                    defaultValue={email}
+                    onInput={(e) => setNewEmail(e.currentTarget.value)}
+                    onChange={(e) => setNewEmail(e.target.value)}
                   />
                 </div>
               </div>
+              
+              <div className="flex flex-col gap-4 w-full max-w-sm">
+                  <div className="flex gap-3 items-center justify-center flex-row">
+                    <label className="text-neutral-200" htmlFor="address">
+                      Address:
+                    </label>
+                    <select
+                      className="transparent-bg2"
+                      value={newAddress.name}
+                      onChange={(e) => setNewAddress({id: e.target.value, name: e.target.options[e.target.selectedIndex].text})}
+                    >
+                      <option value="">Select an address</option>
+                      {addresses.map((address) => {
+                        return <option value={address.id}>{address.name}</option>;
+                      })}
+                    </select>
+                  </div>
+                </div>
+              </> :
+              <>
+              <div className="flex gap-3 items-center flex-row">
+                <label className="text-neutral-200">
+                  Email:
+                </label>
+                <label className="text-neutral-200">
+                  <p>{email}</p>
+                </label>
+                
+              </div>
+                <div className="flex gap-3 items-center flex-row">
+                  <label className="text-neutral-200">Address:</label>
+                  <label className="text-neutral-200">
+                  <p>{address}</p>
+                  </label>
+                </div>
+                </>
+
+              }
             </div>
             <div className="flex-row">
-              <button className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]">
+              <button className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]"
+              onClick={() => setIsEditing(!isEditing)}
+              >
                 Edit
               </button>
               <button
-                disabled
+                disabled = {!isEditing}
+                onClick={()=> updateUserProfile()}
                 className="bg-blue-600 disabled:bg-neutral-500 p-3 px-10  default-hover text-zinc-300 rounded-[35px]"
               >
                 confirm
@@ -174,7 +317,7 @@ export default function Page() {
 
        
 
-        <div className=" cont col-span-2 row-span-1">
+        <div className=" cont col-span-1 row-span-1">
           <div className="overflow-scroll bg-stone-800 justify-center items-center  items-center justify-center outer-box">
             <ArrowUpRight
               strokeWidth={1.2}

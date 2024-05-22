@@ -12,8 +12,8 @@ const EmailVerificationPage = (params: any) => {
     const response = await fetch(backendUrl.backendUrl + "auth/verify-email", {
       method: "POST",
       body: JSON.stringify({
-        // email: params.searchParams.email,
-        // verificationCode: verificationCode,
+        email: params.searchParams.email,
+        verificationCode: verificationCode,
       }),
       headers: {
         "Content-Type": "application/json",
