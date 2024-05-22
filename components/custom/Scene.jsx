@@ -32,7 +32,25 @@ export default function Scene() {
     };
 
     return (
-        <div className="relative h-screen w-full">
+        <div className="relative flex container h-screen w-auto">
+
+            <div className=" absolute bottom-[10px] right-0 gap-8 flex flex-col">
+                <div className="flex flex-row justify-center items-center gap-2">
+                    <button onClick={() => changeMaterial('roughness', 0)} className="z-[90] px-4 py-2 bg-blue-600 text-neutral-200 rounded-xl">Smooth</button>
+                    <button onClick={() => changeMaterial('roughness', 1)} className="z-[90] px-4 py-2 bg-blue-600 text-neutral-200 rounded-xl">Rough</button>
+                </div>
+
+                <div className=" flex flex-row justify-center items-center gap-2">
+                    <button onClick={() => changeScale([0.02, 0.02, 0.02])} className="z-[90] px-4 py-2 bg-blue-600 text-neutral-200 rounded-xl">Small</button>
+                    <button onClick={() => changeScale([0.04, 0.04, 0.04])} className="z-[90] px-4 py-3 bg-blue-600 text-neutral-200 rounded-xl">Medium</button>
+                    <button onClick={() => changeScale([0.06, 0.06, 0.06])} className="z-[90] px-6 py-4 bg-blue-600 text-neutral-200 rounded-xl">Large</button>
+                </div>
+
+                <div className=" flex justify-center py-2 gap-2 rounded-lg bg-neutral-100">
+                    <p className='text-2xl'>Price: ${price}</p>
+                </div>
+            </div>
+
             <Canvas style={{ position: 'absolute', top: 0, left: 0, zIndex: 0 }}>
                 <Model color={modelColor} materialProps={materialProps} scale={scale} />
                 <directionalLight intensity={0.2} position={[0, 2, 3]} />
@@ -41,21 +59,7 @@ export default function Scene() {
             </Canvas>
 
             <HexColorPicker className="absolute bottom-10 left-10 z-50" color={modelColor} onChange={handleChangeColor} />
-            <div className="absolute bottom-10 left-0 right-0 flex flex-wrap justify-center gap-2">
-                <button onClick={() => changeMaterial('roughness', 0)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Smooth</button>
-                <button onClick={() => changeMaterial('roughness', 1)} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Rough</button>
-                {/* Add more buttons for other material properties */}
-            </div>
 
-            <div className="absolute bottom-10 left-0 right-0 flex flex-wrap justify-center gap-2">
-                <button onClick={() => changeScale([0.02, 0.02, 0.02])} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Small</button>
-                <button onClick={() => changeScale([0.04, 0.04, 0.04])} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Medium</button>
-                <button onClick={() => changeScale([0.06, 0.06, 0.06])} className="px-4 py-2 bg-white text-black border-2 border-black rounded-lg">Large</button>
-            </div>
-
-            <div className="absolute bottom-10 left-0 right-0 flex flex-wrap justify-center gap-2">
-                <p>Price: ${price}</p>
-            </div>
         </div>
     );
 }
