@@ -52,7 +52,7 @@ const ProductPage = () => {
           else if (newPorudct.images === "pallete2") newPorudct.images = pallete2;
           else if (newPorudct.images === "pallete3") newPorudct.images = pallete3;
           // else if (newPorudct.images === "pallete4") newPorudct.images = pallete4;
-
+          
         
 
         setProduct(newPorudct);
@@ -136,7 +136,55 @@ const handelPostReview = async () => {
    
   };
 
+const handelWishList =async () => {
+// get heart status 
+// heartClicked
+if(!heartClicked){
+const response = await fetch(`http://localhost:5001/products/fav`, {
+      method: "POST",
+      body: JSON.stringify({
+        name:product.name,
+      images:product.images,
+      price:product.price,
+      productId:productId,
 
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    // const res = await response.json();
+    console.log(response);
+  }
+  else
+  {
+    // delete from fav
+    const response = await fetch(`http://localhost:5001/products/fav`, {
+      method: "DELETE",
+      body: JSON.stringify({
+   
+      productId:productId,
+
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    // const res = await response.json();
+    console.log(response);
+  }
+    
+
+
+
+
+
+setHeartClicked(!heartClicked)
+}
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -233,7 +281,7 @@ const handelPostReview = async () => {
             <FontAwesomeIcon
               icon={faHeart}
               className={`text-${heartClicked ? "red" : "gray"}-500 cursor-pointer`}
-              onClick={() => setHeartClicked(!heartClicked)}
+              onClick={handelWishList}
             />
           </div>
           {/* Product Price */}
