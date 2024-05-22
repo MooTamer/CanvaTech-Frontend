@@ -24,12 +24,14 @@ const ProductPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+    const currentUrl = window.location.href;
+      const productId = currentUrl.split('/')[4];
+  
   useEffect(() => {
     const fetchProduct = async () => {
       // if (!router.isReady) return; // Wait until router is ready
 
-      const currentUrl = window.location.href;
-      const productId = currentUrl.split('/')[4];
+  
 
       try {
         const resp = await fetch(`http://localhost:3002/product/${productId}`, {
@@ -111,6 +113,25 @@ const ProductPage = () => {
   const handleStarClick = (starValue) => {
     setRating(starValue);
   };
+const handelPostReview = async () => {
+    const response = await fetch(`http://localhost:5001/products/rate/${productId}`, {
+      method: "POST",
+      body: JSON.stringify({
+       rating,
+       review:reviewText,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    // const res = await response.json();
+    console.log(response);
+    
+   
+  };
+
 
   const renderStars = () => {
     const stars = [];
@@ -270,11 +291,10 @@ const ProductPage = () => {
         <h2 className="text-2xl font-bold mb-4">Customer Reviews</h2>
         {/* Average Rating */}
         <div className="flex items-center">
-          <div className="flex items-center mr-2">
+          {/* <div className="flex items-center mr-2">
             <p className="mr-1">Average Rating:</p>
-            {/* Render star icons for average rating */}
             {renderStars()}
-          </div>
+          </div> */}
           {/* Write a Review Button */}
           <button className="btn btn-primary">Write a Review</button>
         </div>
@@ -303,7 +323,9 @@ const ProductPage = () => {
             {renderStars()}
           </div>
           {/* Submit Button */}
-          <button type="submit" className="btn btn-quantity bg-blue-700 text-white rounded-full py-2 px-4 mt-4">
+          <button type="submit" className="btn btn-quantity bg-blue-700 text-white rounded-full py-2 px-4 mt-4"
+          onClick={handelPostReview}
+          >
             Submit Review
           </button>
         </form>
