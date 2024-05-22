@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import {Switch} from "@nextui-org/react";
+import { Switch } from "@nextui-org/react";
 // import { Products } from "@/constants";
 import pallete1 from "@/public/pallete1.webp";
 import pallete2 from "@/public/pallete2.webp";
@@ -123,30 +123,33 @@ const CartPage = () => {
   };
 
   const handleDecrease = (itemId: number) => {
-    const item = cartItems.find((item) => item.id === itemId);
-    if (item && item.quantity > 1) {
-      handleQuantityChange(itemId, item.quantity - 1);
-    }
+    setCartItems(prevCartItems =>
+      prevCartItems.map(item =>
+        item.id === itemId && item.quantity > 1
+          ? { ...item, quantity: item.quantity - 1 }
+          : item
+      )
+    );
   };
-
+  
   const handleIncrease = (itemId: number) => {
-    const item = cartItems.find((item) => item.id === itemId);
-    if (item) {
-      handleQuantityChange(itemId, item.quantity + 1);
-    }
+    
+    setCartItems(prevCartItems =>
+      prevCartItems.map(item =>
+        item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+    console.log("item id",itemId);
+    console.log("item quantity",item.quantity);
+
   };
 
   const handleQuantityChange = (itemId: number, newQuantity: number) => {
-    newQuantity = parseInt(newQuantity) || 1; // Ensure new quantity is at least 1
-
-    const updatedItems = cartItems.map((item) => {
-      if (item.id === itemId) {
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    });
-
-    setCartItems(updatedItems);
+    setCartItems(prevCartItems =>
+      prevCartItems.map(item =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      )
+    );
   };
 
   const getTotalCost = () => {
@@ -194,14 +197,14 @@ const CartPage = () => {
                         <span className="bg-neutral-400 w-[1px] h-4 mx-3 rounded-full" />
                         <p
                           className={` font-semibold text-[15px] ${
-                            item.availability == "Out of Stock"
+                            item.availablity == "Out of Stock"
                               ? "text-red-500"
-                              : item.availability == "Available Soon"
+                              : item.availablity == "Available Soon"
                               ? "text-neutral-500"
                               : "text-green-500"
                           }`}
                         >
-                          {item.availability}
+                          {item.availablity}
                         </p>
                       </div>
                     </div>
@@ -217,7 +220,9 @@ const CartPage = () => {
                     >
                       -
                     </button>
-                    <span className="text-neutral-500 text-base"></span>
+                    <span className="text-neutral-500 text-base">
+                      {item.quantity}
+                    </span>
                     <button
                       className=" text-xl flex flex-row items-center justify-center rounded-xl text-neutral-500"
                       onClick={() => handleIncrease(item.id)}
@@ -261,7 +266,7 @@ const CartPage = () => {
         <div className="flex flex-col col-span-1 p-4 justify-center  bg-neutral-100 rounded-3xl">
           <div className="p-2">
             <h1 className="text-3xl font-bold  text-left">Delivery</h1>
-            <Switch  aria-label="Automatic updates"/>
+            <Switch aria-label="Automatic updates" />
           </div>
         </div>
         <hr className="my-2 rounded-full border-neutral-300 " />
