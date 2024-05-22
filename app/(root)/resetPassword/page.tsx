@@ -1,33 +1,27 @@
-import React, { useState } from 'react';
-import 'tailwindcss/tailwind.css';
-import backendUrl from '../../url.json';
+"use client";
+import React, { useState } from "react";
+import "tailwindcss/tailwind.css";
+import backendUrl from "../../url.json";
 
-const RequestResetPage = () => {
-  const [email, setEmail] = useState('');
+const ResetPage = () => {
+  const [email, setEmail] = useState("");
 
-  const handleEmailChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
-    setEmail(e.target.value);
-  };
-
-  const sendResetLink = async () => {
-    try {
-      const response = await fetch(backendUrl.backendUrl + 'auth/request-reset', {
-        method: 'POST',
-        body: JSON.stringify({ email }),
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      });
-      if (response.ok) {
-        alert('Password reset link has been sent to your email.');
-      } else {
-        const res = await response.json();
-        alert(res.message);
-      }
-    } catch (error) {
-      console.error('Error sending reset link:', error);
+  const sendResetInstructions = async () => {
+    const response = await fetch(backendUrl.backendUrl + "auth/reset-password", {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+    const res = await response.json();
+    if (response.status < 300 && response.status >= 200) {
+      alert("Password reset instructions sent to your email.");
+    } else {
+      alert(res.message);
     }
+    return res;
   };
 
   return (
@@ -44,15 +38,15 @@ const RequestResetPage = () => {
           <input
             type="email"
             id="email"
-            value={email}
-            onChange={handleEmailChange}
             className="border rounded-lg px-4 py-2 mt-4 w-full"
             placeholder="Email"
+            onChange={(e) => setEmail(e.currentTarget.value)}
+            onInput={(e) => setEmail(e.currentTarget.value)}
           />
           <div className="flex justify-center items-center mt-4 w-full">
             <button
-              onClick={sendResetLink}
               className="bg-blue-500 hover:bg-blue-600 text-white rounded-lg py-2 px-6 text-sm"
+              onClick={sendResetInstructions}
             >
               Send Instructions
             </button>
@@ -63,4 +57,4 @@ const RequestResetPage = () => {
   );
 };
 
-export default RequestResetPage;
+export default ResetPage;
