@@ -100,48 +100,50 @@ const RegisterPage = () => {
               placeholder="Address Name"
               onChange={handleChange}
             />
-            <input
-              type="text"
-              id="country"
-              className="border rounded-lg px-4 py-2"
-              placeholder="Country"
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              id="city"
-              className="border rounded-lg px-4 py-2"
-              placeholder="City"
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              id="address_line_1"
-              className="border rounded-lg px-4 py-2"
-              placeholder="Address Line 1"
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              id="address_line_2"
-              className="border rounded-lg px-4 py-2"
-              placeholder="Address Line 2"
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              id="zip_code"
-              className="border rounded-lg px-4 py-2"
-              placeholder="Zip Code"
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              id="phone_number"
-              className="border rounded-lg px-4 py-2"
-              placeholder="Phone Number"
-              onChange={handleChange}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <input
+                type="text"
+                id="country"
+                className="border rounded-lg px-4 py-2"
+                placeholder="Country"
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                id="city"
+                className="border rounded-lg px-4 py-2"
+                placeholder="City"
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                id="address_line_1"
+                className="border rounded-lg px-4 py-2"
+                placeholder="Address Line 1"
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                id="address_line_2"
+                className="border rounded-lg px-4 py-2"
+                placeholder="Address Line 2"
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                id="zip_code"
+                className="border rounded-lg px-4 py-2"
+                placeholder="Zip Code"
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                id="phone_number"
+                className="border rounded-lg px-4 py-2"
+                placeholder="Phone Number"
+                onChange={handleChange}
+              />
+            </div>
           </div>
           <div className="mt-8 flex items-center justify-center">
             <button
