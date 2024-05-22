@@ -1,13 +1,23 @@
 "use client";
-import React, { useState } from "react";
-import Image from "next/image";
-import { Products } from "@/constants";
+import React, { useEffect, useState } from "react";
+import Image from "next/images";
+// import { Products } from "@/constants";
 import pallete1 from "@/public/pallete1.webp";
 import pallete2 from "@/public/pallete2.webp";
 import pallete3 from "@/public/pallete3.jpg";
 import "tailwindcss/tailwind.css";
 import { Heart, Trash2 } from "lucide-react";
 import { a } from "react-spring";
+import { set } from "zod";
+import { StaticImageData } from "next/image";
+function getRandomColor() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
 
 const CartPage = () => {
   const initialCartItems = [
@@ -16,7 +26,7 @@ const CartPage = () => {
       name: "Ready-To-Go Pallete",
       price: 1949.99,
       quantity: 1,
-      image: pallete1,
+      images: pallete1,
       isClicked: false,
       availablity: "In Stock",
     },
@@ -25,7 +35,7 @@ const CartPage = () => {
       name: "Rental Pallete",
       price: 2979.99,
       quantity: 1,
-      image: pallete2,
+      images: pallete2,
       isClicked: false,
       availablity: "Available Soon",
     },
@@ -34,13 +44,26 @@ const CartPage = () => {
       name: "Customized Pallete",
       price: 7989.99,
       quantity: 1,
-      image: pallete3,
+      images: pallete3,
       isClicked: false,
       availablity: "Out of Stock",
     },
   ];
+// set statuss to get all product 
 
+
+const [products, setProducts] = useState();
   const [cartItems, setCartItems] = useState(initialCartItems);
+
+
+  function getRandomColor() {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
   const handleSave = (itemId: number) => {
     const updatedItems = cartItems.map((item) => {
@@ -52,6 +75,39 @@ const CartPage = () => {
 
     setCartItems(updatedItems);
   };
+// get all products from backend  once page load 
+
+const getAllProducts = async () => {
+  const resp = await fetch("localhost:3002/product/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+  try{
+    const res = JSON.parse(await resp.text());
+  // loop over the products and change each images from text to images file 
+   res.map((product: {
+     colorRange: string[]; images: string | StaticImageData; colors: any; 
+}) => {
+    if (product.images === "pallete1") product.images = pallete1;
+    else if (product.images === "pallete2") product.images = pallete2;
+    else if (product.images === "pallete3") product.images = pallete3;
+    // add colorRange   colorRange: Array.from({ length: product.colors }, () => getRandomColor()),
+     product.colorRange =  Array.from({ length: product.colors }, () => getRandomColor())
+
+    // else if (product.images === "pallete4") product.images = pallete4;
+   })
+    setProducts(res);
+    console.log(res)
+  }
+  catch(e){
+    alert(e);
+  }
+};
+
+    
 
   const handleDelete = (itemId: number) => {
     const updatedItems = cartItems.filter((item) => item.id !== itemId);
@@ -97,7 +153,9 @@ const CartPage = () => {
   };
 
   const isEmptyCart = cartItems.length === 0;
-
+  useEffect(()=>{
+    getAllProducts();
+  },[])
   return (
     <div className="container justify-center mx-auto flex py-20">
       <div className="grid md:min-h-[35rem] lg:grid-cols-2  xl:grid-cols-3  my-10 gap-8">
@@ -107,7 +165,7 @@ const CartPage = () => {
           </div>
           <hr className="my-2 rounded-full border-neutral-300 " />
 
-          {Products.slice(1, 5).map((item) => (
+          {products && products.slice(1, 5).map((item) => (
             <div key={item.id}>
               <div className=" p-2 gap-2 md:px-3 md:py-4 flex flex-col justify-between">
                 <div className="flex flex-row justify-between items-center">
@@ -115,7 +173,7 @@ const CartPage = () => {
                     <Image
                       width={100}
                       height={100}
-                      src={item.image}
+                      src={item.images}
                       alt={item.name}
                     ></Image>
 

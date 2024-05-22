@@ -1,6 +1,6 @@
 "use client";
 import { Check } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 interface CategoriesProps {
@@ -9,7 +9,27 @@ interface CategoriesProps {
 }
 export default function Categories({ isOpen, setIsOpen }: CategoriesProps) {
   const element = document.getElementById("modal");
-
+  const [products, setProducts] = useState();
+  const getAllProducts = async () => {
+    console.log('losdkfosdkfospd');
+    
+    const resp = await fetch("localhost:3002/product/", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    try{
+      const res = JSON.parse(await resp.text());
+     
+      setProducts(res);
+      console.log(res)
+    }
+    catch(e){
+      alert(e);
+    }
+  };
   useEffect(() => {
     if (isOpen && element) {
       element.style.display = "flex";
@@ -17,7 +37,11 @@ export default function Categories({ isOpen, setIsOpen }: CategoriesProps) {
       element.style.display = "none";
     }
   }, [isOpen, element]);
+  useEffect(()=>{
+    console.log('losdkfosdkfospd');
 
+    getAllProducts();
+  },[])
   const closeModal = () => {
     setIsOpen(false);
   };
