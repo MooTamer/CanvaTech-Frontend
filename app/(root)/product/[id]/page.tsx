@@ -13,10 +13,12 @@ import pallete3 from "@/public/pallete3.jpg";
 import Image from "next/image";
 import { FacebookShare, TwitterShare,LinkedinShare } from 'react-share-kit';
 import ShareButtons from "@/components/social-media-share/ShareButtons";
+import Products from "../../../../components/cards/products.tsx";
 import { set } from "zod";
 
 const ProductPage = () => {
   // const router = useRouter();
+  const [products, setProducts] = useState([]);
 
   const [heartClicked, setHeartClicked] = useState(false);
   const [cartClicked, setCartClicked] = useState(false);
@@ -36,7 +38,13 @@ const ProductPage = () => {
   const productId = currentUrl.split('/')[4];
   const pageUrl = 'https://ahmed-yehia.me';
   const pageTitle = 'Check out this awesome website!';
-  
+      function assignImage(product) {
+        if (product.images === "pallete1") product.images = pallete1;
+        else if (product.images === "pallete2") product.images = pallete2;
+        else if (product.images === "pallete3") product.images = pallete3;
+        // Uncomment the line below if you want to handle "pallete4"
+        // else if (product.images === "pallete4") product.images = pallete4;
+    }
   useEffect(() => {
     const fetchProduct = async () => {
       // if (!router.isReady) return; // Wait until router is ready
@@ -51,17 +59,16 @@ const ProductPage = () => {
           },
           credentials: "include",
         });
-        const newPorudct = await resp.json();
-        console.log(newPorudct)
-        setReviews(newPorudct.ratingList)
-          if (newPorudct.images === "pallete1") newPorudct.images = pallete1, newPorudct.image = "pallete1";
-          else if (newPorudct.images === "pallete2") newPorudct.images = pallete2, newPorudct.image = "pallete2";
-          else if (newPorudct.images === "pallete3") newPorudct.images = pallete3, newPorudct.image = "pallete2";
-          // else if (newPorudct.images === "pallete4") newPorudct.images = pallete4;
-          
-        
+        const newProduct = await resp.json();
+        assignImage(newProduct);
 
-        setProduct(newPorudct);
+        // Assign images to each related product
+        newProduct.relatedProducts.forEach(relatedProduct => {
+            assignImage(relatedProduct);
+        });
+          setProducts(newProduct.relatedProducts);
+          setReviews(newProduct.ratingList)
+        setProduct(newProduct);
       } catch (error) {
         console.error('Error fetching product:', error);
       } finally {
@@ -513,7 +520,7 @@ const handelPostReview = async () => {
         </form>
         <p>Page content goes here...</p>
       <ShareButtons url={pageUrl} title={pageTitle} />
-
+      <Products products={products} />
       </div>
     </div>
   );

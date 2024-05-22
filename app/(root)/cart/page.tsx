@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/images";
+import Image from "next/image";
+import {Switch} from "@nextui-org/react";
 // import { Products } from "@/constants";
 import pallete1 from "@/public/pallete1.webp";
 import pallete2 from "@/public/pallete2.webp";
@@ -20,6 +21,12 @@ function getRandomColor() {
 }
 
 const CartPage = () => {
+  const [deliveryType, setDeliveryType] = useState("free");
+
+  const handleDeliveryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDeliveryType(event.target.value);
+  };
+
   const initialCartItems = [
     {
       id: 1,
@@ -49,12 +56,10 @@ const CartPage = () => {
       availablity: "Out of Stock",
     },
   ];
-// set statuss to get all product 
+  // set statuss to get all product
 
-
-const [products, setProducts] = useState();
+  const [products, setProducts] = useState();
   const [cartItems, setCartItems] = useState(initialCartItems);
-
 
   function getRandomColor() {
     const letters = "0123456789ABCDEF";
@@ -75,39 +80,42 @@ const [products, setProducts] = useState();
 
     setCartItems(updatedItems);
   };
-// get all products from backend  once page load 
+  // get all products from backend  once page load
 
-const getAllProducts = async () => {
-  const resp = await fetch("localhost:3002/product/", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  });
-  try{
-    const res = JSON.parse(await resp.text());
-  // loop over the products and change each images from text to images file 
-   res.map((product: {
-     colorRange: string[]; images: string | StaticImageData; colors: any; 
-}) => {
-    if (product.images === "pallete1") product.images = pallete1;
-    else if (product.images === "pallete2") product.images = pallete2;
-    else if (product.images === "pallete3") product.images = pallete3;
-    // add colorRange   colorRange: Array.from({ length: product.colors }, () => getRandomColor()),
-     product.colorRange =  Array.from({ length: product.colors }, () => getRandomColor())
+  // const getAllProducts = async () => {
+  //   const resp = await fetch("localhost:3002/product/", {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     credentials: "include",
+  //   });
+  //   try {
+  //     const res = JSON.parse(await resp.text());
+  //     // loop over the products and change each images from text to images file
+  //     res.map(
+  //       (product: {
+  //         colorRange: string[];
+  //         images: string | StaticImageData;
+  //         colors: any;
+  //       }) => {
+  //         if (product.images === "pallete1") product.images = pallete1;
+  //         else if (product.images === "pallete2") product.images = pallete2;
+  //         else if (product.images === "pallete3") product.images = pallete3;
+  //         // add colorRange   colorRange: Array.from({ length: product.colors }, () => getRandomColor()),
+  //         product.colorRange = Array.from({ length: product.colors }, () =>
+  //           getRandomColor()
+  //         );
 
-    // else if (product.images === "pallete4") product.images = pallete4;
-   })
-    setProducts(res);
-    console.log(res)
-  }
-  catch(e){
-    alert(e);
-  }
-};
-
-    
+  //         // else if (product.images === "pallete4") product.images = pallete4;
+  //       }
+  //     );
+  //     setProducts(res);
+  //     console.log(res);
+  //   } catch (e) {
+  //     alert(e);
+  //   }
+  // };
 
   const handleDelete = (itemId: number) => {
     const updatedItems = cartItems.filter((item) => item.id !== itemId);
@@ -153,9 +161,9 @@ const getAllProducts = async () => {
   };
 
   const isEmptyCart = cartItems.length === 0;
-  useEffect(()=>{
-    getAllProducts();
-  },[])
+  // useEffect(() => {
+  //   getAllProducts();
+  // }, []);
   return (
     <div className="container justify-center mx-auto flex py-20">
       <div className="grid md:min-h-[35rem] lg:grid-cols-2  xl:grid-cols-3  my-10 gap-8">
@@ -165,10 +173,10 @@ const getAllProducts = async () => {
           </div>
           <hr className="my-2 rounded-full border-neutral-300 " />
 
-          {products && products.slice(1, 5).map((item) => (
+          {initialCartItems?.slice(1, 4).map((item) => (
             <div key={item.id}>
               <div className=" p-2 gap-2 md:px-3 md:py-4 flex flex-col justify-between">
-                <div className="flex flex-row justify-between items-center">
+                <div className="flex flex-row justify-between items-center gap-8">
                   <div className="flex flex-row  gap-3 items-center ">
                     <Image
                       width={100}
@@ -186,14 +194,14 @@ const getAllProducts = async () => {
                         <span className="bg-neutral-400 w-[1px] h-4 mx-3 rounded-full" />
                         <p
                           className={` font-semibold text-[15px] ${
-                            item.availablity == "Out of Stock"
+                            item.availability == "Out of Stock"
                               ? "text-red-500"
-                              : item.availablity == "Available Soon"
+                              : item.availability == "Available Soon"
                               ? "text-neutral-500"
                               : "text-green-500"
                           }`}
                         >
-                          {item.availablity}
+                          {item.availability}
                         </p>
                       </div>
                     </div>
@@ -209,9 +217,7 @@ const getAllProducts = async () => {
                     >
                       -
                     </button>
-                    <span className="text-neutral-500 text-base">
-                      {item.quantity}
-                    </span>
+                    <span className="text-neutral-500 text-base"></span>
                     <button
                       className=" text-xl flex flex-row items-center justify-center rounded-xl text-neutral-500"
                       onClick={() => handleIncrease(item.id)}
@@ -255,9 +261,10 @@ const getAllProducts = async () => {
         <div className="flex flex-col col-span-1 p-4 justify-center  bg-neutral-100 rounded-3xl">
           <div className="p-2">
             <h1 className="text-3xl font-bold  text-left">Delivery</h1>
+            <Switch  aria-label="Automatic updates"/>
           </div>
-          <hr className="my-2 rounded-full border-neutral-300 " />
         </div>
+        <hr className="my-2 rounded-full border-neutral-300 " />
       </div>
     </div>
   );

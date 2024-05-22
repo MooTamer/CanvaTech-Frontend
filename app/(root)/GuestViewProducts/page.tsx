@@ -74,8 +74,6 @@ const [products, setProducts] = useState();
               onClick={() => { 
                 product.name==="Design Your Own Pallete"?
                 window.location.href = "http://localhost:3000/customPallete":
-
-                
                 window.location.href = `http://localhost:3000/product/${product._id}`; }}
               
               

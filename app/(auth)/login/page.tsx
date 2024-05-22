@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 // import "tailwindcss/tailwind.css";
 import Wallpaper from "@/public/serviap-logistics-types-of-pallets1.jpg";
 import backendUrl from "../../url.json";
-import EmailVerificationPage from "../verifyEmail/page";
+import EmailVerificationPage from "../../(root)/verifyEmail/page";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
