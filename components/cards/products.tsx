@@ -38,7 +38,7 @@ console.log("lskdhjflksadhfl;ashdf;lakjshd;lfkh\n\n\nn\n\nn\n\n"+products)
             onClick={() => {
               product.name === "Design Your Own Pallete"
                 ? (window.location.href = "http://localhost:3000/customPallete")
-                : (window.location.href = `http://localhost:3000/product/${product._id}`);
+                : (window.location.href = `http://localhost:3000/product/${product.productId}`);
             }}
           >
             <button className="absolute top-6 right-6">
