@@ -71,7 +71,12 @@ const [products, setProducts] = useState();
               className="card hover:prodcuts-card-hover m-8 smooth relative  hover:border-[2px]"
               onMouseEnter={() => setHoveredProductId(product.id)}
               onMouseLeave={() => setHoveredProductId(null)}
-            >
+              onClick={() => { window.location.href = `http://localhost:3000/product/${product._id}`; }}
+              
+              
+              >
+
+            
               <button className="absolute top-6 right-6">
                 <Heart  strokeWidth={1.3}/>
               </button>
