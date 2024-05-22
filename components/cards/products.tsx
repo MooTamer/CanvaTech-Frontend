@@ -25,7 +25,7 @@ interface ProductsProps {
 
 export default function Products({ products }: ProductsProps) {
   const [hoveredProductId, setHoveredProductId] = useState<string | null>(null);
-
+console.log("lskdhjflksadhfl;ashdf;lakjshd;lfkh\n\n\nn\n\nn\n\n"+products)
   return (
     <div className="flex">
       {products &&
@@ -60,15 +60,15 @@ export default function Products({ products }: ProductsProps) {
                     animate={{ opacity: 1 }}
                     transition={{ ease: "easeOut", duration: 0.5 }}
                   >
-                    <div className="flex">
-                      {product.colorRange.map((color, index) => (
+                    {/* <div className="flex"> */}
+                      {/* {product.colorRange.map((color, index) => (
                         <div
                           key={index}
                           className="rounded-full w-5 h-5 mt-1 mr-2"
                           style={{ backgroundColor: color }}
                         />
                       ))}
-                    </div>
+                    </div> */}
                   </motion.div>
                 )}
               </AnimatePresence>
