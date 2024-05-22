@@ -22,20 +22,45 @@ import backendUrl from "../../url.json";
 
 import { ArrowUpRight, Navigation } from "lucide-react";
 import Stepper from "@/components/shared/stepper";
+import { log } from "console";
+import { json } from "stream/consumers";
 
 export default function Page() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
-  const [addresses, setAddresses] = useState({} as {name: string, id: string}[]);
+  const [addresses, setAddresses] = useState({} as 
+    {
+      name: string,
+      id: string,
+      country: string,
+      city: string,
+      address_line_1: string,
+      address_line_2: string,
+      phone_number: string,
+      zip_code: string
+    }[]);
 
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
   const [newEmail, setNewEmail] = useState("");
-  const [newAddress, setNewAddress] = useState({} as {name: string, id: string});
+  const [selectedAddress, setSelectedAddress] = useState({} as {name: string, id: string});
 
   const [isEditing, setIsEditing] = useState(false);
+  const [addingNewAddress, setAddingNewAddress] = useState(false);
+  const [newAddress, setNewAddress] = useState({} as
+    {
+      name: string,
+      id: string,
+      country: string,
+      city: string,
+      address_line_1: string,
+      address_line_2: string,
+      phone_number: string,
+      zip_code: string
+    });
+  const [page, setPage] = useState("profile");
 
   const getUserProfile = async () => {
     const resp = await fetch(backendUrl.backendUrl + "profile", {
@@ -47,6 +72,11 @@ export default function Page() {
     });
     try{
       const res = JSON.parse(await resp.text());
+      console.log(resp);
+      if (res.statusCode === 401) {
+        window.location.href = '/login';
+        return;
+      }
       console.log(res);
       setFirstName(res.user.first_name);
       setLastName(res.user.last_name);
@@ -55,8 +85,7 @@ export default function Page() {
       setNewFirstName(res.user.first_name);
       setNewLastName(res.user.last_name);
       setNewEmail(res.user.email);
-      setNewAddress({name: res.address.name, id: res.address._id});
-      getUserAddresses();
+      setSelectedAddress({id: res.address._id, name: res.address.name});
     }
     catch(e){
       alert(e);
@@ -73,8 +102,8 @@ export default function Page() {
     });
     try{
       const res = JSON.parse(await resp.text());
-      setAddresses(res.map((address: {name: string, _id: string}) => {
-        return {name: address.name, id: address._id};
+      setAddresses(res.map((address: {name: string, _id: string, country: string, city: string, address_line_1: string, address_line_2: string, phone_number: string, zip_code: string}) => {
+        return {name: address.name, id: address._id, country: address.country, city: address.city, address_line_1: address.address_line_1, address_line_2: address.address_line_2, phone_number: address.phone_number, zip_code: address.zip_code};
       }));
       return res;
     }
@@ -93,7 +122,7 @@ export default function Page() {
         first_name: newFirstName,
         last_name: newLastName,
         email: newEmail,
-        selected_address_id: newAddress.id,
+        selected_address_id: selectedAddress.id,
       }),
       credentials: "include",
     });
@@ -101,14 +130,14 @@ export default function Page() {
       first_name: newFirstName,
       last_name: newLastName,
       email: newEmail,
-      selected_address_id: newAddress.id,
+      selected_address_id: selectedAddress.id,
     });
     console.log(resp);
     try{
       setFirstName(newFirstName);
       setLastName(newLastName);
       setEmail(newEmail);
-      setAddress(newAddress.name);
+      setAddress(selectedAddress.name);
       setIsEditing(false);
       const res = JSON.parse(await resp.text());
       console.log(res);
@@ -118,14 +147,140 @@ export default function Page() {
     }
   }
 
+  const updateAddress = async (address: {name: string, id: string, country: string, city: string, address_line_1: string, address_line_2: string, phone_number: string, zip_code: string}) => {
+    const resp = await fetch(backendUrl.backendUrl + "profile/updateAddress", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        address_id: address.id,
+        name: address.name,
+        address_line_1: address.address_line_1,
+        address_line_2: address.address_line_2,
+        city: address.city,
+        country: address.country,
+        zip_code: address.zip_code,
+        phone_number: address.phone_number,
+      }),
+      credentials: "include",
+    });
+    console.log({
+      address_id: address.id,
+      name: address.name,
+      address_line_1: address.address_line_1,
+      address_line_2: address.address_line_2,
+      city: address.city,
+      country: address.country,
+      zip_code: address.zip_code,
+      phone_number: address.phone_number,
+    });
+    console.log(resp);
+    try{
+      const res = JSON.parse(await resp.text());
+      console.log(res);
+    }
+    catch(e){
+      alert(e);
+    }
+  }
+
+  const deleteAddress = async (address: {name: string, id: string, country: string, city: string, address_line_1: string, address_line_2: string, phone_number: string, zip_code: string}) => {
+    const resp = await fetch(backendUrl.backendUrl + "profile/deleteAddress", {
+      method: "DELETE",
+      body: JSON.stringify({
+        id: address.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    console.log(JSON.stringify({
+      id: address.id,
+    }));
+    console.log(resp);
+    try{
+      const res = JSON.parse(await resp.text());
+      console.log(res);
+      alert(res.message);
+    }
+    catch(e){
+      alert("Error1: " + e);
+    }
+  }
+
+  const addAddress = async (address: {name: string, id: string, country: string, city: string, address_line_1: string, address_line_2: string, phone_number: string, zip_code: string}) => {
+    const resp = await fetch(backendUrl.backendUrl + "profile/createAddress", {
+      method: "POST",
+      body: JSON.stringify({
+        name: address.name,
+        address_line_1: address.address_line_1,
+        address_line_2: address.address_line_2,
+        city: address.city,
+        country: address.country,
+        zip_code: address.zip_code,
+        phone_number: address.phone_number,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    console.log(JSON.stringify({
+      name: address.name,
+      address_line_1: address.address_line_1,
+      address_line_2: address.address_line_2,
+      city: address.city,
+      country: address.country,
+      zip_code: address.zip_code,
+      phone_number: address.phone_number,
+    }));
+    console.log(resp);
+    setAddingNewAddress(false);
+    try{
+      const res = JSON.parse(await resp.text());
+      console.log(res);
+      address = {name: res.name, id: res._id, country: res.country, city: res.city, address_line_1: res.address_line_1, address_line_2: res.address_line_2, phone_number: res.phone_number, zip_code: res.zip_code};
+      setAddresses([...addresses, address])
+    }
+    catch(e){
+      alert("Error1: " + e);
+    }
+  }
+
+  const deleteProfile = async () => {
+    const resp = await fetch(backendUrl.backendUrl + "delete", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    console.log(resp);
+    try{
+      const res = JSON.parse(await resp.text());
+      console.log(res);
+      alert(res.message);
+      
+      window.location.href = "/";
+    }
+    catch(e){
+      alert(e);
+    }
+  }
+
   useEffect(()=>{
     getUserProfile();
+    getUserAddresses();
   },[])
 
   return (
     <div className="container justify-center mx-auto h-screen flex py-20">
       <div className="grid p-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:grid-rows-2 lg:grid-rows-4 my-10 gap-1 rounded-[41px] [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.7),_rgba(255,_255,_255,_0.4))] transparent-bg ">
-        <div className=" cont col-span-1 row-span-4 ">
+        <div className=" cont col-span-1 row-span-4 "> {/*Profile*/}
           <div className=" flex flex-col items-center justify-center outer-box bg-custom-gray p-4 justify-left justify-evenly">
             <div className="flex flex-col items-left  w-full max-w-lg justify-between gap-4 ">
               <div className="items-left  justify-between gap-4 flex flex-col p-4">
@@ -143,7 +298,7 @@ export default function Page() {
                       <input
                         type="text"
                         className="transparent-bg2"
-                        defaultValue={firstName}
+                        defaultValue={newFirstName}
                         onInput={(e) => setNewFirstName(e.currentTarget.value)}
                         onChange={(e) => setNewFirstName(e.target.value)}
                       />
@@ -155,7 +310,7 @@ export default function Page() {
                       <input
                         type="text"
                         className="transparent-bg2"
-                        defaultValue={lastName}
+                        defaultValue={newLastName}
                         onInput={(e) => setNewLastName(e.currentTarget.value)}
                         onChange={(e) => setNewLastName(e.target.value)}
                       />
@@ -178,7 +333,7 @@ export default function Page() {
                   <input
                     type="text"
                     className="transparent-bg2"
-                    defaultValue={email}
+                    defaultValue={newEmail}
                     onInput={(e) => setNewEmail(e.currentTarget.value)}
                     onChange={(e) => setNewEmail(e.target.value)}
                   />
@@ -192,8 +347,8 @@ export default function Page() {
                     </label>
                     <select
                       className="transparent-bg2"
-                      value={newAddress.name}
-                      onChange={(e) => setNewAddress({id: e.target.value, name: e.target.options[e.target.selectedIndex].text})}
+                      value={selectedAddress.name}
+                      onChange={(e) => setSelectedAddress({id: e.target.value, name: e.target.options[e.target.selectedIndex].text})}
                     >
                       <option value="">Select an address</option>
                       {addresses.map((address) => {
@@ -240,111 +395,343 @@ export default function Page() {
           </div>
         </div>
 
-        <div className=" cont col-span-2 row-span-1">
-          <div className=" overflow-scroll items-center flex flex-row justify-center outer-box bg-[#948979] ">
-            <ArrowUpRight className="absolute top-4 right-4 text-neutral-200 h-7 w-7  flex" />
-            <Image src={orders} className="h-full  w-52" alt="" />
-            <h2 className="text-3xl sm:text-4xl font-semibold from-neutral-50 to-neutral-500 transparent-text ">
-              Orders
-            </h2>
+        {page === "profile" ? <>
+          <div className=" cont col-span-2 row-span-1 clickable" onClick={()=>{console.log("Click")}}> {/*Orders*/}
+            <div className="items-center flex flex-row justify-center outer-box bg-[#948979] ">
+              <ArrowUpRight className="absolute top-4 right-4 text-neutral-200 h-7 w-7  flex" />
+              <Image src={orders} className="h-full  w-52" alt="" />
+              <h2 className="text-3xl sm:text-4xl font-semibold from-neutral-50 to-neutral-500 transparent-text ">
+                Orders
+              </h2>
+            </div>
+          </div>
+
+          <div className=" cont col-span-1 row-span-1 clickable" onClick={()=>{setPage("address")}}> {/*Address Book*/}
+            <div className="items-center justify-center outer-box bg-[#153448]">
+              <ArrowUpRight className="absolute top-4 right-4 text-neutral-300 h-7 w-7" />
+              <h2 className="text-5xl   flex from-neutral-100 to-neutral-300 sm:text-5xl font-semibold relative top-[-20px] transparent-text">
+                Address Book
+              </h2>
+            </div>
+          </div>
+
+          <div className=" cont col-span-1 row-span-1 clickable" onClick={()=>{console.log("Click")}}> {/*Contact Us*/}
+            <div className="[background:linear-gradient(180deg,_rgba(0,0,0,_0.8),_rgba(0,0,0,_0.6))]   justify-center items-center  items-center justify-center outer-box">
+              <Navigation
+                strokeWidth={1.2}
+                className="absolute right-4 top-4 text-neutral-300 h-7 w-7"
+              />
+              <Image src={contact} className="h-[100%] w-auto" alt=""/>
+              <h2 className="text-xl sm:text-2xl md:text-4xl absolute flex bg-gradient-to-r from-neutral-50 to-neutral-500 font-semibold bottom-1 left-4 transparent-text">
+                Contact Us
+              </h2>
+            </div>
+          </div>
+
+          <div className=" cont col-span-1 row-span-2 clickable" onClick={()=>{console.log("Click")}}> {/*Start a new design*/}
+            <div className=" bg-newdesign bg-contain  bg-[#DFD0B8] bg-no-repeat  z-40   outer-box">
+              <ArrowUpRight
+                strokeWidth={1.2}
+                className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+              />
+              <h2 className="lg:text-4xl   absolute  top-1 right-[-130px] flex from-neutral-50 to-neutral-500 font-semibold relative  transparent-text">
+                Start a <br />
+                new design
+              </h2>
+            </div>
+          </div>
+
+          <div className=" cont col-span-1 row-span-2 clickable" onClick={()=>{console.log("Click")}}> {/*Reviews*/}
+            <div className="bg-stone-800 justify-center items-center  items-center justify-center outer-box">
+              <ArrowUpRight
+                strokeWidth={1.2}
+                className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+              />
+              <Image src={review} className="h-60  w-52" alt="" />
+              <h2 className="text-5xl   flex sm:text-5xl from-neutral-50 to-neutral-800 font-semibold relative top-[-20px] transparent-text">
+                Reviews
+              </h2>
+            </div>
+          </div>
+
+          <div className=" cont col-span-1 row-span-1 clickable" onClick={()=>{console.log("Click")}}> {/*Favourites*/}
+            <div className="bg-[#3C5B6F]  items-center outer-box">
+              <ArrowUpRight
+                strokeWidth={1.2}
+                className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+              />
+              <Image src={favourites} className="h-[100%] w-auto" alt="" />
+              <h2 className="text-4xl  flex  absolute bottom-2 left-4  bg-gradient-to-r from-neutral-50 to-neutral-500 font-semibold  transparent-text">
+                Favourites
+              </h2>
+            </div>
+          </div>
+
+          <div className="cont col-span-2 row-span-1 clickable" onClick={()=>{console.log("Click")}}> {/*Performance*/}
+            <div className="bg-stone-800 justify-center items-center  items-center justify-center outer-box">
+              <ArrowUpRight
+                strokeWidth={1.2}
+                className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+              />
+              {/* <Image src={} alt=""></Image> */}
+              <h2 className="text-5xl flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
+                Performance
+              </h2>
+            </div>
+          </div>
+
+          <div className="cont col-span-1 row-span-1 clickable" onClick={()=>{console.log("Click")}}> {/*Offers*/}
+            <div className="bg-stone-800 justify-center   items-center justify-center outer-box">
+              <ArrowUpRight
+                strokeWidth={1.2}
+                className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+              />
+              <h2 className="text-5xl   flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
+                Offers
+              </h2>
+            </div>
+          </div>
+        </>
+        :
+        page === "address" ? <>
+        {/* Making a scrollable div that lists all addresses*/}
+        <div className="cont col-span-3 row-span-4 p-4">
+          <div className="outer-box bg-custom-gray p-4 h-full flex flex-col">
+            <button 
+              className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+              onClick={() => setPage("profile")}
+            >
+              Back to Profile
+            </button>
+            <div className="overflow-y-scroll flex-grow">
+              {/* Add Address Button */}
+              <button
+                className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                onClick={() => setAddingNewAddress(true)}
+              >
+                Add Address
+              </button>
+              {addingNewAddress && (
+                <div className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-2 col-span-1">
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          Name:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewAddress({...newAddress, name: e.currentTarget.value})}
+                          onChange={(e) => setNewAddress({...newAddress, name: e.currentTarget.value})}
+                        />
+                      </div>
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          Address Line 1:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewAddress({...newAddress, address_line_1: e.currentTarget.value})}
+                          onChange={(e) => setNewAddress({...newAddress, address_line_1: e.currentTarget.value})}
+                        />
+                      </div>
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          Address Line 2:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewAddress({...newAddress, address_line_2: e.currentTarget.value})}
+                          onChange={(e) => setNewAddress({...newAddress, address_line_2: e.currentTarget.value})}
+                        />
+                      </div>
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          City:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewAddress({...newAddress, city: e.currentTarget.value})}
+                          onChange={(e) => setNewAddress({...newAddress, city: e.currentTarget.value})}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-2 col-span-1">
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          Country:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewAddress({...newAddress, country: e.currentTarget.value})}
+                          onChange={(e) => setNewAddress({...newAddress, country: e.currentTarget.value})}
+                        />
+                      </div>
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          Zip Code:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewAddress({...newAddress, zip_code: e.currentTarget.value})}
+                          onChange={(e) => setNewAddress({...newAddress, zip_code: e.currentTarget.value})}
+                        />
+                      </div>
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          Phone Number:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewAddress({...newAddress, phone_number: e.currentTarget.value})}
+                          onChange={(e) => setNewAddress({...newAddress, phone_number: e.currentTarget.value})}
+                        />
+                      </div>
+                    </div>
+                    <button
+                      className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]"
+                      onClick={() => addAddress(newAddress)}
+                    >
+                      Add
+                    </button>
+                    <button
+                      className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
+                      onClick={() => setAddingNewAddress(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+              
+              {addresses.length === 0 ? (
+                <p className="text-neutral-200">No addresses found.</p>
+              ) : (
+                console.log(addresses),
+                addresses.map((address) => (
+                  
+                  <div key={address.id} className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="flex flex-col gap-2 col-span-1">
+                        <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                          <label className="text-neutral-200">
+                            Name:
+                          </label>
+                          <input
+                            type="text"
+                            className="transparent-bg2 w-64"
+                            defaultValue={address.name}
+                            onInput={(e) => address.name = e.currentTarget.value}
+                          />
+                        </div>
+                        <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                          <label className="text-neutral-200">
+                            Address Line 1:
+                          </label>
+                          <input
+                            type="text"
+                            className="transparent-bg2 w-64"
+                            defaultValue={address.address_line_1}
+                            onInput={(e) => address.address_line_1 = e.currentTarget.value}
+                          />
+                        </div>
+                        <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                          <label className="text-neutral-200">
+                            Address Line 2:
+                          </label>
+                          <input
+                            type="text"
+                            className="transparent-bg2 w-64"
+                            defaultValue={address.address_line_2}
+                            onInput={(e) => address.address_line_2 = e.currentTarget.value}
+                          />
+                        </div>
+                        <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                          <label className="text-neutral-200">
+                            City:
+                          </label>
+                          <input
+                            type="text"
+                            className="transparent-bg2 w-64"
+                            defaultValue={address.city}
+                            onInput={(e) => address.city = e.currentTarget.value}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-2 col-span-1">
+                        <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                          <label className="text-neutral-200">
+                            Country:
+                          </label>
+                          <input
+                            type="text"
+                            className="transparent-bg2 w-64"
+                            defaultValue={address.country}
+                            onInput={(e) => address.country = e.currentTarget.value}
+                          />
+                        </div>
+                        <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                          <label className="text-neutral-200">
+                            Zip Code:
+                          </label>
+                          <input
+                            type="text"
+                            className="transparent-bg2 w-64"
+                            defaultValue={address.zip_code}
+                            onInput={(e) => address.zip_code = e.currentTarget.value}
+                          />
+                        </div>
+                        <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                          <label className="text-neutral-200">
+                            Phone Number:
+                          </label>
+                          <input
+                            type="text"
+                            className="transparent-bg2 w-64"
+                            defaultValue={address.phone_number}
+                            onInput={(e) => address.phone_number = e.currentTarget.value}
+                          />
+                        </div>
+                      </div>
+                      <button
+                        className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]"
+                        onClick={() => updateAddress(address)}
+                      >
+                        Update
+                      </button>
+                      <button
+                        className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
+                        onClick={() => deleteAddress(address)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                    {/* <>
+                    <h3 className="text-neutral-200 font-semibold">{address.name}</h3>
+                    <p className="text-neutral-400">{address.address_line_1}</p>
+                    {address.address_line_2 && <p className="text-neutral-400">{address.address_line_2}</p>}
+                    <p className="text-neutral-400">{address.city}, {address.country}</p>
+                    <p className="text-neutral-400">{address.zip_code}</p>
+                    <p className="text-neutral-400">{address.phone_number}</p>
+                    </> */}
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
-
-        <div className=" cont col-span-1 row-span-1 ">
-          <div className="items-center justify-center outer-box bg-[#153448]">
-            <ArrowUpRight className="absolute top-4 right-4 text-neutral-300 h-7 w-7" />
-            <h2 className="text-5xl   flex from-neutral-100 to-neutral-300 sm:text-5xl font-semibold relative top-[-20px] transparent-text">
-              Address Book
-            </h2>
-          </div>
-        </div>
-
-
-
-        <div className=" cont col-span-1 row-span-1 ">
-          <div className="overflow-scroll [background:linear-gradient(180deg,_rgba(0,0,0,_0.8),_rgba(0,0,0,_0.6))]   justify-center items-center  items-center justify-center outer-box">
-            <Navigation
-              strokeWidth={1.2}
-              className="absolute right-4 top-4 text-neutral-300 h-7 w-7"
-            />
-            <Image src={contact} className="h-[100%] w-auto" alt=""/>
-            <h2 className="text-xl sm:text-2xl md:text-4xl absolute flex bg-gradient-to-r from-neutral-50 to-neutral-500 font-semibold bottom-1 left-4 transparent-text">
-              Contact Us
-            </h2>
-          </div>
-        </div>
-
-        <div className=" cont col-span-1 row-span-2 ">
-          <div className=" bg-newdesign bg-contain  bg-[#DFD0B8] bg-no-repeat  z-40   outer-box">
-            <ArrowUpRight
-              strokeWidth={1.2}
-              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
-            />
-            <h2 className="lg:text-4xl   absolute  top-1 right-[-130px] flex from-neutral-50 to-neutral-500 font-semibold relative  transparent-text">
-              Start a <br />
-              new design
-            </h2>
-          </div>
-        </div>
-
-
-        <div className=" cont col-span-1 row-span-2">
-          <div className="overflow-scroll bg-stone-800 justify-center items-center  items-center justify-center outer-box">
-            <ArrowUpRight
-              strokeWidth={1.2}
-              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
-            />
-            <Image src={review} className="h-60  w-52" alt="" />
-            <h2 className="text-5xl   flex sm:text-5xl from-neutral-50 to-neutral-800 font-semibold relative top-[-20px] transparent-text">
-              Reviews
-            </h2>
-          </div>
-        </div>
-      
-
-        <div className=" cont col-span-1 row-span-1">
-          <div className="overflow-scroll bg-[#3C5B6F]  items-center outer-box">
-            <ArrowUpRight
-              strokeWidth={1.2}
-              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
-            />
-            <Image src={favourites} className="h-[100%] w-auto" alt="" />
-            <h2 className="text-4xl  flex  absolute bottom-2 left-4  bg-gradient-to-r from-neutral-50 to-neutral-500 font-semibold  transparent-text">
-              Favourites
-            </h2>
-          </div>
-        </div>
-
-       
-
-        <div className=" cont col-span-1 row-span-1">
-          <div className="overflow-scroll bg-stone-800 justify-center items-center  items-center justify-center outer-box">
-            <ArrowUpRight
-              strokeWidth={1.2}
-              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
-            />
-            {/* <Image src={} alt=""></Image> */}
-            <h2 className="text-5xl   flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
-              performance
-            </h2>
-          </div>
-        </div>
-
-      
-
-        <div className=" cont col-span-2 row-span-1">
-          <div className="overflow-scroll bg-stone-800 justify-center   items-center justify-center outer-box">
-            <ArrowUpRight
-              strokeWidth={1.2}
-              className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
-            />
-            <h2 className="text-5xl   flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
-              Offers
-            </h2>
-          </div>
-        </div>
-
-
+      </>
+        :
+        <>
+        </>
+        }
       </div>
     </div>
   );
