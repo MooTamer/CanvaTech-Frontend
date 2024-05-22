@@ -1,18 +1,72 @@
 'use client'
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Cart from "@/public/cart.gif";
 import { ShoppingCart } from "lucide-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart, faBox, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faStar, faStarHalf } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from 'next/router'
+import { StaticImageData } from "next/image";
+import pallete1 from "@/public/pallete1.webp";
+import pallete2 from "@/public/pallete2.webp";
+import pallete3 from "@/public/pallete3.jpg";
+import Image from "next/image";
 
 const ProductPage = () => {
+  // const router = useRouter();
+
   const [heartClicked, setHeartClicked] = useState(false);
   const [cartClicked, setCartClicked] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      // if (!router.isReady) return; // Wait until router is ready
+
+      const currentUrl = window.location.href;
+      const productId = currentUrl.split('/')[4];
+
+      try {
+        const resp = await fetch(`http://localhost:3002/product/${productId}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        });
+        const newPorudct = await resp.json();
+        console.log(newPorudct)
+        setReviews(newPorudct.ratingList)
+          if (newPorudct.images === "pallete1") newPorudct.images = pallete1;
+          else if (newPorudct.images === "pallete2") newPorudct.images = pallete2;
+          else if (newPorudct.images === "pallete3") newPorudct.images = pallete3;
+          // else if (newPorudct.images === "pallete4") newPorudct.images = pallete4;
+
+        
+
+        setProduct(newPorudct);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!product) {
+    return <div>No product found</div>;
+  }
+
 
   const cartClick = () => {
     setCartClicked(true);
@@ -25,7 +79,6 @@ const ProductPage = () => {
     "pallete3.jpg",
     "pallete4.webp",
   ];
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const handleDecrement = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 0));
   };
@@ -95,13 +148,19 @@ const ProductPage = () => {
   };
 
   const ReviewCard = ({ review }) => {
+    const renderStars2 = (rating) => {
+      const fullStars = '★'.repeat(rating);
+      const emptyStars = '☆'.repeat(5 - rating);
+      return `${fullStars}${emptyStars}`;
+    };
     return (
       <div className="border border-gray-200 rounded-md p-4 mb-4">
+
         <div className="flex items-center justify-between mb-2">
           <p className="text-lg font-semibold">{review.rating} Stars</p>
-          <div>{renderStars()}</div>
+          <div>{renderStars2(review.rating)}</div>
         </div>
-        <p className="text-gray-700">{review.text}</p>
+        <p className="text-gray-700">{review.review}</p>
       </div>
     );
   };
@@ -113,11 +172,19 @@ const ProductPage = () => {
         <div className="bg-black-100 p-4 sm:p-8 rounded-lg mb-4 sm:mb-0 sm:mr-4">
           <div className="w-full sm:w-96 rounded-box overflow-hidden relative">
             {/* Product Image */}
-            <img
-              src={images[currentImageIndex]}
+            {/* <img
+              src={product.images}
               className="w-full h-96 object-cover rounded-lg transition-transform duration-300 transform"
               alt={`Ready To Go Pallets ${currentImageIndex + 1}`}
-            />
+            /> */}
+                <Image 
+                src={product.images}  className="w-full h-96 object-cover rounded-lg transition-transform duration-300 transform"
+              alt={`Ready To Go Pallets ${currentImageIndex + 1}`} />
+      {product.stock !== undefined && (
+        <p className={product.stock < 5 ? "text-red-500" : ""}>
+          {product.stock < 5 ? `Only ${product.stock} left in stock` : ""}
+        </p>
+      )}
             {/* Previous Image Button */}
             <button
               className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 shadow-md"
@@ -137,7 +204,7 @@ const ProductPage = () => {
         <div className="text-center sm:text-left">
           {/* Product Title with Heart Icon */}
           <div className="flex items-center mb-2">
-            <h2 className="text-2xl font-bold mr-2">Ready-To-Go Pallets</h2>
+            <h2 className="text-2xl font-bold mr-2">{product.name}</h2>
             <FontAwesomeIcon
               icon={faHeart}
               className={`text-${heartClicked ? "red" : "gray"}-500 cursor-pointer`}
@@ -146,17 +213,12 @@ const ProductPage = () => {
           </div>
           {/* Product Price */}
           <div className="text-lg font-italic text-gray-500 mb-4">
-            1,600 EGP
+            {product.price} EGP
           </div>
           {/* Product Description */}
           <div className="mb-4 max-w-lg mx-auto">
             <p className="text-gray-700 leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-              pariatur.
+             {product.description}
             </p>
           </div>
           {/* Quantity Selector */}
@@ -194,6 +256,7 @@ const ProductPage = () => {
               <FontAwesomeIcon className="fa-box" icon={faBox} />
             </button>
             <p>Or</p>
+      
             <button className="cart-button w-20">Rent</button>
             <div className="flex">
               <button>Add to wishlist</button>
