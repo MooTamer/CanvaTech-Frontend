@@ -62,6 +62,19 @@ export default function Page() {
     });
   const [page, setPage] = useState("profile");
 
+  const [wishlist, setWishlist] = useState({} as {
+    name: string;
+    image: string;
+    price: number;
+    products: {
+        id: string;
+        price: number;
+        amount: number;
+        images: string;
+    }[];
+ }[]);
+
+
   const getUserProfile = async () => {
     const resp = await fetch(backendUrl.backendUrl + "profile", {
       method: "GET",
@@ -272,6 +285,25 @@ export default function Page() {
     }
   }
 
+  const getWislist = async () => {
+    const resp = await fetch(backendUrl.backendUrl + "products/allWishlists", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    console.log(resp);
+    try{
+      const res = JSON.parse(await resp.text());
+      console.log(res);
+      setWishlist(res);
+    }
+    catch(e){
+      alert(e);
+    }
+  }
+
   useEffect(()=>{
     getUserProfile();
     getUserAddresses();
@@ -467,7 +499,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="cont col-span-2 row-span-1 clickable" onClick={()=>{console.log("Click")}}> {/*Performance*/}
+          <div className="cont col-span-1 row-span-1 clickable" onClick={()=>{console.log("Click")}}> {/*Performance*/}
             <div className="bg-stone-800 justify-center items-center  items-center justify-center outer-box">
               <ArrowUpRight
                 strokeWidth={1.2}
@@ -476,6 +508,19 @@ export default function Page() {
               {/* <Image src={} alt=""></Image> */}
               <h2 className="text-5xl flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
                 Performance
+              </h2>
+            </div>
+          </div>
+
+          <div className="cont col-span-1 row-span-1 clickable" onClick={()=>{setPage("wishlist")}}> {/*Wishlist*/}
+            <div className="bg-stone-800 justify-center items-center  items-center justify-center outer-box">
+              <ArrowUpRight
+                strokeWidth={1.2}
+                className="absolute right-4 top-4 text-neutral-100 h-7 w-7"
+              />
+              {/* <Image src={} alt=""></Image> */}
+              <h2 className="text-5xl flex sm:text-5xl from-neutral-100 to-neutral-300 font-semibold relative top-[-20px] transparent-text">
+                Wishlist
               </h2>
             </div>
           </div>
@@ -495,129 +540,24 @@ export default function Page() {
         :
         page === "address" ? <>
         {/* Making a scrollable div that lists all addresses*/}
-        <div className="cont col-span-3 row-span-4 p-4">
-          <div className="outer-box bg-custom-gray p-4 h-full flex flex-col">
-            <button 
-              className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
-              onClick={() => setPage("profile")}
-            >
-              Back to Profile
-            </button>
-            <div className="overflow-y-scroll flex-grow">
-              {/* Add Address Button */}
-              <button
+          <div className="cont col-span-3 row-span-4 p-4">
+            <div className="outer-box bg-custom-gray p-4 h-full flex flex-col">
+              <button 
                 className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
-                onClick={() => setAddingNewAddress(true)}
+                onClick={() => setPage("profile")}
               >
-                Add Address
+                Back to Profile
               </button>
-              {addingNewAddress && (
-                <div className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="flex flex-col gap-2 col-span-1">
-                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
-                        <label className="text-neutral-200">
-                          Name:
-                        </label>
-                        <input
-                          type="text"
-                          className="transparent-bg2 w-64"
-                          onInput={(e) => setNewAddress({...newAddress, name: e.currentTarget.value})}
-                          onChange={(e) => setNewAddress({...newAddress, name: e.currentTarget.value})}
-                        />
-                      </div>
-                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
-                        <label className="text-neutral-200">
-                          Address Line 1:
-                        </label>
-                        <input
-                          type="text"
-                          className="transparent-bg2 w-64"
-                          onInput={(e) => setNewAddress({...newAddress, address_line_1: e.currentTarget.value})}
-                          onChange={(e) => setNewAddress({...newAddress, address_line_1: e.currentTarget.value})}
-                        />
-                      </div>
-                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
-                        <label className="text-neutral-200">
-                          Address Line 2:
-                        </label>
-                        <input
-                          type="text"
-                          className="transparent-bg2 w-64"
-                          onInput={(e) => setNewAddress({...newAddress, address_line_2: e.currentTarget.value})}
-                          onChange={(e) => setNewAddress({...newAddress, address_line_2: e.currentTarget.value})}
-                        />
-                      </div>
-                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
-                        <label className="text-neutral-200">
-                          City:
-                        </label>
-                        <input
-                          type="text"
-                          className="transparent-bg2 w-64"
-                          onInput={(e) => setNewAddress({...newAddress, city: e.currentTarget.value})}
-                          onChange={(e) => setNewAddress({...newAddress, city: e.currentTarget.value})}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex flex-col gap-2 col-span-1">
-                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
-                        <label className="text-neutral-200">
-                          Country:
-                        </label>
-                        <input
-                          type="text"
-                          className="transparent-bg2 w-64"
-                          onInput={(e) => setNewAddress({...newAddress, country: e.currentTarget.value})}
-                          onChange={(e) => setNewAddress({...newAddress, country: e.currentTarget.value})}
-                        />
-                      </div>
-                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
-                        <label className="text-neutral-200">
-                          Zip Code:
-                        </label>
-                        <input
-                          type="text"
-                          className="transparent-bg2 w-64"
-                          onInput={(e) => setNewAddress({...newAddress, zip_code: e.currentTarget.value})}
-                          onChange={(e) => setNewAddress({...newAddress, zip_code: e.currentTarget.value})}
-                        />
-                      </div>
-                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
-                        <label className="text-neutral-200">
-                          Phone Number:
-                        </label>
-                        <input
-                          type="text"
-                          className="transparent-bg2 w-64"
-                          onInput={(e) => setNewAddress({...newAddress, phone_number: e.currentTarget.value})}
-                          onChange={(e) => setNewAddress({...newAddress, phone_number: e.currentTarget.value})}
-                        />
-                      </div>
-                    </div>
-                    <button
-                      className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]"
-                      onClick={() => addAddress(newAddress)}
-                    >
-                      Add
-                    </button>
-                    <button
-                      className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
-                      onClick={() => setAddingNewAddress(false)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              )}
-              
-              {addresses.length === 0 ? (
-                <p className="text-neutral-200">No addresses found.</p>
-              ) : (
-                console.log(addresses),
-                addresses.map((address) => (
-                  
-                  <div key={address.id} className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+              <div className="overflow-y-scroll flex-grow">
+                {/* Add Address Button */}
+                <button
+                  className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                  onClick={() => setAddingNewAddress(true)}
+                >
+                  Add Address
+                </button>
+                {addingNewAddress && (
+                  <div className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="flex flex-col gap-2 col-span-1">
                         <div className="flex gap-3 items-center justify-between justify-center flex-row">
@@ -627,8 +567,8 @@ export default function Page() {
                           <input
                             type="text"
                             className="transparent-bg2 w-64"
-                            defaultValue={address.name}
-                            onInput={(e) => address.name = e.currentTarget.value}
+                            onInput={(e) => setNewAddress({...newAddress, name: e.currentTarget.value})}
+                            onChange={(e) => setNewAddress({...newAddress, name: e.currentTarget.value})}
                           />
                         </div>
                         <div className="flex gap-3 items-center justify-between justify-center flex-row">
@@ -638,8 +578,8 @@ export default function Page() {
                           <input
                             type="text"
                             className="transparent-bg2 w-64"
-                            defaultValue={address.address_line_1}
-                            onInput={(e) => address.address_line_1 = e.currentTarget.value}
+                            onInput={(e) => setNewAddress({...newAddress, address_line_1: e.currentTarget.value})}
+                            onChange={(e) => setNewAddress({...newAddress, address_line_1: e.currentTarget.value})}
                           />
                         </div>
                         <div className="flex gap-3 items-center justify-between justify-center flex-row">
@@ -649,8 +589,8 @@ export default function Page() {
                           <input
                             type="text"
                             className="transparent-bg2 w-64"
-                            defaultValue={address.address_line_2}
-                            onInput={(e) => address.address_line_2 = e.currentTarget.value}
+                            onInput={(e) => setNewAddress({...newAddress, address_line_2: e.currentTarget.value})}
+                            onChange={(e) => setNewAddress({...newAddress, address_line_2: e.currentTarget.value})}
                           />
                         </div>
                         <div className="flex gap-3 items-center justify-between justify-center flex-row">
@@ -660,8 +600,8 @@ export default function Page() {
                           <input
                             type="text"
                             className="transparent-bg2 w-64"
-                            defaultValue={address.city}
-                            onInput={(e) => address.city = e.currentTarget.value}
+                            onInput={(e) => setNewAddress({...newAddress, city: e.currentTarget.value})}
+                            onChange={(e) => setNewAddress({...newAddress, city: e.currentTarget.value})}
                           />
                         </div>
                       </div>
@@ -673,8 +613,8 @@ export default function Page() {
                           <input
                             type="text"
                             className="transparent-bg2 w-64"
-                            defaultValue={address.country}
-                            onInput={(e) => address.country = e.currentTarget.value}
+                            onInput={(e) => setNewAddress({...newAddress, country: e.currentTarget.value})}
+                            onChange={(e) => setNewAddress({...newAddress, country: e.currentTarget.value})}
                           />
                         </div>
                         <div className="flex gap-3 items-center justify-between justify-center flex-row">
@@ -684,8 +624,8 @@ export default function Page() {
                           <input
                             type="text"
                             className="transparent-bg2 w-64"
-                            defaultValue={address.zip_code}
-                            onInput={(e) => address.zip_code = e.currentTarget.value}
+                            onInput={(e) => setNewAddress({...newAddress, zip_code: e.currentTarget.value})}
+                            onChange={(e) => setNewAddress({...newAddress, zip_code: e.currentTarget.value})}
                           />
                         </div>
                         <div className="flex gap-3 items-center justify-between justify-center flex-row">
@@ -695,42 +635,159 @@ export default function Page() {
                           <input
                             type="text"
                             className="transparent-bg2 w-64"
-                            defaultValue={address.phone_number}
-                            onInput={(e) => address.phone_number = e.currentTarget.value}
+                            onInput={(e) => setNewAddress({...newAddress, phone_number: e.currentTarget.value})}
+                            onChange={(e) => setNewAddress({...newAddress, phone_number: e.currentTarget.value})}
                           />
                         </div>
                       </div>
                       <button
                         className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]"
-                        onClick={() => updateAddress(address)}
+                        onClick={() => addAddress(newAddress)}
                       >
-                        Update
+                        Add
                       </button>
                       <button
                         className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
-                        onClick={() => deleteAddress(address)}
+                        onClick={() => setAddingNewAddress(false)}
                       >
-                        Delete
+                        Cancel
                       </button>
                     </div>
-                    {/* <>
-                    <h3 className="text-neutral-200 font-semibold">{address.name}</h3>
-                    <p className="text-neutral-400">{address.address_line_1}</p>
-                    {address.address_line_2 && <p className="text-neutral-400">{address.address_line_2}</p>}
-                    <p className="text-neutral-400">{address.city}, {address.country}</p>
-                    <p className="text-neutral-400">{address.zip_code}</p>
-                    <p className="text-neutral-400">{address.phone_number}</p>
-                    </> */}
                   </div>
-                ))
-              )}
+                )}
+                
+                {addresses.length === 0 ? (
+                  <p className="text-neutral-200">No addresses found.</p>
+                ) : (
+                  console.log(addresses),
+                  addresses.map((address) => (
+                    
+                    <div key={address.id} className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div className="flex flex-col gap-2 col-span-1">
+                          <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                            <label className="text-neutral-200">
+                              Name:
+                            </label>
+                            <input
+                              type="text"
+                              className="transparent-bg2 w-64"
+                              defaultValue={address.name}
+                              onInput={(e) => address.name = e.currentTarget.value}
+                            />
+                          </div>
+                          <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                            <label className="text-neutral-200">
+                              Address Line 1:
+                            </label>
+                            <input
+                              type="text"
+                              className="transparent-bg2 w-64"
+                              defaultValue={address.address_line_1}
+                              onInput={(e) => address.address_line_1 = e.currentTarget.value}
+                            />
+                          </div>
+                          <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                            <label className="text-neutral-200">
+                              Address Line 2:
+                            </label>
+                            <input
+                              type="text"
+                              className="transparent-bg2 w-64"
+                              defaultValue={address.address_line_2}
+                              onInput={(e) => address.address_line_2 = e.currentTarget.value}
+                            />
+                          </div>
+                          <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                            <label className="text-neutral-200">
+                              City:
+                            </label>
+                            <input
+                              type="text"
+                              className="transparent-bg2 w-64"
+                              defaultValue={address.city}
+                              onInput={(e) => address.city = e.currentTarget.value}
+                            />
+                          </div>
+                        </div>
+                        <div className="flex flex-col gap-2 col-span-1">
+                          <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                            <label className="text-neutral-200">
+                              Country:
+                            </label>
+                            <input
+                              type="text"
+                              className="transparent-bg2 w-64"
+                              defaultValue={address.country}
+                              onInput={(e) => address.country = e.currentTarget.value}
+                            />
+                          </div>
+                          <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                            <label className="text-neutral-200">
+                              Zip Code:
+                            </label>
+                            <input
+                              type="text"
+                              className="transparent-bg2 w-64"
+                              defaultValue={address.zip_code}
+                              onInput={(e) => address.zip_code = e.currentTarget.value}
+                            />
+                          </div>
+                          <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                            <label className="text-neutral-200">
+                              Phone Number:
+                            </label>
+                            <input
+                              type="text"
+                              className="transparent-bg2 w-64"
+                              defaultValue={address.phone_number}
+                              onInput={(e) => address.phone_number = e.currentTarget.value}
+                            />
+                          </div>
+                        </div>
+                        <button
+                          className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]"
+                          onClick={() => updateAddress(address)}
+                        >
+                          Update
+                        </button>
+                        <button
+                          className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
+                          onClick={() => deleteAddress(address)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                      {/* <>
+                      <h3 className="text-neutral-200 font-semibold">{address.name}</h3>
+                      <p className="text-neutral-400">{address.address_line_1}</p>
+                      {address.address_line_2 && <p className="text-neutral-400">{address.address_line_2}</p>}
+                      <p className="text-neutral-400">{address.city}, {address.country}</p>
+                      <p className="text-neutral-400">{address.zip_code}</p>
+                      <p className="text-neutral-400">{address.phone_number}</p>
+                      </> */}
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      </>
-        :
-        <>
         </>
+        : page === "wishlist" ? (getWislist(),
+        <>
+          <div className=" cont col-span-3 row-span-4 p-4">
+            <div className="outer-box bg-custom-gray p-4 h-full flex flex-col">
+              <button 
+                className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                onClick={() => setPage("profile")}
+              >
+                Back to Profile
+              </button>
+              <p className="text-neutral-200">Wishlist</p>
+            </div>
+          </div>
+          {/* Make a scrollable div that contains all wishlists and when the user clicks on one of them it opens it in details in a modal */}
+        </>) : <></>
         }
       </div>
     </div>
