@@ -18,12 +18,16 @@ import ismoetric from "@/public/Isometric delivery robot.gif";
 import review from "@/public/reviews.png";
 import orders from "@/public/orders.png";
 import backendUrl from "../../url.json";
+import pallete1 from "@/public/pallete1.webp";
+import pallete2 from "@/public/pallete2.webp";
+import pallete3 from "@/public/pallete3.jpg";
 
 
 import { ArrowUpRight, Navigation } from "lucide-react";
 import Stepper from "@/components/shared/stepper";
 import { log } from "console";
 import { json } from "stream/consumers";
+import { set } from "zod";
 
 export default function Page() {
   const [firstName, setFirstName] = useState("");
@@ -41,6 +45,10 @@ export default function Page() {
       phone_number: string,
       zip_code: string
     }[]);
+  const [wishListName, setWishListName] = useState("");
+  const [showNewWishlistInput, setShowNewWishlistInput] = useState(false);
+  const [newWishlistName, setNewWishlistName] = useState("");
+  const [viewingWishlist, setViewingWishlist] = useState(false);
 
   const [newFirstName, setNewFirstName] = useState("");
   const [newLastName, setNewLastName] = useState("");
@@ -71,9 +79,20 @@ export default function Page() {
         price: number;
         amount: number;
         images: string;
+        product_name: string;
     }[];
- }[]);
-
+    }[]);
+  const [selectedWishlist, setSelectedWishlist] = useState({} as {
+    name: string;
+    image: string;
+    price: number;
+    products: {
+        id: string;
+        price: number;
+        amount: number;
+        images: string;
+    }[];
+  });
 
   const getUserProfile = async () => {
     const resp = await fetch(backendUrl.backendUrl + "profile", {
@@ -139,13 +158,6 @@ export default function Page() {
       }),
       credentials: "include",
     });
-    console.log({
-      first_name: newFirstName,
-      last_name: newLastName,
-      email: newEmail,
-      selected_address_id: selectedAddress.id,
-    });
-    console.log(resp);
     try{
       setFirstName(newFirstName);
       setLastName(newLastName);
@@ -178,20 +190,8 @@ export default function Page() {
       }),
       credentials: "include",
     });
-    console.log({
-      address_id: address.id,
-      name: address.name,
-      address_line_1: address.address_line_1,
-      address_line_2: address.address_line_2,
-      city: address.city,
-      country: address.country,
-      zip_code: address.zip_code,
-      phone_number: address.phone_number,
-    });
-    console.log(resp);
     try{
       const res = JSON.parse(await resp.text());
-      console.log(res);
     }
     catch(e){
       alert(e);
@@ -210,13 +210,8 @@ export default function Page() {
       },
       credentials: "include",
     });
-    console.log(JSON.stringify({
-      id: address.id,
-    }));
-    console.log(resp);
     try{
       const res = JSON.parse(await resp.text());
-      console.log(res);
       alert(res.message);
     }
     catch(e){
@@ -251,11 +246,9 @@ export default function Page() {
       zip_code: address.zip_code,
       phone_number: address.phone_number,
     }));
-    console.log(resp);
     setAddingNewAddress(false);
     try{
       const res = JSON.parse(await resp.text());
-      console.log(res);
       address = {name: res.name, id: res._id, country: res.country, city: res.city, address_line_1: res.address_line_1, address_line_2: res.address_line_2, phone_number: res.phone_number, zip_code: res.zip_code};
       setAddresses([...addresses, address])
     }
@@ -272,10 +265,8 @@ export default function Page() {
       },
       credentials: "include",
     });
-    console.log(resp);
     try{
       const res = JSON.parse(await resp.text());
-      console.log(res);
       alert(res.message);
       
       window.location.href = "/";
@@ -285,7 +276,7 @@ export default function Page() {
     }
   }
 
-  const getWislist = async () => {
+  const getWishlist = async () => {
     const resp = await fetch(backendUrl.backendUrl + "products/allWishlists", {
       method: "GET",
       headers: {
@@ -297,6 +288,11 @@ export default function Page() {
     try{
       const res = JSON.parse(await resp.text());
       console.log(res);
+      res.map((wishlist: {name: string, image: string, price: number, products: {id: string, price: number, amount: number, images: string}[]}) => {
+        return {name: wishlist.name, image: wishlist.image, price: wishlist.price, products: wishlist.products.map((product: {id: string, price: number, amount: number, images: string}) => {
+          return {id: product.id, price: product.price, amount: product.amount, images: product.images == "pallete1" ? pallete1 : product.images == "pallete2" ? pallete2 : pallete3};
+        })};
+      });
       setWishlist(res);
     }
     catch(e){
@@ -307,7 +303,68 @@ export default function Page() {
   useEffect(()=>{
     getUserProfile();
     getUserAddresses();
+    getWishlist();
   },[])
+
+  const createNewWishlist = async () => {
+    const response = await fetch(`http://localhost:5001/products/wishlist`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: newWishlistName,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    const res = await response.json();
+    console.log(res);
+    setWishlist([...wishlist, { name: newWishlistName }]);
+    setNewWishlistName("");
+    setShowNewWishlistInput(false);
+  };
+
+  const deleteWishlist = async (wishlistName: string) => {
+    const response = await fetch(`http://localhost:5001/products/wishlist`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        wishListName: wishlistName,
+      }),
+      credentials: "include",
+    });
+    const res = await response.json();
+    console.log(res);
+    setWishlist(wishlist.filter((wishlist) => wishlist.name != wishlistName));
+    console.log(wishlist);
+  }
+
+  const removeProductFromWishlist = async (wishlistName: string, productId: string) => {
+    const response = await fetch(`http://localhost:5001/products/wishlist/remove`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify({
+        wishListName: wishlistName,
+        productId: productId,
+      }),
+      credentials: "include",
+    });
+    const res = await response.json();
+    console.log(res);
+    setWishlist(wishlist.map((wishlist) => {
+      if (wishlist.name == wishlistName) {
+        return { name: wishlist.name, products: wishlist.products.filter((product) => product.id != productId) };
+      }
+      return wishlist;
+    }));
+  }
 
   return (
     <div className="container justify-center mx-auto h-screen flex py-20">
@@ -773,21 +830,89 @@ export default function Page() {
             </div>
           </div>
         </>
-        : page === "wishlist" ? (getWislist(),
+        : page === "wishlist" ?
         <>
-          <div className=" cont col-span-3 row-span-4 p-4">
+          <div className="cont col-span-3 row-span-4 p-4">
             <div className="outer-box bg-custom-gray p-4 h-full flex flex-col">
-              <button 
+              <button
                 className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
                 onClick={() => setPage("profile")}
               >
                 Back to Profile
               </button>
-              <p className="text-neutral-200">Wishlist</p>
+              <button
+                className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                onClick={() => setShowNewWishlistInput(true)}
+              >
+                Create New Wishlist
+              </button>
+              {showNewWishlistInput && (
+                <div className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-2 col-span-1">
+                      <div className="flex gap-3 items-center justify-between justify-center flex-row">
+                        <label className="text-neutral-200">
+                          Name:
+                        </label>
+                        <input
+                          type="text"
+                          className="transparent-bg2 w-64"
+                          onInput={(e) => setNewWishlistName(e.currentTarget.value)}
+                          onChange={(e) => setNewWishlistName(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <button
+                      className="bg-blue-600 p-3 px-8 mr-2 default-hover text-zinc-300 rounded-[35px]"
+                      onClick={() => createNewWishlist()}
+                    >
+                      Create
+                    </button>
+                    <button
+                      className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
+                      onClick={() => setShowNewWishlistInput(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+              <div className="overflow-y-scroll flex-grow">
+                {wishlist.length === 0 ? (
+                  <p className="text-neutral-200">No wishlists found.</p>
+                ) : (
+                  wishlist.map((wish, index) => (
+                    <div key={index} className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                      <h3 className="text-neutral-200 font-semibold">{wish.name}</h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        {wish.products.map((product) => (
+                          <div key={product.id} className="bg-neutral-700 p-4 rounded-lg flex flex-col items-center justify-center">
+                            <Image src={product.images} className="h-20 w-20" alt="" />
+                            <p className="text-neutral-200">{product.product_name}</p>
+                            <p className="text-neutral-200">{product.price}</p>
+                            <p className="text-neutral-200">{product.amount}</p>
+                            <button
+                              className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
+                              onClick={() => removeProductFromWishlist(wish.name, product.id)}
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      <button
+                        className="bg-red-600 p-3 px-8 default-hover text-zinc-300 rounded-[35px]"
+                        onClick={() => deleteWishlist(wish.name)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           </div>
-          {/* Make a scrollable div that contains all wishlists and when the user clicks on one of them it opens it in details in a modal */}
-        </>) : <></>
+        </> : <></>
         }
       </div>
     </div>

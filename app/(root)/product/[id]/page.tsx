@@ -13,6 +13,7 @@ import pallete3 from "@/public/pallete3.jpg";
 import Image from "next/image";
 import { FacebookShare, TwitterShare,LinkedinShare } from 'react-share-kit';
 import ShareButtons from "@/components/social-media-share/ShareButtons";
+import { set } from "zod";
 
 const ProductPage = () => {
   // const router = useRouter();
@@ -26,10 +27,15 @@ const ProductPage = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-    const currentUrl = window.location.href;
-      const productId = currentUrl.split('/')[4];
-      const pageUrl = 'https://ahmed-yehia.me';
-      const pageTitle = 'Check out this awesome website!';
+  const [wishListName, setWishListName] = useState("");
+  const [wishlists, setWishlists] = useState([]);
+  const [showNewWishlistInput, setShowNewWishlistInput] = useState(false);
+  const [newWishlistName, setNewWishlistName] = useState("");
+  const [viewingWishlist, setViewingWishlist] = useState(false);
+  const currentUrl = window.location.href;
+  const productId = currentUrl.split('/')[4];
+  const pageUrl = 'https://ahmed-yehia.me';
+  const pageTitle = 'Check out this awesome website!';
   
   useEffect(() => {
     const fetchProduct = async () => {
@@ -48,9 +54,9 @@ const ProductPage = () => {
         const newPorudct = await resp.json();
         console.log(newPorudct)
         setReviews(newPorudct.ratingList)
-          if (newPorudct.images === "pallete1") newPorudct.images = pallete1;
-          else if (newPorudct.images === "pallete2") newPorudct.images = pallete2;
-          else if (newPorudct.images === "pallete3") newPorudct.images = pallete3;
+          if (newPorudct.images === "pallete1") newPorudct.images = pallete1, newPorudct.image = "pallete1";
+          else if (newPorudct.images === "pallete2") newPorudct.images = pallete2, newPorudct.image = "pallete2";
+          else if (newPorudct.images === "pallete3") newPorudct.images = pallete3, newPorudct.image = "pallete2";
           // else if (newPorudct.images === "pallete4") newPorudct.images = pallete4;
           
         
@@ -62,8 +68,24 @@ const ProductPage = () => {
         setLoading(false);
       }
     };
+    
+
+  const getWishlists = async () => {
+    const response = await fetch(`http://localhost:5001/products/allWishlists`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    const res = await response.json();
+    console.log("Wislists:", res);
+    setWishlists(res);
+  };
 
     fetchProduct();
+    getWishlists();
   }, []);
   if (loading) {
     return <div>Loading...</div>;
@@ -72,7 +94,6 @@ const ProductPage = () => {
   if (!product) {
     return <div>No product found</div>;
   }
-
 
   const cartClick = () => {
     setCartClicked(true);
@@ -85,6 +106,7 @@ const ProductPage = () => {
     "pallete3.jpg",
     "pallete4.webp",
   ];
+
   const handleDecrement = () => {
     setQuantity((prevQuantity) => Math.max(prevQuantity - 1, 0));
   };
@@ -117,6 +139,7 @@ const ProductPage = () => {
   const handleStarClick = (starValue) => {
     setRating(starValue);
   };
+
 const handelPostReview = async () => {
     const response = await fetch(`http://localhost:5001/products/rate/${productId}`, {
       method: "POST",
@@ -136,55 +159,53 @@ const handelPostReview = async () => {
    
   };
 
-const handelWishList =async () => {
-// get heart status 
-// heartClicked
-if(!heartClicked){
-const response = await fetch(`http://localhost:5001/products/fav`, {
-      method: "POST",
-      body: JSON.stringify({
-        name:product.name,
-      images:product.images,
-      price:product.price,
-      productId:productId,
+  const handelWishList =async () => {
+  // get heart status 
+  // heartClicked
+  if(!heartClicked){
+  const response = await fetch(`http://localhost:5001/products/fav`, {
+        method: "POST",
+        body: JSON.stringify({
+          name:product.name,
+        images:product.images,
+        price:product.price,
+        productId:productId,
 
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      credentials: "include",
-    });
-    // const res = await response.json();
-    console.log(response);
-  }
-  else
-  {
-    // delete from fav
-    const response = await fetch(`http://localhost:5001/products/fav`, {
-      method: "DELETE",
-      body: JSON.stringify({
-   
-      productId:productId,
-
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      credentials: "include",
-    });
-    // const res = await response.json();
-    console.log(response);
-  }
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        credentials: "include",
+      });
+      // const res = await response.json();
+      console.log(response);
+    }
+    else
+    {
+      // delete from fav
+      const response = await fetch(`http://localhost:5001/products/fav`, {
+        method: "DELETE",
+        body: JSON.stringify({
     
+        productId:productId,
+
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+        credentials: "include",
+      });
+      // const res = await response.json();
+      console.log(response);
+    }
 
 
 
+  setHeartClicked(!heartClicked)
+  }
 
-
-setHeartClicked(!heartClicked)
-}
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -236,6 +257,47 @@ setHeartClicked(!heartClicked)
         <p className="text-gray-700">{review.review}</p>
       </div>
     );
+  };
+    
+  const addToWishList = async () => {
+    const response = await fetch(`http://localhost:5001/products/wishlist/add`, {
+      method: "PUT",
+      body: JSON.stringify({
+        productName:product.name,
+        image:product.image,
+        price:product.price,
+        productId:productId,
+        amount:quantity,
+        wishListName:wishListName
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    // const res = await response.json();
+    console.log(response);
+    setViewingWishlist(false);
+  };
+
+  const createNewWishlist = async () => {
+    const response = await fetch(`http://localhost:5001/products/wishlist`, {
+      method: "POST",
+      body: JSON.stringify({
+        name: newWishlistName,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      credentials: "include",
+    });
+    const res = await response.json();
+    console.log(res);
+    setWishlists([...wishlists, { name: newWishlistName }]);
+    setNewWishlistName("");
+    setShowNewWishlistInput(false);
   };
 
   return (
@@ -313,8 +375,9 @@ setHeartClicked(!heartClicked)
             </button>
           </div>
           {/* Add to Cart / Rent / Wishlist Buttons */}
-          <div className="flex flex-row justify-between gap-4 items-center justify-center sm:justify-start">
-            <button
+          <div
+          className="flex flex-row justify-between gap-4 items-center justify-center sm:justify-start">
+            {/* <button
               id="addtocart"
               className={`cart-button ${cartClicked ? "clicked" : ""}`}
               onClick={cartClick}
@@ -327,16 +390,83 @@ setHeartClicked(!heartClicked)
                 icon={faShoppingCart}
               />
               <FontAwesomeIcon className="fa-box" icon={faBox} />
-            </button>
+            </button> */}
+            <button 
+            id="addtocart"
+            className={`cart-button ${cartClicked ? "clicked" : ""}`}
+            onClick={cartClick}
+            
+            >Add to cart</button>
             <p>Or</p>
       
             <button className="cart-button w-20">Rent</button>
             <div className="flex">
-              <button>Add to wishlist</button>
+              <button onClick={()=>{setViewingWishlist(true); console.log(viewingWishlist)}}>Add to wishlist</button>
             </div>
           </div>
         </div>
       </div>
+      {/* Wishlists */}
+      {(
+            viewingWishlist && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+            <div className="bg-neutral-800 p-8 rounded-lg max-w-2xl w-full">
+              {/* Listing the wishlists for user to choose from */}
+              
+              <button
+                className="btn btn-primary cart-button w-80 mb-4"
+                style={{"color": "white"}}
+                onClick={() => setViewingWishlist(false)}
+              >
+                Close
+              </button>
+              <h2 className="text-2xl font-bold mb-4" style={{"color": "white"}}>Choose a Wishlist</h2>
+
+          
+              {/* Toggle visibility of input field for creating new wishlist */}
+              {!showNewWishlistInput ? (
+                <button
+                  className="btn btn-primary cart-button w-80 mb-4"
+                  style={{"color": "white"}}
+                  onClick={() => setShowNewWishlistInput(true)}
+                >
+                  Create New Wishlist
+                </button>
+              ) : (
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    className="p-2 mb-2 w-full"
+                    placeholder="Enter new wishlist name"
+                    value={newWishlistName}
+                    onChange={(e) => setNewWishlistName(e.target.value)}
+                  />
+                  <button
+                    className="btn btn-primary cart-button w-80"
+                    style={{"color": "white"}}
+                    onClick={createNewWishlist}
+                  >
+                    Save Wishlist
+                  </button>
+                </div>
+              )}
+          
+              <div className="flex flex-col space-y-4">
+                {wishlists.map((wishlist) => (
+                  <button
+                    key={wishlist._id}
+                    className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                    onClick={() => {
+                      setWishListName(wishlist.name);
+                      addToWishList();
+                    }}
+                  >
+                    {wishlist.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          )}
 
       {/* Reviews Section */}
       <div className="mt-8">

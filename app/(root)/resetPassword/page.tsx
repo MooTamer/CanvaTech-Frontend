@@ -16,6 +16,7 @@ const ResetPage = () => {
       },
     });
     const res = await response.json();
+    console.log(res);
     if (response.status < 300 && response.status >= 200) {
       alert("Password reset instructions sent to your email.");
     } else {

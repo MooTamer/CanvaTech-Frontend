@@ -9,10 +9,10 @@ const VerifyResetPasswordPage = (params: any) => {
   const [newPassword, setNewPassword] = useState("");
 
   const resetPassword = async () => {
-    const response = await fetch(backendUrl.backendUrl + "auth/reset-password", {
+    const response = await fetch(backendUrl.backendUrl + "auth/reset-password/confirm", {
       method: "POST",
       body: JSON.stringify({
-        verificationCode: verificationCode,
+        resetCode: verificationCode,
         newPassword: newPassword,
       }),
       headers: {
@@ -45,13 +45,6 @@ const VerifyResetPasswordPage = (params: any) => {
             </h2>
           </div>
           <div className="flex flex-col space-y-4">
-            <input
-              id="verificationCode"
-              className="border rounded-lg px-4 py-2"
-              placeholder="Verification Code"
-              value={verificationCode}
-              onInput={(e) => setVerificationCode(e.currentTarget.value)}
-            />
             <input
               type="password"
               id="newPassword"
