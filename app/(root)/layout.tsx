@@ -12,7 +12,7 @@ import Footer from "@/components/shared/Footer";
 //   title: "CanvaTech",
 //   description: "Customize your own plastic palette",
 // };
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -38,7 +38,7 @@ export default function RootLayout({
   // </div>
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body >
         <NavBar setIsOpen={setIsOpen} />
         {isOpen && (
           <div className="z-[90]">
