@@ -61,7 +61,7 @@ const ProductPage = () => {
             assignImage(relatedProduct);
         });
           setProducts(newProduct.relatedProducts);
-
+          setReviews(newProduct.ratingList)
         setProduct(newProduct);
       } catch (error) {
         console.error('Error fetching product:', error);
