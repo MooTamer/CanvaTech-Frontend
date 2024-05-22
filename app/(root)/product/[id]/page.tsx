@@ -11,6 +11,8 @@ import pallete1 from "@/public/pallete1.webp";
 import pallete2 from "@/public/pallete2.webp";
 import pallete3 from "@/public/pallete3.jpg";
 import Image from "next/image";
+import { FacebookShare, TwitterShare,LinkedinShare } from 'react-share-kit';
+import ShareButtons from "@/components/social-media-share/ShareButtons";
 
 const ProductPage = () => {
   // const router = useRouter();
@@ -26,6 +28,8 @@ const ProductPage = () => {
   const [loading, setLoading] = useState(true);
     const currentUrl = window.location.href;
       const productId = currentUrl.split('/')[4];
+      const pageUrl = 'https://ahmed-yehia.me';
+      const pageTitle = 'Check out this awesome website!';
   
   useEffect(() => {
     const fetchProduct = async () => {
@@ -329,6 +333,9 @@ const handelPostReview = async () => {
             Submit Review
           </button>
         </form>
+        <p>Page content goes here...</p>
+      <ShareButtons url={pageUrl} title={pageTitle} />
+
       </div>
     </div>
   );
