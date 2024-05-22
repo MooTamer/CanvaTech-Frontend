@@ -44,8 +44,8 @@ console.log("lskdhjflksadhfl;ashdf;lakjshd;lfkh\n\n\nn\n\nn\n\n"+products)
             <button className="absolute top-6 right-6">
               <Heart strokeWidth={1.3} />
             </button>
-            <div className="card h-72">
-              <Image src={product.images} alt={product.name} />
+            <div className="card h-auto max-h-[10rem]">
+              <Image className="h-auto w-auto" src={product.images} alt={product.name} />
             </div>
             <div className="card">
               <p className="text-red-900 text-sm">{product.label}</p>

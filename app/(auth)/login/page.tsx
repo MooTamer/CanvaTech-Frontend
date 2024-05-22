@@ -28,9 +28,6 @@ const LoginPage = () => {
     if (response.status < 300 && response.status >= 200) {
       window.location.href = "/";
     }
-    else if(response.status === 401){
-      window.location.href = `/verifyEmail?email=${email}`;
-    }
     else{
       alert(res.message);
     }
