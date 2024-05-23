@@ -110,7 +110,7 @@ const ProductPage = () => {
 
     // Check if the product is already in the cart
     const existingProductIndex = cart.findIndex(item => item._id === productId);
-
+    product.quantity = quantity
     if (existingProductIndex > -1) {
       // Product exists in the cart, update the quantity
       cart[existingProductIndex].quantity += quantity;
