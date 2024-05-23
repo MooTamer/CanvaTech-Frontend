@@ -205,10 +205,10 @@ const RentalPage = () => {
                 {selectedSize ? `${selectedSize} ` : "Select Size"}
               </button>
               {showDropdown && (
-                <ul className="dropdown-menu absolute bg-white shadow-lg rounded mt-2 py-2 w-40">
+                <ul className="dropdown-menu absolute bg-white shadow-xl rounded-2xl  w-40">
                   <li>
                     <button
-                      className="block text-left px-4 py-2 w-full"
+                      className="block text-left hover:bg-neutral-200 rounded-2xl smooth px-4 py-3 w-full"
                       onClick={() => handleSizeSelect("Small")}
                     >
                       Small  {selectedSize === "Small" && "✓"}
@@ -216,7 +216,7 @@ const RentalPage = () => {
                   </li>
                   <li>
                     <button
-                      className="block text-left px-4 py-2 w-full"
+                      className="block text-left hover:bg-neutral-200 rounded-2xl smooth px-4 py-3 w-full"
                       onClick={() => handleSizeSelect("Medium")}
                     >
                       Medium  {selectedSize === "Medium" && "✓"}
@@ -224,7 +224,7 @@ const RentalPage = () => {
                   </li>
                   <li>
                     <button
-                      className="block text-left px-4 py-2 w-full"
+                      className="block text-left hover:bg-neutral-200 rounded-2xl smooth px-4 py-3 w-full"
                       onClick={() => handleSizeSelect("Large")}
                     >
                       Large  {selectedSize === "Large" && "✓"}
