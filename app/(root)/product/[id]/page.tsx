@@ -312,7 +312,8 @@ const handelPostReview = async () => {
     );
   };
     
-  const addToWishList = async () => {
+  const addToWishList = async (wishlistName) => {
+    console.log(wishlistName);
     const response = await fetch(`http://localhost:5001/products/wishlist/add`, {
       method: "PUT",
       body: JSON.stringify({
@@ -321,7 +322,7 @@ const handelPostReview = async () => {
         price:product.price,
         productId:productId,
         amount:quantity,
-        wishListName:wishListName
+        wishListName:wishlistName
       }),
       headers: {
         "Content-Type": "application/json",
@@ -329,8 +330,14 @@ const handelPostReview = async () => {
       },
       credentials: "include",
     });
-    // const res = await response.json();
-    console.log(response);
+    const res = await response.json();
+    if (response.status < 200 || response.status >= 300) {
+      alert("Error adding to wishlist " + res.message);
+      return;
+    }
+    const wishlists = res.wishlists;
+    console.log(wishlists);
+    setWishlists(wishlists);
     setViewingWishlist(false);
   };
 
@@ -348,7 +355,13 @@ const handelPostReview = async () => {
     });
     const res = await response.json();
     console.log(res);
-    setWishlists([...wishlists, { name: newWishlistName }]);
+    if (response.status < 200 || response.status >= 300) {
+      alert("Error creating wishlist " + res.message);
+      return;
+    }
+    const wishlists = res.wishlists;
+    console.log(wishlists);
+    setWishlists(wishlists);
     setNewWishlistName("");
     setShowNewWishlistInput(false);
   };
@@ -368,11 +381,11 @@ const handelPostReview = async () => {
                 <Image 
                 src={product.images}  className="w-full h-96 object-cover rounded-lg transition-transform duration-300 transform"
               alt={`Ready To Go Pallets ${currentImageIndex + 1}`} />
-      {product.stock !== undefined && (
-        <p className={product.stock < 5 ? "text-red-500" : ""}>
-          {product.stock < 5 ? `Only ${product.stock} left in stock` : ""}
-        </p>
-      )}
+            {product.stock !== undefined && (
+              <p className={product.stock < 5 ? "text-red-500" : ""}>
+                {product.stock < 5 ? `Only ${product.stock} left in stock` : ""}
+              </p>
+            )}
             {/* Previous Image Button */}
             <button
               className="absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 shadow-md"
@@ -462,7 +475,9 @@ const handelPostReview = async () => {
       {/* Wishlists */}
       {(
             viewingWishlist && <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-neutral-800 p-8 rounded-lg max-w-2xl w-full">
+            <div className="bg-neutral-800 p-8 rounded-lg max-w-2xl w-full" style={{
+              "maxHeight": "70vh", "overflowY": "scroll", "top": "10vh"
+            }}>
               {/* Listing the wishlists for user to choose from */}
               
               <button
@@ -505,16 +520,29 @@ const handelPostReview = async () => {
           
               <div className="flex flex-col space-y-4">
                 {wishlists.map((wishlist) => (
+                  <div key={wishlist.name} className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                  <h3 className="text-neutral-200 font-semibold">{wishlist.name}</h3>
+                  <p className="text-neutral-200">{wishlist.price}</p>
                   <button
                     key={wishlist._id}
                     className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
                     onClick={() => {
-                      setWishListName(wishlist.name);
-                      addToWishList();
+                      addToWishList(wishlist.name);
                     }}
                   >
-                    {wishlist.name}
+                    {"Add to Wishlist"}
                   </button>
+                  <div className="grid grid-cols-2 gap-4">
+                    {wishlist.products?.map((product) => (
+                      <div key={product.id} className="bg-neutral-700 p-4 rounded-lg flex flex-col items-center justify-center">
+                        <Image src={product.images} className="h-20 w-20" alt="" />
+                        <p className="text-neutral-200">{product.product_name}</p>
+                        <p className="text-neutral-200">{product.price}</p>
+                        <p className="text-neutral-200">{product.amount}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
                 ))}
               </div>
             </div>

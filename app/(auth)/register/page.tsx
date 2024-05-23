@@ -95,6 +95,13 @@ const RegisterPage = () => {
             />
             <input
               type="text"
+              id="company"
+              className="border rounded-lg px-4 py-2"
+              placeholder="Company Name"
+              onChange={handleChange}
+            />
+            <input
+              type="text"
               id="address_name"
               className="border rounded-lg px-4 py-2"
               placeholder="Address Name"

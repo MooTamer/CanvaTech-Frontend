@@ -21,6 +21,7 @@ import backendUrl from "../../url.json";
 import pallete1 from "@/public/pallete1.webp";
 import pallete2 from "@/public/pallete2.webp";
 import pallete3 from "@/public/pallete3.jpg";
+import Cookies from 'js-cookie';
 
 
 import { ArrowUpRight, Navigation } from "lucide-react";
@@ -55,7 +56,13 @@ export default function Page() {
   const [newEmail, setNewEmail] = useState("");
   const [selectedAddress, setSelectedAddress] = useState({} as {name: string, id: string});
 
+  const [deleteCode, setDeleteCode] = useState("");
+  const [updateCode, setUpdateCode] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
   const [isEditing, setIsEditing] = useState(false);
+  const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [deletingProfile, setDeletingProfile] = useState(false);
   const [addingNewAddress, setAddingNewAddress] = useState(false);
   const [newAddress, setNewAddress] = useState({} as
     {
@@ -120,7 +127,7 @@ export default function Page() {
       setSelectedAddress({id: res.address._id, name: res.address.name});
     }
     catch(e){
-      alert(e);
+      console.log(e);
     }
   };
 
@@ -140,7 +147,7 @@ export default function Page() {
       return res;
     }
     catch(e){
-      alert(e);
+      console.log(e);
     }
   };
 
@@ -192,6 +199,12 @@ export default function Page() {
     });
     try{
       const res = JSON.parse(await resp.text());
+      if (resp.status != 200 && resp.status != 201 && resp.status != 204) {
+        alert("Error1: " + res.message);
+      }
+      else{
+        alert("Address updated successfully");
+      }
     }
     catch(e){
       alert(e);
@@ -211,8 +224,17 @@ export default function Page() {
       credentials: "include",
     });
     try{
+      console.log(JSON.stringify({
+        id: address.id,
+      }));
       const res = JSON.parse(await resp.text());
-      alert(res.message);
+      console.log(resp.status);
+      if (resp.status != 200 && resp.status != 201 && resp.status != 204) {
+        alert("Error1: " + res.message);
+      }
+      else{
+        setAddresses(addresses?.filter((a) => a.id != address.id));
+      }
     }
     catch(e){
       alert("Error1: " + e);
@@ -237,20 +259,17 @@ export default function Page() {
       },
       credentials: "include",
     });
-    console.log(JSON.stringify({
-      name: address.name,
-      address_line_1: address.address_line_1,
-      address_line_2: address.address_line_2,
-      city: address.city,
-      country: address.country,
-      zip_code: address.zip_code,
-      phone_number: address.phone_number,
-    }));
-    setAddingNewAddress(false);
     try{
       const res = JSON.parse(await resp.text());
-      address = {name: res.name, id: res._id, country: res.country, city: res.city, address_line_1: res.address_line_1, address_line_2: res.address_line_2, phone_number: res.phone_number, zip_code: res.zip_code};
-      setAddresses([...addresses, address])
+      console.log(resp.status);
+      if (resp.status == 200 || resp.status == 201 || resp.status == 204) {
+          address = {name: res.name, id: res._id, country: res.country, city: res.city, address_line_1: res.address_line_1, address_line_2: res.address_line_2, phone_number: res.phone_number, zip_code: res.zip_code};
+          setAddresses([...addresses, address])
+          setAddingNewAddress(false);
+      }
+      else{
+        alert("Error1: " + res.message);
+      }
     }
     catch(e){
       alert("Error1: " + e);
@@ -258,7 +277,7 @@ export default function Page() {
   }
 
   const deleteProfile = async () => {
-    const resp = await fetch(backendUrl.backendUrl + "delete", {
+    const resp = await fetch(backendUrl.backendUrl + "profile/delete", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -268,8 +287,82 @@ export default function Page() {
     try{
       const res = JSON.parse(await resp.text());
       alert(res.message);
-      
-      window.location.href = "/";
+    }
+    catch(e){
+      alert(e);
+    }
+  }
+
+  const deleteConfirmProfile = async (code: string) => {
+    const resp = await fetch(backendUrl.backendUrl + "profile/confirmDelete", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        code: code,
+      }),
+      credentials: "include",
+    });
+    try{
+      if (resp.status != 200 && resp.status != 201 && resp.status != 204) {
+        const res = JSON.parse(await resp.text());
+        alert(res.message);
+      }
+      else{
+        alert("Profile deleted successfully");
+        localStorage.removeItem("token");
+        window.location.href = "/";
+      }
+    }
+    catch(e){
+      alert(e);
+    }
+  }
+
+  const updatePassword = async () => {
+    const resp = await fetch(backendUrl.backendUrl + "profile/updatePassword", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+    try{
+      const res = JSON.parse(await resp.text());
+      if (resp.status != 200 && resp.status != 201 && resp.status != 204) {
+        alert("Error1: " + res.message);
+      }
+      else{
+        alert("Email sent! Check your email for the reset code.");
+      }
+    }
+    catch(e){
+      alert(e);
+    }
+  }
+
+  const updateConfirmPassword = async (code: string, newPassword: string) => {
+    const resp = await fetch(backendUrl.backendUrl + "profile/updatePassword", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        code: code,
+        password: newPassword,
+      }),
+      credentials: "include",
+    });
+    try{
+      const res = JSON.parse(await resp.text());
+      if (resp.status != 200 && resp.status != 201 && resp.status != 204) {
+        alert("Error1: " + res.message);
+      }
+      else{
+        alert("Password updated successfully");
+        setUpdatingPassword(false);
+      }
     }
     catch(e){
       alert(e);
@@ -296,7 +389,7 @@ export default function Page() {
       setWishlist(res);
     }
     catch(e){
-      alert(e);
+      console.log(e);
     }
   }
 
@@ -318,9 +411,23 @@ export default function Page() {
       },
       credentials: "include",
     });
+    console.log(JSON.stringify({
+      name: newWishlistName,
+    }));
+    console.log(response);
     const res = await response.json();
     console.log(res);
-    setWishlist([...wishlist, { name: newWishlistName }]);
+    if (response.status >= 300 || response.status < 200) {
+      alert("Error1: " + res.message);
+      return;
+    }
+    alert("Wishlist created successfully");
+    const wishlists = res.wishlists;
+    setWishlist(wishlists.map((wishlist: {name: string, products: {id: string, price: number, amount: number, images: string}[]}) => {  
+      return {name: wishlist.name, products: wishlist.products.map((product: {id: string, price: number, amount: number, images: string}) => {
+        return {id: product.id, price: product.price, amount: product.amount, images: product.images == "pallete1" ? pallete1 : product.images == "pallete2" ? pallete2 : pallete3};
+      })};
+    }));
     setNewWishlistName("");
     setShowNewWishlistInput(false);
   };
@@ -339,8 +446,17 @@ export default function Page() {
     });
     const res = await response.json();
     console.log(res);
-    setWishlist(wishlist.filter((wishlist) => wishlist.name != wishlistName));
-    console.log(wishlist);
+    if (response.status >= 300 || response.status < 200) {
+      alert("Error1: " + res.message);
+      return;
+    }
+    alert("Wishlist deleted successfully");
+    const wishlists = res.wishlists;
+    setWishlist(wishlists.map((wishlist: {name: string, products: {id: string, price: number, amount: number, images: string}[]}) => {  
+      return {name: wishlist.name, products: wishlist.products.map((product: {id: string, price: number, amount: number, images: string}) => {
+        return {id: product.id, price: product.price, amount: product.amount, images: product.images == "pallete1" ? pallete1 : product.images == "pallete2" ? pallete2 : pallete3};
+      })};
+    }));
   }
 
   const removeProductFromWishlist = async (wishlistName: string, productId: string) => {
@@ -358,11 +474,16 @@ export default function Page() {
     });
     const res = await response.json();
     console.log(res);
-    setWishlist(wishlist.map((wishlist) => {
-      if (wishlist.name == wishlistName) {
-        return { name: wishlist.name, products: wishlist.products.filter((product) => product.id != productId) };
-      }
-      return wishlist;
+    if (response.status >= 300 || response.status < 200) {
+      alert("Error1: " + res.message);
+      return;
+    }
+    const wishlists = res.wishlists;
+    console.log(wishlists);
+    setWishlist(wishlists.map((wishlist: {name: string, products: {id: string, price: number, amount: number, images: string}[]}) => {  
+      return {name: wishlist.name, products: wishlist.products.map((product: {id: string, price: number, amount: number, images: string}) => {
+        return {id: product.id, price: product.price, amount: product.amount, images: product.images == "pallete1" ? pallete1 : product.images == "pallete2" ? pallete2 : pallete3};
+      })};
     }));
   }
 
@@ -370,7 +491,7 @@ export default function Page() {
     <div className="container justify-center mx-auto h-screen flex py-20">
       <div className="grid p-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:grid-rows-2 lg:grid-rows-4 my-10 gap-1 rounded-[41px] [background:linear-gradient(120deg,_rgba(255,_255,_255,_0.7),_rgba(255,_255,_255,_0.4))] transparent-bg ">
         <div className=" cont col-span-1 row-span-4 "> {/*Profile*/}
-          <div className=" flex flex-col items-center justify-center outer-box bg-custom-gray p-4 justify-left justify-evenly">
+          <div className="overflow-y-scroll flex flex-col items-center justify-center outer-box bg-custom-gray p-4 justify-left justify-evenly">
             <div className="flex flex-col items-left  w-full max-w-lg justify-between gap-4 ">
               <div className="items-left  justify-between gap-4 flex flex-col p-4">
                 <Image
@@ -480,6 +601,94 @@ export default function Page() {
               >
                 confirm
               </button>
+            </div>
+            <div className="flex-row">
+              <button
+                onClick={()=> {deletingProfile ? setDeletingProfile(false) : (setDeletingProfile(true), deleteProfile());}}
+                className="bg-red-600 p-3 px-8 mt-2 default-hover text-zinc-300 rounded-[35px]"
+              >
+                Delete Profile
+              </button>
+              {deletingProfile && (
+                <div className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                  <div className="grid md:grid-cols-1 gap-4">
+                    <div className="flex flex-row gap-4">
+                      <input
+                        type="text"
+                        placeholder="Enter your code here"
+                        className="transparent-bg2"
+                        onChange={(e) => setDeleteCode(e.target.value)}
+                        onInput={(e) => setDeleteCode(e.currentTarget.value)}
+                      />
+                    </div>
+                    <div className="flex flex-row gap-4">
+                      <button
+                        className="bg-red-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                        onClick={() => deleteConfirmProfile(deleteCode)}
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                    <div className="flex flex-row gap-4">
+                      <button
+                        className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                        onClick={() => setDeletingProfile(false)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+            
+            <div className="flex-row">
+              <button
+                onClick={()=> {updatingPassword ? setUpdatingPassword(false) : (setUpdatingPassword(true), updatePassword());}}
+                className="bg-blue-600 p-3 px-8 mt-2 default-hover text-zinc-300 rounded-[35px]"
+              >
+                Update Password
+              </button>
+              {updatingPassword && (
+                <div className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
+                  <div className="grid md:grid-cols-1 gap-4">
+                    <div className="flex flex-row gap-4">
+                      <input
+                        type="text"
+                        placeholder="Enter your code here"
+                        className="transparent-bg2"
+                        onChange={(e) => setUpdateCode(e.target.value)}
+                        onInput={(e) => setUpdateCode(e.currentTarget.value)}
+                      />
+                      </div>
+                      <div className="flex flex-row gap-4">
+                      <input
+                        type="password"
+                        placeholder="Enter your new password"
+                        className="transparent-bg2"
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        onInput={(e) => setNewPassword(e.currentTarget.value)}
+                      />
+                      </div>
+                      <div className="flex flex-row gap-4">
+                      <button
+                        className="bg-blue-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                        onClick={() => setUpdatingPassword(false)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                    <div className="flex flex-row gap-4">
+                      <button
+                        className="bg-red-600 p-3 px-8 mb-4 text-zinc-300 rounded-[35px]"
+                        onClick={() => updateConfirmPassword(updateCode, newPassword)}
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -830,7 +1039,8 @@ export default function Page() {
             </div>
           </div>
         </>
-        : page === "wishlist" ?
+        :
+        page === "wishlist" ?
         <>
           <div className="cont col-span-3 row-span-4 p-4">
             <div className="outer-box bg-custom-gray p-4 h-full flex flex-col">
@@ -884,8 +1094,9 @@ export default function Page() {
                   wishlist.map((wish, index) => (
                     <div key={index} className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
                       <h3 className="text-neutral-200 font-semibold">{wish.name}</h3>
+                      <p className="text-neutral-200">{wish.price}</p>
                       <div className="grid grid-cols-2 gap-4">
-                        {wish.products.map((product) => (
+                        {wish.products?.map((product) => (
                           <div key={product.id} className="bg-neutral-700 p-4 rounded-lg flex flex-col items-center justify-center">
                             <Image src={product.images} className="h-20 w-20" alt="" />
                             <p className="text-neutral-200">{product.product_name}</p>
