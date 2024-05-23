@@ -21,10 +21,10 @@ function getRandomColor() {
 }
 
 const CartPage = () => {
-  const [deliveryType, setDeliveryType] = useState("free");
+  const [deliveryType, setDeliveryType] = useState('free');
 
-  const handleDeliveryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliveryType(event.target.value);
+  const handleDeliveryChange = (type: string) => {
+    setDeliveryType(type);
   };
 
   const initialCartItems = [
@@ -169,8 +169,8 @@ const CartPage = () => {
   // }, []);
   return (
     <div className="container justify-center mx-auto flex py-20">
-      <div className="grid md:min-h-[35rem] lg:grid-cols-2  xl:grid-cols-3  my-10 gap-8">
-        <div className="flex flex-col lg:col-span-2 p-4 justify-center bg-neutral-100 rounded-3xl">
+      <div className="grid md:min-h-[35rem] justify-center md:grid-cols-2 lg:grid-cols-5  my-10 gap-8">
+        <div className="flex flex-col md:col-span-2 lg:col-span-3 p-4 justify-center bg-neutral-100 rounded-3xl">
           <div className="p-2">
             <h1 className="text-3xl font-bold  text-left">Cart</h1>
           </div>
@@ -263,13 +263,28 @@ const CartPage = () => {
           ))}
         </div>
 
-        <div className="flex flex-col col-span-1 p-4 justify-center  bg-neutral-100 rounded-3xl">
+        <div className="flex flex-col w-full  md:col-span-2 p-4 justify-center  bg-white rounded-3xl">
           <div className="p-2">
             <h1 className="text-3xl font-bold  text-left">Delivery</h1>
-            <Switch aria-label="Automatic updates" />
+            <div className="flex rounded-xl flex-row justify-between shadow-inner items-center bg-neutral-100 p-1 w-[15rem] gap-1">
+            <span
+              className={`flex rounded-lg items-center smooth text-neutral-600 justify-center  w-20 h-10 ${deliveryType === 'express' ? 'bg-neutral-100' : 'bg-neutral-200 shadow-md'}`}
+              onClick={() => handleDeliveryChange('free')}
+            >
+              Free
+            </span>
+            <span
+              className={`flex rounded-lg text-base items-center text-neutral-600 smooth justify-center w-[10rem] h-10 ${deliveryType === 'free' ? 'bg-neutral-100' : 'bg-neutral-200 shadow-md'}`}
+              onClick={() => handleDeliveryChange('express')}
+            >
+              Express :EGP 24.99
+            </span>
+            </div>
+            <p className="text-[15px] text-neutral-500">Expected Delivery: June 24,2024 </p>
+            {/* <Switch aria-label="Automatic updates" /> */}
+        <hr className="my-2 rounded-full border-neutral-300 " />
           </div>
         </div>
-        <hr className="my-2 rounded-full border-neutral-300 " />
       </div>
     </div>
   );
