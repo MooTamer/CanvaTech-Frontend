@@ -105,6 +105,52 @@ const ProductPage = () => {
   const cartClick = () => {
     setCartClicked(true);
     setTimeout(() => setCartClicked(false), 3000); 
+    // add to cart to the local storage 
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Check if the product is already in the cart
+    const existingProductIndex = cart.findIndex(item => item._id === productId);
+
+    if (existingProductIndex > -1) {
+      // Product exists in the cart, update the quantity
+      cart[existingProductIndex].quantity += quantity;
+    } else {
+      // Product does not exist in the cart, add it
+      cart.push(product);
+    }
+
+    // Update the cart in local storage
+    localStorage.setItem('cart', JSON.stringify(cart))
+    // const isRegistered = localStorage.getItem('isRegistered') === 'true';
+let isRegistered = false
+    if (isRegistered) {
+      // Add the cart to the backend
+      sendCartToBackend(cart);
+    }
+  };
+  // send cart
+  const sendCartToBackend = () => {
+    // Retrieve the cart from local storage
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Send the cart to the backend
+    fetch('https://api.example.com/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cart)
+    })
+      .then(response => {
+        if (response.status < 300 && response.status >= 200) {
+          console.log('Cart successfully sent to backend');
+        } else {
+          console.error('Failed to send cart to backend');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
 
   const images = [

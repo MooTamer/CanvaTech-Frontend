@@ -28,6 +28,8 @@ const LoginPage = () => {
     if (response.status < 300 && response.status >= 200) {
       localStorage.setItem("token", res.token);
       window.location.href = "/";
+      localStorage.setItem('isRegistered', 'true');
+
     }
     else{
       alert(res.message);
