@@ -1094,7 +1094,7 @@ export default function Page() {
                   wishlist.map((wish, index) => (
                     <div key={index} className="bg-neutral-800 p-4 mb-4 rounded-lg clickable flex flex-col items-center justify-center">
                       <h3 className="text-neutral-200 font-semibold">{wish.name}</h3>
-                      <p className="text-neutral-200">{wish.price}</p>
+                      <p className="text-neutral-200">{"Total Price: " + wish.price}</p>
                       <div className="grid grid-cols-2 gap-4">
                         {wish.products?.map((product) => (
                           <div key={product.id} className="bg-neutral-700 p-4 rounded-lg flex flex-col items-center justify-center">

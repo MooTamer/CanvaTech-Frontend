@@ -104,6 +104,11 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                   <Heart />
                 </a>
               </Link>
+              <Link legacyBehavior href="/wishlist">
+                <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                  Wishlist
+                </a>
+              </Link>
               <Link legacyBehavior href="/userprofile">
                 <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
                   <UserRound />
@@ -199,8 +204,17 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                     </MenuItem>
                     <MenuItem>
                       <a
+                        href="/wishlist"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
+                      >
+                        <Heart size={20} strokeWidth={1.5} />
+                        Wishlist
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
                         href="/userProfile"
-                        className="flex flex-row gap-3 items-center text-red-600 hover:bg-neutral-100 rounded-xl  px-4 py-4 smooth text-sm block px-4 py-2 text-sm"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
                       >
                         <LogIn size={20} strokeWidth={1.5} />
                         Profile

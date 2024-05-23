@@ -38,7 +38,7 @@ const LoginPage = () => {
   };
 
   const resendVerification = async () => {
-    const response = await fetch(backendUrl.backendUrl + "auth/resend-verification/" + email, {
+    const response = await fetch(backendUrl.backendUrl + "auth/resend-verification-email/" + email, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const LoginPage = () => {
 
   return (
     <div className="flex justify-center items-center w-auto h-screen">
-      <div className="bg-white shadow-3xl w-3/4  lg:w-[50%] lg:h-[40%]  justify-center rounded-2xl overflow-hidden grid md:grid-cols-2">
+      <div className="bg-white shadow-3xl w-3/4  lg:w-[50%] lg:h-[60%]  justify-center rounded-2xl overflow-hidden grid md:grid-cols-2">
         <div className="w-auto flex">
           <Image
             src={Wallpaper}
@@ -108,17 +108,17 @@ const LoginPage = () => {
               </a>
             </p>
           </div>
-          <div className="mt-8 col-span-2">
+          <div className="mt-8">
             <button className="bg-blue-500 text-white rounded-lg py-2 px-8 hover:bg-blue-600 transition duration-300 ease-in-out w-full"
             onClick={login}>
               Login
             </button>
-            <button className="bg-blue-500 text-white rounded-lg py-2 px-8 hover:bg-blue-600 transition duration-300 ease-in-out w-full"
-            onClick={resendVerification}>
-              Resend Verification Email
-            </button>
-          </div>
-          <div className="mt-8">
+            <br />
+            <div>
+              <p className="text-sm text-gray-500">
+                Haven't received the verification email?{" "}
+              </p>
+            </div>
             <button className="bg-blue-500 text-white rounded-lg py-2 px-8 hover:bg-blue-600 transition duration-300 ease-in-out w-full"
             onClick={resendVerification}>
               Resend Verification Email
