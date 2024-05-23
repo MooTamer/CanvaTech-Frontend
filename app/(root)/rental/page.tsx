@@ -57,6 +57,27 @@ const RentalPage = () => {
     setSelectedSize(size);
     setShowDropdown(false); // Close dropdown after selecting
   };
+  const handleSubmit = async () => {
+    const response = await fetch(' PUT EL URL HENA', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        selectedSize,
+        quantity,
+        reviews,
+        heartClicked
+      })
+    });
+  
+    if (response.ok) {
+      console.log('Data sent successfully');
+    } else {
+      console.log('Error sending data');
+    }
+  };
+
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
@@ -178,10 +199,10 @@ const RentalPage = () => {
             {/* Custom dropdown for size selection */}
             <div className="relative">
               <button
-                className="btn btn-ghost m-1"
+                className="btn btn-primary bg-blue-500 text-white rounded-full py-2 px-4 mr-4 "
                 onClick={() => setShowDropdown(!showDropdown)}
               >
-                {selectedSize ? `${selectedSize} YxY` : "Select Size"}
+                {selectedSize ? `${selectedSize} ` : "Select Size"}
               </button>
               {showDropdown && (
                 <ul className="dropdown-menu absolute bg-white shadow-lg rounded mt-2 py-2 w-40">
@@ -190,7 +211,7 @@ const RentalPage = () => {
                       className="block text-left px-4 py-2 w-full"
                       onClick={() => handleSizeSelect("Small")}
                     >
-                      Small YxY {selectedSize === "Small" && "✓"}
+                      Small  {selectedSize === "Small" && "✓"}
                     </button>
                   </li>
                   <li>
@@ -198,7 +219,7 @@ const RentalPage = () => {
                       className="block text-left px-4 py-2 w-full"
                       onClick={() => handleSizeSelect("Medium")}
                     >
-                      Medium YxY {selectedSize === "Medium" && "✓"}
+                      Medium  {selectedSize === "Medium" && "✓"}
                     </button>
                   </li>
                   <li>
@@ -206,7 +227,7 @@ const RentalPage = () => {
                       className="block text-left px-4 py-2 w-full"
                       onClick={() => handleSizeSelect("Large")}
                     >
-                      Large YxY {selectedSize === "Large" && "✓"}
+                      Large  {selectedSize === "Large" && "✓"}
                     </button>
                   </li>
                 </ul>
