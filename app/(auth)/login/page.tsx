@@ -27,6 +27,8 @@ const LoginPage = () => {
     console.log(response);
     if (response.status < 300 && response.status >= 200) {
       window.location.href = "/";
+      localStorage.setItem('isRegistered', 'true');
+
     }
     else{
       alert(res.message);
