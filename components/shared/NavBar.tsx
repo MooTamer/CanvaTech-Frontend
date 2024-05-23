@@ -24,7 +24,7 @@ import {
   Transition,
 } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useSpring, animated } from "react-spring";
+import { useSpring } from "react-spring";
 
 interface ButtonComponentProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -32,6 +32,7 @@ interface ButtonComponentProps {
 const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
   const [cartTotal, setCartTotal] = useState(0);
   const [shake, setShake] = useState(false);
+  const isLoggedIn = localStorage.getItem("token") ? true : false;
 
   const shakeAnimation = useSpring({
     transform: shake
@@ -48,7 +49,6 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
 
   const ref = useRef<HTMLElement>(null);
   const [isIntersecting, setIntersecting] = useState(true);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     if (!ref.current) return;
@@ -57,6 +57,7 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
     );
 
     observer.observe(ref.current);
+    console.log(document.cookie)
     return () => observer.disconnect();
   }, []);
 
@@ -92,46 +93,40 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
           </div>
 
           <div className="flex flex-row justify-center items-center gap-8">
-            <Link legacyBehavior href="/">
-              <a
-                onClick={() => setIsOpen(true)}
-                className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300"
-              >
-                Pricing
-              </a>
-            </Link>
-
-            <Link legacyBehavior href="/sign-up">
-              <a
-                id="addtocart"
-                onClick={handleAddToCart}
-                className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300"
-              >
-                <animated.div
-                  id="cart"
-                  style={shakeAnimation}
-                  data-totalitems={cartTotal}
-                ></animated.div>
-                <ShoppingCart />
-              </a>
-            </Link>
-
-            <Link legacyBehavior href="/sign-up">
-              <a className="smooth items-center justify-center xl:flex hidden text-neutral-500 hover:text-neutral-300">
-                <Search size={23} /> <span className="ml-1">Search</span>
-              </a>
-            </Link>
-
-            <Link legacyBehavior href="/fav">
+            <Link legacyBehavior href="/#">
               <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
-                <Heart />
+                Cart
               </a>
             </Link>
-            <Link legacyBehavior href="/userprofile">
-              <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
-                <UserRound />
-              </a>
-            </Link>
+            {isLoggedIn ? <>
+              <Link legacyBehavior href="/fav">
+                <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                  <Heart />
+                </a>
+              </Link>
+              <Link legacyBehavior href="/userprofile">
+                <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                  <UserRound />
+                </a>
+              </Link>
+              <Link legacyBehavior href="/login">
+                <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                  Log Out
+                </a>
+              </Link>
+            </> : <>
+              <Link legacyBehavior href="/login">
+                <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                  Log In
+                </a>
+              </Link>
+              <Link legacyBehavior href="/register">
+                <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
+                  Sign Up
+                </a>
+              </Link>
+            </>}
+                        
 
             {/* <Link legacyBehavior href="/about">
               <a className="smooth hidden lg:flex text-zinc-200 hover:text-neutral-300 rounded-full bg-blue-600 p-2 flex">
@@ -176,31 +171,41 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                         href="#"
                         className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
                       >
+                        <ShoppingCart size={20} strokeWidth={1.5} />
+                        Cart
+                      </a>
+                    </MenuItem>
+                  </div>
+                  <div>
+                    { isLoggedIn ?
+                    <>
+                    <MenuItem>
+                      <a
+                        href="/customPallete"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
+                      >
                         <CirclePlay size={20} strokeWidth={1.5} />
                         Start a new design!
                       </a>
                     </MenuItem>
                     <MenuItem>
                       <a
-                        href="#"
-                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
-                      >
-                        <ShoppingCart size={20} strokeWidth={1.5} />
-                        Cart
-                      </a>
-                    </MenuItem>
-                    <MenuItem>
-                      <a
-                        href="#"
+                        href="/fav"
                         className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-3 smooth text-sm block px-4 py-2 text-sm"
                       >
                         <Heart size={20} strokeWidth={1.5} />
                         Favourites
                       </a>
                     </MenuItem>
-                  </div>
-                  <div>
-                    { isLoggedIn ?
+                    <MenuItem>
+                      <a
+                        href="/userProfile"
+                        className="flex flex-row gap-3 items-center text-red-600 hover:bg-neutral-100 rounded-xl  px-4 py-4 smooth text-sm block px-4 py-2 text-sm"
+                      >
+                        <LogIn size={20} strokeWidth={1.5} />
+                        Profile
+                      </a>
+                    </MenuItem>
                     <MenuItem>
                       <a
                         href="/login"
@@ -209,7 +214,17 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                         <LogIn size={20} strokeWidth={1.5} />
                         Log Out
                       </a>
-                    </MenuItem> :
+                    </MenuItem></> :
+                    <>
+                    <MenuItem>
+                      <a
+                        href="/register"
+                        className="flex flex-row gap-3 items-center hover:bg-neutral-100 rounded-xl  px-4 py-4 smooth text-sm block px-4 py-2 text-sm"
+                      >
+                        <LogIn size={20} strokeWidth={1.5} />
+                        Sign Up
+                      </a>
+                    </MenuItem>
                     <MenuItem>
                       <a
                         href="/login"
@@ -219,6 +234,7 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
                         Sign In
                       </a>
                     </MenuItem>
+                    </>
                     }
                   </div>
                 </MenuItems>

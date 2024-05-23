@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 // import "tailwindcss/tailwind.css";
 import Wallpaper from "@/public/serviap-logistics-types-of-pallets1.jpg";
 import backendUrl from "../../url.json";
-import EmailVerificationPage from "../../(root)/verifyEmail/page";
+import { set } from "zod";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -26,6 +26,7 @@ const LoginPage = () => {
     const res = await response.json();
     console.log(response);
     if (response.status < 300 && response.status >= 200) {
+      localStorage.setItem("token", res.token);
       window.location.href = "/";
     }
     else{
@@ -33,6 +34,30 @@ const LoginPage = () => {
     }
     return res;
   };
+
+  const resendVerification = async () => {
+    const response = await fetch(backendUrl.backendUrl + "auth/resend-verification/" + email, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+    const res = await response.json();
+    console.log(res);
+    if (response.status < 300 && response.status >= 200) {
+      alert("Verification email sent");
+    }
+    else{
+      alert(res.message);
+    }
+
+    return res;
+  };
+
+  useEffect(() => {
+    localStorage.removeItem("token");
+  }, []);
 
   return (
     <div className="flex justify-center items-center w-auto h-screen">
@@ -81,10 +106,20 @@ const LoginPage = () => {
               </a>
             </p>
           </div>
-          <div className="mt-8">
+          <div className="mt-8 col-span-2">
             <button className="bg-blue-500 text-white rounded-lg py-2 px-8 hover:bg-blue-600 transition duration-300 ease-in-out w-full"
             onClick={login}>
               Login
+            </button>
+            <button className="bg-blue-500 text-white rounded-lg py-2 px-8 hover:bg-blue-600 transition duration-300 ease-in-out w-full"
+            onClick={resendVerification}>
+              Resend Verification Email
+            </button>
+          </div>
+          <div className="mt-8">
+            <button className="bg-blue-500 text-white rounded-lg py-2 px-8 hover:bg-blue-600 transition duration-300 ease-in-out w-full"
+            onClick={resendVerification}>
+              Resend Verification Email
             </button>
           </div>
         </div>
