@@ -105,6 +105,22 @@ const ProductPage = () => {
   const cartClick = () => {
     setCartClicked(true);
     setTimeout(() => setCartClicked(false), 3000); 
+    // add to cart to the local storage 
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Check if the product is already in the cart
+    const existingProductIndex = cart.findIndex(item => item._id === productId);
+
+    if (existingProductIndex > -1) {
+      // Product exists in the cart, update the quantity
+      cart[existingProductIndex].quantity += quantity;
+    } else {
+      // Product does not exist in the cart, add it
+      cart.push(product);
+    }
+
+    // Update the cart in local storage
+    localStorage.setItem('cart', JSON.stringify(cart))
   };
 
   const images = [
