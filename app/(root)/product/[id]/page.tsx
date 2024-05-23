@@ -443,7 +443,7 @@ const handelPostReview = async () => {
           {/* Add to Cart / Rent / Wishlist Buttons */}
           <div
           className="flex flex-row justify-between gap-4 items-center justify-center sm:justify-start">
-            {/* <button
+            <button
               id="addtocart"
               className={`cart-button ${cartClicked ? "clicked" : ""}`}
               onClick={cartClick}
@@ -456,13 +456,13 @@ const handelPostReview = async () => {
                 icon={faShoppingCart}
               />
               <FontAwesomeIcon className="fa-box" icon={faBox} />
-            </button> */}
-            <button 
+            </button>
+            {/* <button 
             id="addtocart"
             className={`cart-button ${cartClicked ? "clicked" : ""}`}
             onClick={cartClick}
             
-            >Add to cart</button>
+            >Add to cart</button> */}
             <p>Or</p>
       
             <button className="cart-button w-20">Rent</button>

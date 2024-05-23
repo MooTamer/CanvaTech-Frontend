@@ -18,6 +18,8 @@ const RentalPage = () => {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  
+  
 
   const handleDecrement = (e: {
     target: { parentNode: { querySelector: (arg0: string) => any } };
@@ -161,12 +163,12 @@ const RentalPage = () => {
           {/* Input fields for date range, address, and size selection */}
           <div className="flex flex-col sm:flex-row mb-4">
             <input
-              type="text"
+              type="date"
               className="input py-2 px-4 rounded-lg mb-2 sm:mb-0 sm:mr-4"
               placeholder="From (MM/DD/YR)"
             />
             <input
-              type="text"
+              type="date"
               className="input py-2 px-4 rounded-lg"
               placeholder="To (MM/DD/YR)"
             />
