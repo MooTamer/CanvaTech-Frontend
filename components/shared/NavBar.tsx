@@ -93,7 +93,7 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
           </div>
 
           <div className="flex flex-row justify-center items-center gap-8">
-            <Link legacyBehavior href="/#">
+            <Link legacyBehavior href="/cart">
               <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
                 Cart
               </a>

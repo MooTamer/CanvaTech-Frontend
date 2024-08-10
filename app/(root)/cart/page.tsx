@@ -282,6 +282,11 @@ const CartPage = () => {
             </div>
             <p className="text-[15px] text-neutral-500">Expected Delivery: June 24,2024 </p>
             {/* <Switch aria-label="Automatic updates" /> */}
+            {/* anker to go to checkout  */}
+            <a href="checkout" class="text-2xl font-bold text-blue-500 hover:text-blue-700 transition-colors duration-300 font-[your-custom-font]">
+    Check out
+</a>
+
         <hr className="my-2 rounded-full border-neutral-300 " />
           </div>
         </div>
