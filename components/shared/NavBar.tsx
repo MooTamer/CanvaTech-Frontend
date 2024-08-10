@@ -121,9 +121,10 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
               </Link>
             </> : <>
               <Link legacyBehavior href="/login">
-                <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
-                  Log In
-                </a>
+              <a className="smooth xl:flex hidden text-blue-500 hover:text-blue-300">
+  Log In
+</a>
+
               </Link>
               <Link legacyBehavior href="/register">
                 <a className="smooth xl:flex hidden text-neutral-500 hover:text-neutral-300">
