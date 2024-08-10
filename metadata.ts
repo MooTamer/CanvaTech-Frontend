@@ -1,5 +1,5 @@
 
 export const metadata = {
-  title: "CanvaTech",
+  title: "Pallet pro",
   description: "Customize your own plastic palette",
 };

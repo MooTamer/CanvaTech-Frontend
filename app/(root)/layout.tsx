@@ -9,7 +9,7 @@ import Footer from "@/components/shared/Footer";
 // import FloatingNav from "@/components/ui/floating-navbar";
 
 // export const metadata = {
-//   title: "CanvaTech",
+//   title: "Pallet pro",
 //   description: "Customize your own plastic palette",
 // };
 // const inter = Inter({ subsets: ["latin"] });

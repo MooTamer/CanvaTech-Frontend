@@ -86,7 +86,7 @@ const NavBar: React.FC<ButtonComponentProps> = ({ setIsOpen }) => {
               <div className="flex-row hover:cursor-pointer flex">
                 <Layers2 color="#52525B" strokeWidth={1.25} />
                 <a className="smooth hover:cursor-pointer ml-1 text-zinc-500 hover:text-neutral-300">
-                  CanvaTech
+                  Pallet pro
                 </a>
               </div>
             </Link>
@@ -282,7 +282,7 @@ export default NavBar;
 //       <Link href="/" className="gap-4 items-center flex">
 //         <Image src={Logo} alt="logo" width={28} height={28} />
 //         <p className="text-heading3-bold text-light-1 max-xs:hidden">
-//           CanvaTech
+//           Pallet pro
 //         </p>
 //       </Link>
 //       <div className="flex w-full flex-1 gap-6 px-6">

@@ -46,7 +46,7 @@ export default function Home(props: React.FC) {
             />
 
             <Notification />
-            <h1 className="responsive-titles">CanvaTech</h1>
+            <h1 className="responsive-titles">Pallet pro</h1>
             <p className=" text-xl md:text-3xl lg:text-4xl my-[32px]  z-20 text-neutral-700 ">
               Designing dreams, one palette at a time.
             </p>

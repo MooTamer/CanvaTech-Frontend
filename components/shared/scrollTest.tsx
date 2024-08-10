@@ -11,7 +11,7 @@ export function HeroScroll() {
         titleComponent={
           <>
             <h1 className="text-5xl sm:text-5xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500">
-              CanvaTech's reach spans across the globe serving clients <br />
+              Pallet pro's reach spans across the globe serving clients <br />
               <span className="text-4xl md:text-[6rem] font-bold mt-1 leading-none">
                 Internationally
               </span>

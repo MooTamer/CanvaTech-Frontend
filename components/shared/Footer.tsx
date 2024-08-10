@@ -15,7 +15,7 @@ export default function Footer() {
                 <Layers2 color="#52525B" size={50} strokeWidth={1.25} />
 
                 <a className="duration-200 hover:cursor-pointer ml-1 text-neutral-800 text-4xl hover:text-neutral-500">
-                  CanvaTech
+                  Pallet pro
                 </a>
               </div>
             </Link>
@@ -31,9 +31,9 @@ export default function Footer() {
             <h1 className="tracking-widest mb-3 text-neutral-700 font-semibold text-xl ">
               Contact Us
             </h1>
-            <p className="text-neutral-500 text-sm">hello@CanvaTech.co </p>
+            <p className="text-neutral-500 text-sm">hello@Pallet pro.co </p>
             <p className="text-neutral-500 text-sm">
-              24 Atlantic Ave ,Brooklyn, NY 11201 <br /> CanvaTech Inc
+              24 Atlantic Ave ,Brooklyn, NY 11201 <br /> Pallet pro Inc
             </p>
             <p className="text-neutral-500 text-sm">+38 839 121 89 22</p>
           </div>
@@ -59,7 +59,7 @@ export default function Footer() {
         <hr className="border-t w-full border-neutral-300 my-8 col-span-2 md:col-span-3" />
         <div className="flex col-span-3 justify-end items-center px-10">
           <h1 className="text-neutral-500">
-            © 2024 CanvaTech Inc. All rights reserved
+            © 2024 Pallet pro Inc. All rights reserved
           </h1>
         </div>
       </div>

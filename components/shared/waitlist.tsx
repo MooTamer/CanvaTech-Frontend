@@ -14,7 +14,7 @@ export function Waitlist() {
           Launching Soon!
         </p>
         <p className="text-neutral-700 max-w-lg mx-auto my-2 text-sm text-center relative z-10">
-          Welcome to CanvaTech, where creativity knows no bounds and people are
+          Welcome to Pallet pro, where creativity knows no bounds and people are
           at the heart of everything we do. Subscribe to our newsletter to stay
           connected with the latest innovations and updates from around the
           world.
