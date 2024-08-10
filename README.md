@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Pallet Pro
 
-First, run the development server:
+![Pallet Pro](https://github.com/user-attachments/assets/a1d9aedf-9ba2-437c-9124-4f87489bb6c9 "Homepage" )
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+### Backend Repository [Here](https://github.com/AhmedHosny2/Pallet-pro)
+
+## Table of Contents
+- [Project Title](#pallet-pro)
+- [Description](#description)
+- [Technology Stack](#technology-stack)
+- [Microservices and Ports](#microservices-and-ports)
+- [Usage](#usage)
+- [.env.example](#envexample)
+- [List of Features](#list-of-features)
+- [Preview](#preview)
+- [Contributors](#contributors)
+
+## Description
+Pallet Pro is an advanced platform for buying and renting high-quality plastic pallets. Leveraging a microservices architecture, it uses Kafka for real-time messaging, NestJS for the backend, and Next.js for the frontend, with Docker containers ensuring scalability. The system features a 3D design tool for pallet customization, a user-friendly interface, and a robust set of e-commerce functionalities.
+
+## Technology Stack
+- Next.js - Frontend Framework
+- NestJS - Backend Framework
+- Kafka - Messaging Service
+- MongoDB - Database
+- Tailwind CSS - CSS Framework
+- Docker - Containerization
+
+## Microservices and Ports
+- User Service: Port 5001
+- Product Service: Port 5002
+
+## Usage
+1. Clone this project.
+2. Install dependencies (Kafka, MongoDB, Node.js, etc.).
+3. Create a `.env` file using `.env.example`.
+4. Run Kafka:
+   - Open 2 Terminals:
+     - Terminal 1: `cd /path/to/kafka && bin/zookeeper-server-start.sh config/zookeeper.properties`
+     - Terminal 2: `cd /path/to/kafka && bin/kafka-server-start.sh config/server.properties`
+5. Start the backend services.
+6. Start the frontend project by running `npm install` and then `npm start`.
+7. Access the application at [http://localhost:3000/](http://localhost:3000/).
+  
+## .env.example
+```
+MONGODB_URI=<your_mongodb_uri>
+KAFKA_BROKER_LIST=<your_kafka_broker_list>
+CLIENT_URL="http://localhost:3000"
+PORT=<port_number>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## List of Features
+- 3D pallet design tool
+- Shopping cart
+- Wishlist and Favorites
+- Email integration
+- Responsive design for all devices
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Preview
+### Home Page 
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+https://github.com/user-attachments/assets/453644ff-74bb-406c-8916-4494703f6448
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Products
+![Home Page Screenshot](https://github.com/user-attachments/assets/298ad7a8-cdad-425f-b511-91156d119912 "Home Page")
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Pallet Customization
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+https://github.com/user-attachments/assets/9ffe32cf-99e4-48e7-8711-69c4075dd751
+
+
+
+
+### Log In
+![Log In Screenshot](https://github.com/user-attachments/assets/6aac8d82-5d46-469f-8b70-0b07484e031a "Log In")
+
+### User Profile
+![User Profile Screenshot](https://github.com/user-attachments/assets/611b6c77-7475-41a3-ab1d-b324c807ad8f "User Profile")
+
+### Cart
+
+
+
+https://github.com/user-attachments/assets/94d3a39b-5d9c-42d2-9bf1-5d9921785a90
+
+
+### Check out
+![Check Out Screenshot](https://github.com/user-attachments/assets/2e13ca57-b831-4d45-9b12-2bc6105f3e37 "Check Out")
+
+## Contributors
+- Ahmed Yehia [Github](https://github.com/AhmedHosny2) [LinkedIn](https://www.linkedin.com/in/ahmed-yehia-155629206/)
+- Mohamed Tamer [Github](https://github.com/MooTamer) [LinkedIn](https://www.linkedin.com/in/mohamed-tamer-020a5221a/)
+- Mazen Elshiny [Github](https://github.com/mznmo) [LinkedIn](https://www.linkedin.com/in/mazen-elshiny/)
+- Mostafa Ramadan [Github](https://github.com/mostafaHossamEldin) [LinkedIn](https://www.linkedin.com/in/mosvdh/)
+- Omar Dawood [Github](https://github.com/CrashOfTheTitans) [LinkedIn](https://www.linkedin.com/in/omardawood/)
+  
+
